@@ -536,8 +536,8 @@ a:hover { color: var(--ink); text-decoration: underline; }
         </button>
       </div>
       <div id="custom-wrap">
-        <textarea id="custom-input" placeholder="Paste at least 100 words of text you enjoy reading — a book excerpt, article, anything…"></textarea>
-        <p id="custom-error">Need at least 100 words for a reliable test.</p>
+        <textarea id="custom-input" placeholder="Paste at least 150 words — a book excerpt, article, anything you enjoy reading…"></textarea>
+        <p id="custom-error">Needs at least 150 words for a reliable test. Paste a bit more and try again.</p>
       </div>
     </div>
 
@@ -914,7 +914,7 @@ function initOpts(groupId, key) {
 function startSession() {
   if (S.contentType === 'custom') {
     const txt = document.getElementById('custom-input').value.trim();
-    if (txt.split(/\s+/).length < 100) {
+    if (txt.split(/\s+/).length < 150) {
       document.getElementById('custom-error').classList.add('vis');
       document.getElementById('custom-input').focus();
       return;
