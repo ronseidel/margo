@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#034D32">
+<title>How Margo Was Built — One Conversation</title>
+<meta name="description" content="How margo.fyi was built in one day by talking to Claude. A Hacker News link, 13 years of design experience, and a lot of good questions.">
+<meta property="og:title" content="How Margo Was Built in One Day">
+<meta property="og:description" content="A Hacker News link, 13 years of design experience, and a conversation with Claude. No code written.">
+<meta property="og:url" content="https://margo.fyi/making-of">
+<meta property="og:image" content="https://margo.fyi/og-image.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23034D32'/><text y='78' font-size='72' x='50' text-anchor='middle' font-family='Georgia,serif' fill='%2367C99A' font-style='italic'>m</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F9F9F9;
+  --surface: #FFFFFF;
+  --ink: #034D32;
+  --ink-muted: #2E6B52;
+  --ink-faint: #5A8C76;
+  --accent: #028454;
+  --accent-bg: #E4F3EE;
+  --border: #C0DDD4;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Lora', Georgia, serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  font-size: 17px; line-height: 1.75;
+}
+a { color: var(--accent); text-decoration: none; transition: color 0.13s; }
+a:hover { color: var(--ink); text-decoration: underline; }
+::selection { background: #B8E3D3; color: var(--ink); }
+.page { max-width: 700px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* HEADER */
+.site-header { padding: 40px 0 36px; border-bottom: 1px solid var(--border); margin-bottom: 52px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-faint); margin-bottom: 24px; text-decoration: none; transition: color 0.13s; }
+.back-link:hover { color: var(--ink); text-decoration: none; }
+.wordmark { font-family: var(--font-display); font-size: 20px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink); display: block; margin-bottom: 20px; }
+.wordmark em { color: var(--accent); font-style: normal; }
+.page-title { font-family: var(--font-display); font-size: 40px; line-height: 1.12; color: var(--ink); font-weight: 400; margin-bottom: 16px; font-style: italic; }
+.page-meta { font-size: 13px; color: var(--ink-faint); line-height: 1.8; }
+.page-meta .date { display: block; }
+
+/* EXPLAINER */
+.explainer { background: var(--ink); color: #fff; border-radius: 12px; padding: 26px 30px; margin-bottom: 52px; }
+.explainer-label { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 10px; display: block; }
+.explainer-text { font-size: 18px; line-height: 1.65; color: #fff; font-family: var(--font-display); font-style: italic; margin-bottom: 18px; }
+.explainer-link { display: inline-block; background: var(--accent); color: #fff; padding: 9px 18px; border-radius: 7px; font-family: var(--font-body); font-size: 13px; font-weight: 500; text-decoration: none; transition: background 0.13s; }
+.explainer-link:hover { background: #02704A; text-decoration: none; color: #fff; }
+
+/* PROSE */
+.prose { margin-bottom: 52px; }
+.prose p { color: var(--ink-muted); margin-bottom: 18px; }
+.prose p strong { color: var(--ink); }
+.prose p:last-child { margin-bottom: 0; }
+
+/* SECTION */
+.section { margin-bottom: 56px; }
+.section-header { display: flex; align-items: baseline; gap: 14px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.section-num { font-family: var(--font-display); font-size: 44px; line-height: 1; color: var(--border); font-style: italic; flex-shrink: 0; }
+.section-title { font-family: var(--font-display); font-size: 26px; color: var(--ink); font-weight: 400; font-style: italic; }
+.section-summary { font-size: 15px; color: var(--ink-muted); line-height: 1.7; margin-bottom: 18px; }
+
+/* ACCORDION */
+.accordion { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
+.accordion-toggle { width: 100%; text-align: left; padding: 13px 16px; background: var(--surface); border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--ink-muted); transition: background 0.13s; gap: 12px; }
+.accordion-toggle:hover { background: var(--accent-bg); }
+.accordion-toggle.open { background: var(--accent-bg); color: var(--ink); }
+.accordion-label { flex: 1; }
+.accordion-count { font-size: 11px; color: var(--ink-faint); background: var(--accent-bg); padding: 2px 8px; border-radius: 10px; white-space: nowrap; flex-shrink: 0; }
+.accordion-toggle.open .accordion-count { background: #C0DDD4; }
+.accordion-chevron { flex-shrink: 0; transition: transform 0.2s ease; color: var(--ink-faint); }
+.accordion-toggle.open .accordion-chevron { transform: rotate(180deg); }
+.accordion-body { display: none; padding: 0 14px 14px; background: var(--surface); border-top: 1px solid var(--border); }
+.accordion-body.open { display: block; }
+
+/* CHAT */
+.chat { padding-top: 14px; display: flex; flex-direction: column; gap: 5px; }
+.turn { display: flex; }
+.turn.ron { justify-content: flex-end; }
+.turn.claude { justify-content: flex-start; }
+.bubble { max-width: 88%; padding: 11px 15px; border-radius: 12px; font-size: 14px; line-height: 1.65; }
+.turn.ron .bubble { background: var(--ink); color: #fff; border-bottom-right-radius: 3px; }
+.turn.claude .bubble { background: var(--bg); border: 1px solid var(--border); color: var(--ink-muted); border-bottom-left-radius: 3px; }
+.speaker { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; opacity: 0.5; }
+.bubble strong { font-weight: 600; }
+.turn.ron .bubble strong { color: rgba(255,255,255,0.95); }
+.turn.claude .bubble strong { color: var(--ink); }
+.bubble em { font-style: italic; }
+.bubble code { font-family: 'Courier New', monospace; font-size: 12px; background: rgba(0,0,0,0.08); padding: 1px 5px; border-radius: 3px; }
+.turn.ron .bubble code { background: rgba(255,255,255,0.15); }
+.note { font-size: 12px; font-style: italic; color: var(--ink-faint); background: #EEF8F4; border-radius: 6px; padding: 9px 13px; margin: 8px 0; display: block; border-left: 3px solid var(--border); line-height: 1.65; }
+.divider { text-align: center; color: var(--ink-faint); font-size: 16px; letter-spacing: 0.4em; margin: 12px 0; opacity: 0.3; }
+
+/* FOOTER */
+.making-footer { border-top: 1px solid var(--border); padding-top: 32px; text-align: center; }
+.making-footer p { font-size: 13px; color: var(--ink-faint); margin-bottom: 4px; line-height: 1.7; }
+.making-footer .happy { font-family: var(--font-display); font-size: 22px; color: var(--ink); font-style: italic; display: block; margin-top: 20px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="site-header">
+  <a href="https://margo.fyi" class="back-link">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    margo.fyi
+  </a>
+  <span class="wordmark">M<em>a</em>rgo</span>
+  <h1 class="page-title">Built in one day.<br>Not one line of code written.</h1>
+  <p class="page-meta">
+    <span class="date">March 27, 2026</span>
+    By <a href="https://rontheron.com">Ron Seidel</a> and <a href="https://claude.ai">Claudius Anthropicus</a>
+  </p>
+</header>
+
+<div class="explainer">
+  <span class="explainer-label">Why Margo exists</span>
+  <p class="explainer-text">Find the font you read fastest — then set it on your Kindle, in your browser, or anywhere you read. Research shows switching to your personal fastest font can add 30+ words per minute. That's hours of reading time per year.</p>
+  <a href="https://margo.fyi" class="explainer-link">Try Margo — it takes 5 minutes →</a>
+</div>
+
+<div class="prose">
+  <p>On a Friday morning in March, I came across <a href="https://news.ycombinator.com/item?id=47492894" target="_blank">a link on Hacker News</a> — <a href="https://library.oapen.org/viewer/web/viewer.html?file=/bitstream/handle/20.500.12657/53344/978-3-030-90984-0.pdf?sequence=1&isAllowed=y" target="_blank">a PDF about typeface legibility</a>. I didn't read it. I asked Claude to summarize it. That turned into a question about dark mode vs. light mode, which turned into a question about Inter — if it's really the GOAT — which turned into: <strong>"should we make a mini web app?"</strong></p>
+  <p>By end of day, <a href="https://margo.fyi">margo.fyi</a> was live. I didn't write any code.</p>
+  <p>But the story isn't: "just ask Claude to make an app." I mean, you can try. Actually, definitely try. But it's been 13 years, or 20 if you count high school and college, since I started designing. I knew which questions to ask (I've asked them before), I knew which outputs to push back on, and when something felt off, I had Claude fix it.</p>
+  <p>That judgment is the work. The refining is the work. The bug fixing. Making things feel buttery smooth. <strong>That's the work. The tool removes the friction between thinking and making.</strong></p>
+  <p>What follows is the full conversation — including the back-and-forth, the design debates, the bugs, the naming arguments (which, for me, always happen too early), and the moments where things got better because someone pushed back. Claude even called one of my suggestions "the most obvious pun in typography." I love it!</p>
+  <p>Have a read — hope it helps!</p>
+</div>
+
+<!-- 1. RESEARCH -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">1</span>
+    <h2 class="section-title">The research rabbit hole</h2>
+  </div>
+  <p class="section-summary">It started with a PDF summary and turned into a deep dive on serif vs. sans serif, dark mode, and which fonts actually outperform in academic studies. About 40 minutes of research that would have taken days to do manually.</p>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">Serif vs. sans serif — what does the research actually say?</span>
+      <span class="accordion-count">6 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>Can you summarize this: <em>library.oapen.org/…/978-3-030-90984-0.pdf</em></div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>The link points to <strong>"The Legibility of Serif and Sans Serif Typefaces"</strong> by John T. E. Richardson (Springer, 2022). Richardson takes a rigorous, skeptical approach — the evidence for strong serif-vs-sans differences is much weaker and more conditional than commonly claimed. For screens: slight edge to sans serif. For print: slight edge to serif. Bottom line: serif for long-form print, sans for screens, and don't lose sleep over it.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>so the bottom line in which one is easier/faster to read: "it depends"?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Pretty much — but Richardson's main argument is less "it depends" and more <strong>"the confident claims on both sides are overblown."</strong> The actual measured differences in reading speed are often tiny or statistically unreliable. A lot of the design-world consensus is more tradition than hard science.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>Is there other research re: dark mode vs light mode? Past bosses have asserted that light mode is easier to read. Likely true if you're judging for accessibility but I wonder what the data says.</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Your boss isn't wrong — but the full picture is more nuanced. In people with normal vision, visual performance tends to be better with light mode. The mechanism: a bright background causes the pupil to contract, which reduces spherical aberrations — your eye has to work less to focus. That said: long-term reading in light mode may be associated with myopia. Dark mode may reduce eye fatigue during extended use. The honest answer: offer both, default to light.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">Reading speed research — Inter, Verdana, Lexend, and the 35% finding</span>
+      <span class="accordion-count">4 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>how about studies involving faster reading, or completion of task. does inter win? are other overlooked fonts top-performers?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>The landmark study: Adobe, Google, and UCF's Readability Consortium tested 16 fonts on 352 participants. <strong>Reading speeds increased by 35% comparing fastest vs. slowest fonts — without affecting comprehension.</strong> The surprising finding: people didn't know what their best font was. Preference didn't predict speed.<br><br>Inter doesn't appear in the formal academic studies — too new at the time — but its design credentials hold up. The underrated performers: <strong>Verdana</strong> (deeply uncool, genuinely excellent in studies), <strong>Noto Sans</strong> (specifically designed for small screens, wildly underused). The dark horse: <strong>Lexend</strong> — built from academic research, designed from the data rather than retrofitted to it.<br><br>The meta-finding: by simply changing to their personal fastest font, the average adult read an additional 30 words per minute — equivalent to 3–4 pages per hour.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>should we consider making a mini web app that helps users find their font? It'd have them read different texts in a certain period of time, and ask them to identify the last word they read.</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Love this concept — it's basically a personal version of the UCF/Adobe study. The "last word you read" mechanic is clever: low-friction, naturally captures reading pace without requiring self-reporting. Before I build it, let me think through the design with you…</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>Q: How many fonts? A: can we get anything statistically valid from just 3? defaults to 5, user can choose 3, 5, or 7.<br>Q: Reading time per font? A: what's statistically valid? i'm guessing 30?<br>Q: How should the user mark their last word? A: Both options — click or type.</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>On 3 fonts: directionally useful but fragile. <strong>5 is the practical minimum for a recommendation you'd trust.</strong> 7 gives you a meaningful spread. 3 is fine labeled as "Quick Test (rough estimate)."<br><br>On 30 seconds: correct. Long enough for reading speed variance to emerge, short enough that fatigue doesn't become a confounding variable. ~200-250 WPM = ~100-125 words in 30s. That's a solid passage.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. NAMING -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">2</span>
+    <h2 class="section-title">The naming gauntlet</h2>
+  </div>
+  <p class="section-summary">Naming took longer than expected, produced better results than expected, and accidentally intersected with a dystopian TV show. The winner was hiding in plain sight.</p>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">Fontastic → Lumen → Severance → Butter → Margo</span>
+      <span class="accordion-count">14 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>We should probably give the app a name. A few quick ideas: <strong>Fontfit, Readspeed, Typematch, Lumen, Readself.</strong></div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>Fontastic? Fontifun? Fontful? Fontily? TheFontForMe? Fontastical? FontMe? Fontacy?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Fontastic — the most obvious pun in typography, probably taken 5 times. Fontiful — awkward to say out loud. FontMe — clean, I kind of like it. <strong>Fontacy</strong> is my favorite: font + fancy + a hint of fantasy. Sophisticated without being pretentious. But Lumen is still the strongest overall.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>What's the name of the company in Severance?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div><strong>Lumon Industries.</strong> Which means your app is literally named after a dystopian corporation that severs employees' work and personal memories. Lean into it or rename it — your call.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>How about "Ready" or "Focus" or RightRead or RiteRead or <strong>Margo</strong>? or Claire? Or RiverRead?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Ready — too generic, definitely taken. Focus — taken everywhere. RiteRead — misspelling feels like it's trying too hard.<br><br><strong>Margo</strong> — this is the surprise favorite. Warm and unpretentious, has a quiet literary quality. Also it's your daughter's name, which gives it a genuine origin story if this ever becomes a real product. That matters.<br><br><strong>RiverRead</strong> — river implies flow, movement, being carried along — which is exactly what good reading feels like.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>rank these: RiverRead, Margo, Lumen. then consider: "Butter", butteread, buttery, smooth, bestread, bafoont, practica, practicanus, analiread, analifont</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Top 3: 1. Lumen 2. Margo 3. RiverRead<br><br><strong>Butter</strong> — genuinely great. Short, sensory, unexpected. "Reads like butter" is already a compliment people give. Zero font-nerd energy, all feel.<br><br>Bafoont — no. Analiread / Analifont — sounds like a medical procedure. Hard no on both.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>Dang you still like your idea better than all of mine. Respect.</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Fair call out. To be straight: <strong>Butter is yours, and it's genuinely excellent.</strong> If you'd said Butter in the first round it would've beaten Lumen. Lumen just has a small head start because it's already in the app. Want me to rebrand it to Butter right now?</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>google "lumen" vs. "butter" then tell me honestly which would be better</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div><em>[searched both]</em> Both are taken. Lumen: a metabolic health device, a dating app for over-50s, a Mac video synth, and Lumen Technologies — a Fortune 500 company. Butter: a virtual collaboration platform, a social app, a video editor. Butter has weaker competition in the namespace.<br><br>Honest verdict: <strong>Butter wins on the trademark landscape</strong>, and it was already the better consumer-facing name anyway.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>Let's go Margo, even though we chose to add the t in her name. It was a real hard decision when naming her. I semi-regret it. For the app, definitely drop the t.</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>That's a beautiful origin story for an app. And for what it's worth — Margot with the t is classic, literary, a little French. It suits a kid who gets her own font testing app named after her before she can read.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>which domain? margo.fyi or margoread.com or readmargo.com</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div><strong>margo.fyi</strong> — the only one that sounds like it was named rather than described. "Check margo.fyi" sounds natural. The .fyi works well for a tool that gives you information about yourself. Think Figma, Linear, Notion — none of them describe what they do.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. DESIGN -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">3</span>
+    <h2 class="section-title">The design decisions</h2>
+  </div>
+  <p class="section-summary">This is where 13 years of product design experience shows up. Not in knowing how to code — in knowing what to question, what to push back on, and what "feels off" before you can explain why.</p>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">Rejecting Outfit, IM Fell, and Cormorant — landing on Fraunces + Lora</span>
+      <span class="accordion-count">8 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>what happened to our version control naming convention?<br><br>and we could potentially use im fell english for the logo, but it's too much when it's used for the countdown. feels like we're trying too hard. the countdown should be clean and legible.<br><br>but before i was talking about your use of the font outfit as the main font for the app? that one feels like we're trying to be a startup.</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div><strong>Naming convention</strong> — you're right, I dropped it. Should be margo-YYYYMMDD-XX.html. My fault.<br><br><strong>On fonts</strong> — agree completely. IM Fell works in print but gets noisy on screen at small sizes. Outfit has the right weight range but does read startup-y. Fraunces for the logo is excellent — quirky, warm, slightly Victorian, has that optical-size variable axis that makes it feel considered rather than picked.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>in a different chat you pointed to these as fonts that feel clean but homemade: Newsreader, Spectral, Lora, Crimson Pro, Syne, Caveat, Kalam</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>My honest ranking for this app specifically:<br>1. <strong>Lora</strong> — calligraphic roots, extremely readable, warm without being precious. Best fit for Margo.<br>2. Spectral — more editorial, slightly cooler. Feels more magazine, less bookshelf.<br>3. Newsreader — most personality, highest risk.<br>4. Crimson Pro — most book-like.<br><br>Suggestion: <strong>Fraunces for the wordmark, Lora for the UI body.</strong> Clean, warm, zero startup energy.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>yes let's go fraunces and lora. then later we'll consider reforma</div></div>
+        <div class="divider">· · ·</div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>nice, though the lora in the thin weight in the less than contrasty gray might be problematic.</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>The font was fine — <strong>the colors were the culprit.</strong> --ink-muted was #6B6260 and --ink-faint was #A09893 — warm grays that lose contrast against Lora's thinner strokes on screen. Bumped both to proper green-tinted darks that stay readable at all weights.</div></div>
+        <div class="note">Ron identified this as a feel problem before diagnosing it as a contrast problem. That's the difference between someone who's been doing this 13 years and someone who just learned what contrast ratios are.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">Brand colors — pulling exact hex values from rontheron.com via browser inspection</span>
+      <span class="accordion-count">5 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>would we also consider changing the color to match rontheron.com/ux? not that i didn't like your work/design. but we're kinda building a brand.</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div><em>[navigated to rontheron.com/ux, ran JavaScript to extract all CSS custom properties from the DOM]</em><br><br>Got everything. Background: #F9F9F9. Primary ink: #034D32 (deep forest green). Button/accent: #028454. Light accent: #B8E3D3. Applying the full palette now.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>hover state on the home button is still from the old color system.</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Found three remnants: option button hover was #D4A07A (old amber), rank bar #2 was #C49070 (old copper), code pill was #EEE9E3 (old warm gray). All replaced with green-system values.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>please check hover states, we have remnants of the old color system</div></div>
+        <div class="note">This happened twice. Old color values hiding in the codebase is a recurring problem in iterative design — each pass creates new surface area for old values to persist. Ron caught both instances by feel, not by reading the CSS.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">Icons — from emoji to Lucide, fetching exact SVG paths from the CDN</span>
+      <span class="accordion-count">6 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>re: svgs, you want me to get you those? i was referring to the globe emoji above general knowledge, book emoji for short fiction, branch and pencil. my concern is every system has their own emojis</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Don't make them yourself. The content-type icons are UI chrome, not brand moments. Best fit: <strong>Lucide</strong> — same icon set Figma uses internally, MIT licensed, SVG-based, consistent stroke weight. Zero emoji variance across systems.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>icons aren't exactly working for me. try these icons...<br>general knowledge: lucide.dev/icons/book-text<br>short fiction: lucide.dev/icons/book-marked<br>nature & science: lucide.dev/icons/trees<br>paste your own: lucide.dev/icons/file-pen-line<br><br>and there's a bit of mis-match between the weight of the icons vs the weight of the font within the buttons</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div><em>[fetched all four SVG path strings from unpkg.com/lucide-static CDN]</em><br><br>All four swapped to your exact icons at stroke-width 1.5 — lighter stroke so they harmonize with Lora text rather than competing. Also bumped the label text from ink-faint to ink-muted, font-weight: 500. Both elements now in the same optical weight range.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>Still feels like the font within the buttons isn't right — especially in the selected buttons.</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Found the real issue: selected state was using var(--accent) for both icon and text — medium green on a light green background. That's the readability problem. The selection signal should come from the border and background, not by lowering the text contrast. <strong>Flipped: dark ink text on green-tinted background. The container communicates selection; the text just reads cleanly.</strong></div></div>
+        <div class="note">Ron described this as "feels like the font isn't right" — not "the selected state contrast is insufficient." Translating feel into a technical diagnosis is a core product design skill.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">UX decisions — controls placement, auto-advance, the undo button</span>
+      <span class="accordion-count">8 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>this might be a big change. the controls that are currently in the top right... should we consider placing them on the bottom during the reading section?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Good instinct — thumbs live at the bottom on mobile. Header becomes pure information: progress bar, dots, timer. Nothing to tap up there. The controls bar mirrors the footer that appears after time's up, so it feels like one coherent bottom zone.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>the two buttons still being there and pushed up feels amateurish. alternate idea... when the 'time's up' banner comes up... leave that text centered. to its left have a home button and to its right have the skip button. that might feel deliberate and intentional.</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Yes — flex row: [← Home] [Time's up — tap the last word] [Skip →]. Controls bar hides completely when time's up. The timeup bar <em>replaces</em> it. No crowding, no fading, just gone.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>usability question... might feel more fluid/butter if when we ask them to tap the last word they read... when they click to tap the word, we immediately move to the countdown... instead of requiring them to tap the word AND click continue?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Yes, with one nuance: tap auto-advances after a ~400ms delay so they can <em>see</em> the word highlight before the screen changes. That feels satisfying. For <em>typed</em> words, the Continue button stays — you can't auto-advance mid-type.<br><br>For undo: put it on the <strong>round-end screen</strong> rather than interrupting the countdown. They see their WPM, realize they fat-fingered, click "← Undo" within the 2-second window. Cleaner.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>undo selection button didn't work for me. and in second font test, the restart button seems disabled</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Two bugs:<br><br><strong>Restart disabled on round 2</strong> — endTimer was setting disabled, opacity, and pointerEvents as inline styles. Those survive class removal. doReading now explicitly clears all three.<br><br><strong>Undo not working</strong> — root cause: pickWord set a 420ms setTimeout, but if the user also hit Continue manually before it fired, doContinue ran twice — pushing two results. Added an S.advancing flag that prevents double-execution.</div></div>
+        <div class="note">Both bugs are classic async/state management issues. The restart bug is about the difference between CSS classes (which can be removed) and inline styles (which persist unless explicitly cleared). The undo bug is about race conditions between user actions and timers.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. BUGS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">4</span>
+    <h2 class="section-title">The bugs</h2>
+  </div>
+  <p class="section-summary">Real software has real bugs. These three are worth studying — each one reveals something about how browsers actually work that isn't obvious from reading documentation.</p>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">The timer pause bug — CSS animations run on the GPU, not in JavaScript</span>
+      <span class="accordion-count">3 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>clicking home doesn't pause the timer.</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Found the root cause. CSS transitions run on the compositor thread — completely separate from JavaScript. <code>clearInterval</code> stops the JS counter but the bar keeps sliding because it's a CSS animation, not a JS loop.<br><br>Fix: at the moment of pause, snapshot the bar's computed pixel width, convert to percentage, set that explicitly with <code>transition: none</code> to freeze it in place. On resume, use <code>requestAnimationFrame</code> to let the DOM settle before restarting the animation over exactly <code>S.timerSecs</code> remaining seconds.</div></div>
+        <div class="note">This is a browser architecture issue, not a code mistake. The browser runs CSS transitions on the GPU for performance. Understanding this requires knowing how browsers render, not just how to write CSS. Most developers would reach for a JS-only timer animation — the better fix is to work with the CSS architecture rather than against it.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">The scroll bug — flexbox min-height and align-items: stretch</span>
+      <span class="accordion-count">4 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div><em>[uploaded screenshot showing text cut off, unable to scroll past it]</em><br><br>didn't seem to work. i can't scroll down further than this</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Classic flexbox scrolling bug. In a flex column, children have <code>min-height: auto</code> by default — the passage wrap won't shrink below its content height, so overflow never kicks in. Fix: <code>min-height: 0</code>.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>nah that didn't fix it. there's something wrong with r-passage. the browser thinks its height is much shorter</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Found the real cause. The wrapper was <code>display: flex</code> with default <code>align-items: stretch</code> — which forces the inner passage to match the <em>container's</em> height rather than grow to its content height. The browser measured zero overflow and never triggered a scrollbar.<br><br>Fix: <strong><code>align-items: flex-start</code></strong> — lets the passage grow to its natural content height, which overflows the container and scrolls correctly.</div></div>
+        <div class="note">The symptom (can't scroll) points nowhere near the cause (align-items: stretch collapsing the inner element). This is the kind of bug that takes 30 minutes to find if you don't know the flexbox model intimately. The first fix (min-height: 0) was a reasonable guess that addresses a different common flexbox scroll issue — but it wasn't this one.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">The syntax error — one missing brace that silently consumed every function</span>
+      <span class="accordion-count">3 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div><code>Uncaught Error: Uncaught SyntaxError: Unexpected end of input</code></div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div><em>[ran a Python brace-counting script on the extracted JavaScript]</em><br><br>Open braces: 130. Close braces: 129. Diff: 1. Found it — the <code>doSkip</code> function was missing its closing <code>}</code>. The function body was left open, silently swallowing every function definition after it until the parser hit end-of-file. That's why everything appeared to exist in the source but nothing ran.</div></div>
+        <div class="note">The parser error — "Unexpected end of input" — points to the end of the file, not the actual location of the problem. The brace counter is the right tool: simple script, unambiguous output, found a needle in a 1500-line file in seconds.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 5. SHIPPING -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">5</span>
+    <h2 class="section-title">Shipping</h2>
+  </div>
+  <p class="section-summary">GitHub Pages, DNS records, favicon, OG image, 404 page. The parts that feel small but are the difference between "I made a thing" and "I shipped a product."</p>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">GitHub, DNS, and the mysterious trailing period</span>
+      <span class="accordion-count">7 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>yeah let's put it on my github. i'll make a new repository called ronseidel/margo?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Yes — ronseidel/margo is clean and right. <em>[navigated to github.com/new, filled in name "margo" and description "Find the font your brain reads fastest. Made for margo.fyi" — "margo is available" ✓]</em></div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>we're live here: ronseidel.github.io/margo/ — we'll point margo.fyi to it?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Add four A records to Namecheap pointing to GitHub's IPs (185.199.108–111.153), one CNAME for www → ronseidel.github.io. Then GitHub → Settings → Pages → Custom domain → margo.fyi → Save. Check "Enforce HTTPS" once it verifies — can take up to an hour.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>why would namecheap keep adding a period after ronseidel.github.io when i save?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Totally normal — it's a "fully qualified domain name." Valid DNS syntax. Just ignore it, it's correct.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>Ah okay. Thanks</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>it worked.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">Favicon, OG image, font preloading, 404 — the finishing layer</span>
+      <span class="accordion-count">6 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>what's missing now? favicon? social share image? anything else?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>High priority: Favicon — a lowercase italic "m" in Fraunces on a forest green square, built as an inline SVG data URI (no file needed, just works). OG image — we have the meta tags but no og:image; social cards will show blank without it. Font preloading — 12 invisible spans in the DOM, each styled with one test font, wrapped in aria-hidden. The browser fetches all Google Fonts while the user is still on the home screen, so by the time the first countdown ends they're already in cache. One line: <code>&lt;meta name="theme-color" content="#034D32"&gt;</code> — tints the mobile browser chrome green.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div><em>[uploaded two social share image options]</em> which of these is better?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div><strong>Image 2</strong> — the tighter tracking makes it feel like a wordmark rather than a typesetting demo. Image 1's wide spacing reads as decorative; Image 2 reads as a brand.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>should i make a favicon file? what should i name it?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>You don't need to — the inline SVG data URI already works in all modern browsers. No file, nothing to upload. If you ever want a standalone file for cleanliness, name it favicon.svg and update the href. For now the inline version is completely fine.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 6. THE CLOSE -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">6</span>
+    <h2 class="section-title">The close</h2>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">Day-2 ideas, what this story is actually about, and a note for the reader</span>
+      <span class="accordion-count">5 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>nicely done, champ!</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>Yes and the whole idea is people see how I built kind of a full featured piece of software in one day by talking to you. Just saw a link on hacker news, asked you two questions, and boom</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>That's a genuinely compelling story — and it's true. You didn't write a line of code. You just knew what you wanted, pushed back when things felt off, and made good design decisions fast. <strong>That's the skill.</strong></div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>i don't want people to expect to be able to do it with no work at all. i've been learning about this stuff for 13 years... 20ish if you count high school and college.<br><br>i might be tooting my own horn but to make something kinda polished this quick, you gotta know which questions to ask, which output to question, etc. those back and forths are really informative.</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>That's the right framing, and it's not tooting your horn — it's accurate. The tool removed friction between thinking and making. The thinking is still yours.<br><br>Every "that feels off" — that's 13 years of design judgment doing its job. Every push-back, every naming debate, every "the font in the selected buttons isn't right" — those are not obvious observations. They come from having looked at thousands of interfaces and developed a calibrated eye for what works.<br><br>Anyone can talk to Claude. Not everyone knows which questions to ask.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="making-footer">
+  <p>Made with love in New Jersey</p>
+  <p>by <a href="https://rontheron.com">Ron Seidel</a> and <a href="https://claude.ai">Claudius Anthropicus</a></p>
+  <p style="margin-top:8px;"><span style="display:block">March 27, 2026</span></p>
+  <p style="margin-top:14px;"><a href="https://margo.fyi">← Back to margo.fyi</a></p>
+  <span class="happy">Happy reading.</span>
+</footer>
+
+</div>
+<script>
+function tog(btn) {
+  const body = btn.nextElementSibling;
+  const open = body.classList.toggle('open');
+  btn.classList.toggle('open', open);
+}
+</script>
+</body>
+</html>

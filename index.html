@@ -3,7 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#034D32">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23034D32'/><text y='78' font-size='72' x='50' text-anchor='middle' font-family='Georgia,serif' fill='%2367C99A' font-style='italic'>m</text></svg>">
 <title>Margo — Find Your Reading Font</title>
+<meta name="description" content="Find the font your brain reads fastest. A 5-minute personal reading speed test.">
+<meta property="og:title" content="Margo — Find Your Reading Font">
+<meta property="og:description" content="Find the font your brain reads fastest. A 5-minute personal reading speed test.">
+<meta property="og:url" content="https://margo.fyi">
+<meta property="og:image" content="https://margo.fyi/og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Margo — Find Your Reading Font">
+<meta name="twitter:description" content="Find the font your brain reads fastest. A 5-minute personal reading speed test.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&family=Lato:wght@400&family=Open+Sans:wght@400&family=Roboto:wght@400&family=Merriweather:ital,wght@0,400;1,400&family=Noto+Sans:wght@400&family=Lexend:wght@400&family=Source+Sans+3:wght@400&family=DM+Sans:wght@400&family=Atkinson+Hyperlegible:wght@400&family=Libre+Baskerville:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
@@ -31,8 +42,15 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── SCREEN SYSTEM ── */
-.screen { display: none; min-height: 100vh; width: 100%; flex-direction: column; align-items: center; }
+a { color: var(--accent); text-decoration: none; transition: color 0.13s; }
+a:hover { color: var(--ink); text-decoration: underline; }
+
+::selection { background: #B8E3D3; color: var(--ink); }
+::-moz-selection { background: #B8E3D3; color: var(--ink); }
+
+/* ── FONT PRELOAD ── */
+.font-preload { position: absolute; opacity: 0; pointer-events: none; font-size: 0; }
+.screen { display: none; min-height: 100dvh; width: 100%; flex-direction: column; align-items: center; }
 .screen.active { display: flex; animation: fadeUp 0.35s ease both; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -97,6 +115,11 @@ html, body {
 
 #custom-wrap { margin-top: 10px; display: none; }
 #custom-wrap.vis { display: block; }
+#custom-error {
+  display: none; font-size: 12px; color: #8B1A1A;
+  font-style: italic; margin-top: 7px;
+}
+#custom-error.vis { display: block; }
 #custom-input {
   width: 100%; padding: 13px; min-height: 110px;
   border: 1.5px solid var(--border); border-radius: 8px;
@@ -164,11 +187,11 @@ html, body {
 .cd-go { font-family: var(--font-ui); font-size: 130px; line-height: 1; color: var(--ink); font-style: italic; font-weight: 400; }
 
 /* ── READING ── */
-#screen-reading { justify-content: flex-start; height: 100vh; overflow: hidden; }
+#screen-reading { justify-content: flex-start; height: 100dvh; overflow: hidden; }
 
 .r-header {
-  width: 100%; padding: 16px 24px 14px;
-  display: flex; align-items: center; gap: 14px;
+  width: 100%; padding: 12px 16px;
+  display: flex; align-items: center; gap: 10px;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
@@ -195,11 +218,41 @@ html, body {
 
 .timeup-bar {
   width: 100%; background: var(--accent); color: #fff;
-  font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
-  text-transform: uppercase; text-align: center; padding: 7px;
   flex-shrink: 0; display: none;
 }
 .timeup-bar.vis { display: block; }
+.timeup-bar-inner {
+  max-width: 620px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 16px; gap: 8px;
+}
+.timeup-bar-text {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.07em;
+  text-transform: uppercase; text-align: center; flex: 1;
+}
+.timeup-btn {
+  background: transparent; border: 1.5px solid rgba(255,255,255,0.35);
+  color: #fff; border-radius: 6px; padding: 5px 11px;
+  font-family: var(--font-ui); font-size: 11px; font-weight: 500;
+  cursor: pointer; transition: all 0.13s; white-space: nowrap;
+  display: flex; align-items: center; gap: 4px; min-width: 58px;
+  justify-content: center;
+}
+.timeup-btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.7); }
+
+/* after time's up: hide controls bar entirely */
+.r-controls.timeup { display: none; }
+
+/* ── UNDO BUTTON on round-end ── */
+.re-undo {
+  margin-top: 18px; background: transparent;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 9px 20px; font-family: var(--font-ui); font-size: 13px;
+  color: var(--ink-faint); cursor: pointer; transition: all 0.13s;
+  display: none;
+}
+.re-undo.vis { display: inline-block; }
+.re-undo:hover { border-color: var(--ink-muted); color: var(--ink); }
 
 .r-passage-wrap {
   flex: 1; min-height: 0; overflow-y: auto; width: 100%;
@@ -209,29 +262,43 @@ html, body {
 
 .r-passage {
   font-size: 19px; line-height: 1.82; color: var(--ink);
-  user-select: none; max-width: 560px; width: 100%;
+  max-width: 560px; width: 100%;
   padding-bottom: 80px;
 }
+
+.r-passage.selecting { user-select: none; }
 
 .r-passage.selecting .word {
   cursor: pointer; border-radius: 3px;
   padding: 1px 2px; margin: -1px -2px;
   transition: background 0.1s, color 0.1s;
 }
-/* ── READING CONTROLS ── */
+
+/* ── BOTTOM CONTROLS BAR ── */
 .r-controls {
-  display: flex; gap: 6px; align-items: center; flex-shrink: 0;
+  width: 100%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 10px 16px 14px;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
 }
 .r-ctrl {
-  padding: 5px 10px; border: 1.5px solid var(--border);
-  background: transparent; border-radius: 6px;
+  padding: 9px 14px; border: 1.5px solid var(--border);
+  background: transparent; border-radius: 8px;
   font-family: var(--font-ui); font-size: 11px; font-weight: 500;
-  color: var(--ink-faint); cursor: pointer; letter-spacing: 0.02em;
-  transition: all 0.13s ease; white-space: nowrap;
-  display: flex; align-items: center; gap: 4px;
+  color: var(--ink-faint); cursor: pointer;
+  transition: all 0.13s ease;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  flex: 1; max-width: 80px;
 }
 .r-ctrl:hover { border-color: var(--ink-muted); color: var(--ink); }
 .r-ctrl svg { flex-shrink: 0; }
+.ctrl-label { display: none; }
+@media (min-width: 500px) {
+  .ctrl-label { display: inline; }
+  .r-ctrl { max-width: 110px; font-size: 11px; }
+}
+/* after time's up: controls bar hidden entirely (timeup bar takes over) */
 
 .r-passage.selecting .word:hover { background: rgba(2,132,84,0.12); color: var(--accent); }
 .r-passage .word.sel-word {
@@ -279,7 +346,7 @@ html, body {
 .modal-btn.cancel:hover { border-color: var(--ink-muted); color: var(--ink); }
 .modal-btn.confirm { background: var(--ink); color: #fff; border-color: var(--ink); }
 .modal-btn.confirm:hover { background: var(--accent); border-color: var(--accent); }
-.unranked-section { margin-top: 28px; width: 100%; }
+.unranked-section { margin-top: 28px; margin-bottom: 28px; width: 100%; }
 .unranked-label {
   font-size: 10px; font-weight: 600; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; display: block;
@@ -292,7 +359,7 @@ html, body {
 }
 
 .r-footer {
-  width: 100%; padding: 14px 24px 20px;
+  width: 100%; padding: 14px 24px max(20px, env(safe-area-inset-bottom));
   border-top: 1px solid var(--border); background: var(--bg);
   flex-shrink: 0; display: none;
 }
@@ -401,6 +468,16 @@ html, body {
   color: var(--ink); word-break: break-all;
 }
 
+.share-btn {
+  width: 100%; padding: 13px;
+  background: var(--accent-bg); color: var(--ink);
+  border: 1.5px solid var(--border); border-radius: 8px;
+  font-family: var(--font-ui); font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: all 0.14s; margin-bottom: 12px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.share-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.share-btn.copied { background: var(--ink); color: #fff; border-color: var(--ink); }
 .retake-btn {
   width: 100%; padding: 13px; background: transparent;
   color: var(--ink-muted); border: 1.5px solid var(--border);
@@ -459,36 +536,79 @@ html, body {
         </button>
       </div>
       <div id="custom-wrap">
-        <textarea id="custom-input" placeholder="Paste at least 300 words of text you enjoy reading — a book excerpt, article, anything…"></textarea>
+        <textarea id="custom-input" placeholder="Paste at least 100 words of text you enjoy reading — a book excerpt, article, anything…"></textarea>
+        <p id="custom-error">Need at least 100 words for a reliable test.</p>
       </div>
     </div>
 
     <button class="start-btn" id="start-btn">Begin Test →</button>
     <p class="intro-note">
-      Each round is 30 seconds. Font names are hidden during testing.<br>
-      Read at your natural pace — don't rush.
+      <span style="white-space:nowrap">Each round is 30 seconds.</span> <span style="white-space:nowrap">Font names are hidden during testing.</span><br>
+      <span style="white-space:nowrap">Read at your natural pace — don't rush.</span>
     </p>
     <button class="about-link" id="about-toggle">About</button>
     <div class="about-panel" id="about-panel">
-      <p>Made March 2026 in New Jersey<br>by <strong>Ron Seidel</strong> (Margo's dad)<br>and all-star assistant <strong>Claudius Anthropicus</strong></p>
       <p>
-        <strong>Fonts tested</strong><br>
-        Inter<br>Lato<br>Open Sans<br>Roboto<br>Merriweather<br>
-        Noto Sans<br>Lexend<br>Source Sans 3<br>DM Sans<br>
-        Atkinson Hyperlegible<br>Libre Baskerville<br>Verdana
+        Made with love in New Jersey<br>
+        <span style="white-space:nowrap">by <a href="https://rontheron.com" target="_blank" style="color:var(--accent)">Ron Seidel</a> and <a href="https://claude.ai" target="_blank" style="color:var(--accent)">Claudius Anthropicus</a></span>
+      </p>
+      <p>No tracking. No cookies. No data collected.</p>
+      <p>
+        <strong>Inspired by</strong><br>
+        <a href="https://library.oapen.org/bitstream/handle/20.500.12657/53344/978-3-030-90984-0.pdf" target="_blank" style="color:var(--accent)">The Legibility of Serif and Sans Serif Typefaces</a><br>
+        Richardson, 2022<br>
+        <a href="https://dl.acm.org/doi/10.1145/3502222" target="_blank" style="color:var(--accent)">Different Fonts Increase Reading Speed for Different Individuals</a><br>
+        Wallace et al., 2022<br>
+        <em>(didn't really read 'em, but the summaries were awesome 🤙)</em>
       </p>
       <p>
-        <strong>Fonts used in Margo</strong><br>
-        Fraunces<br>Lora
+        <strong>Fonts Tested</strong><br>
+        <a href="https://fonts.google.com/specimen/Atkinson+Hyperlegible" target="_blank" style="color:var(--accent)">Atkinson Hyperlegible</a><br>
+        <a href="https://fonts.google.com/specimen/DM+Sans" target="_blank" style="color:var(--accent)">DM Sans</a><br>
+        <a href="https://fonts.google.com/specimen/Inter" target="_blank" style="color:var(--accent)">Inter</a><br>
+        <a href="https://fonts.google.com/specimen/Lato" target="_blank" style="color:var(--accent)">Lato</a><br>
+        <a href="https://fonts.google.com/specimen/Lexend" target="_blank" style="color:var(--accent)">Lexend</a><br>
+        <a href="https://fonts.google.com/specimen/Libre+Baskerville" target="_blank" style="color:var(--accent)">Libre Baskerville</a><br>
+        <a href="https://fonts.google.com/specimen/Merriweather" target="_blank" style="color:var(--accent)">Merriweather</a><br>
+        <a href="https://fonts.google.com/specimen/Noto+Sans" target="_blank" style="color:var(--accent)">Noto Sans</a><br>
+        <a href="https://fonts.google.com/specimen/Open+Sans" target="_blank" style="color:var(--accent)">Open Sans</a><br>
+        <a href="https://fonts.google.com/specimen/Roboto" target="_blank" style="color:var(--accent)">Roboto</a><br>
+        <a href="https://fonts.google.com/specimen/Source+Sans+3" target="_blank" style="color:var(--accent)">Source Sans 3</a><br>
+        Verdana
+      </p>
+      <p>
+        <strong>Margo App Fonts</strong><br>
+        <a href="https://fonts.google.com/specimen/Fraunces" target="_blank" style="color:var(--accent)">Fraunces</a><br>
+        <a href="https://fonts.google.com/specimen/Lora" target="_blank" style="color:var(--accent)">Lora</a>
       </p>
       <p>
         <strong>Icons</strong><br>
-        <a href="https://lucide.dev" target="_blank" style="color:var(--accent)">Lucide</a><br>
-        open source, MIT licensed
+        <a href="https://lucide.dev" target="_blank" style="color:var(--accent)">Lucide</a>
       </p>
+      <p>Like Margo? <a href="https://ko-fi.com/ronseidel" target="_blank" style="color:var(--accent)">Leave a tip. ☕</a></p>
+      <p><a href="/making-of" style="color:var(--accent)">How Margo was built →</a></p>
       <span class="happy">Happy reading.</span>
     </div>
   </div>
+</div>
+
+  </div>
+</div>
+
+<!-- ── FONT PRELOADER (invisible, forces browser to fetch all test fonts) ── -->
+<div aria-hidden="true">
+  <span class="font-preload" style="font-family:'Inter',sans-serif">m</span>
+  <span class="font-preload" style="font-family:'Lato',sans-serif">m</span>
+  <span class="font-preload" style="font-family:'Open Sans',sans-serif">m</span>
+  <span class="font-preload" style="font-family:'Roboto',sans-serif">m</span>
+  <span class="font-preload" style="font-family:'Merriweather',serif">m</span>
+  <span class="font-preload" style="font-family:'Noto Sans',sans-serif">m</span>
+  <span class="font-preload" style="font-family:'Lexend',sans-serif">m</span>
+  <span class="font-preload" style="font-family:'Source Sans 3',sans-serif">m</span>
+  <span class="font-preload" style="font-family:'DM Sans',sans-serif">m</span>
+  <span class="font-preload" style="font-family:'Atkinson Hyperlegible',sans-serif">m</span>
+  <span class="font-preload" style="font-family:'Libre Baskerville',serif">m</span>
+  <span class="font-preload" style="font-family:Verdana,sans-serif">m</span>
 </div>
 
 <!-- ── COUNTDOWN ── -->
@@ -505,30 +625,42 @@ html, body {
     <div class="r-dots" id="r-dots"></div>
     <div class="r-bar-wrap"><div class="r-bar" id="r-bar"></div></div>
     <div class="r-timer" id="r-timer">30</div>
-    <div class="r-controls" id="r-controls">
-      <button class="r-ctrl" id="btn-home" title="Exit to home">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+  </div>
+  <div class="timeup-bar" id="timeup-bar">
+    <div class="timeup-bar-inner">
+      <button class="timeup-btn" id="timeup-home">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
         Home
       </button>
-      <button class="r-ctrl" id="btn-restart" title="Restart this font">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-        Restart
-      </button>
-      <button class="r-ctrl" id="btn-pause" title="Pause">
-        <svg id="pause-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="3" width="5" height="18" rx="1"/><rect x="5" y="3" width="5" height="18" rx="1"/></svg>
-        <svg id="play-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg>
-        <span id="pause-label">Pause</span>
-      </button>
-      <button class="r-ctrl" id="btn-skip" title="Skip this font">
+      <span class="timeup-bar-text">Tap the last word you read</span>
+      <button class="timeup-btn" id="timeup-skip">
         Skip
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4v16"/><path d="M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z"/></svg>
       </button>
     </div>
   </div>
-  <div class="timeup-bar" id="timeup-bar">Time's up — tap the last word you read</div>
   <div class="paused-bar" id="paused-bar">Paused — press Resume to continue</div>
   <div class="r-passage-wrap">
     <div class="r-passage" id="r-passage"></div>
+  </div>
+  <div class="r-controls" id="r-controls">
+    <button class="r-ctrl" id="btn-home" title="Exit to home">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      <span class="ctrl-label">Home</span>
+    </button>
+    <button class="r-ctrl btn-hide" id="btn-restart" title="Restart this font">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      <span class="ctrl-label">Restart</span>
+    </button>
+    <button class="r-ctrl btn-hide" id="btn-pause" title="Pause">
+      <svg id="pause-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="3" width="5" height="18" rx="1"/><rect x="5" y="3" width="5" height="18" rx="1"/></svg>
+      <svg id="play-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg>
+      <span class="ctrl-label" id="pause-label">Pause</span>
+    </button>
+    <button class="r-ctrl" id="btn-skip" title="Skip this font">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4v16"/><path d="M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z"/></svg>
+      <span class="ctrl-label">Skip</span>
+    </button>
   </div>
   <div class="r-footer" id="r-footer">
     <div class="r-footer-inner">
@@ -553,6 +685,7 @@ html, body {
     <div class="re-wpm-lbl">words per minute</div>
     <div class="re-tag" id="re-tag">Round 1 complete</div>
     <div class="re-next" id="re-next">Next font in a moment…</div>
+    <button class="re-undo" id="re-undo">← Undo selection</button>
   </div>
 </div>
 
@@ -571,6 +704,10 @@ html, body {
       <div class="unranked-list" id="unranked-list"></div>
     </div>
     <div id="action-area"></div>
+    <button class="share-btn" id="share-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+      Share my results
+    </button>
     <button class="retake-btn" id="retake-btn">↺ Test again with different fonts</button>
   </div>
 </div>
@@ -583,6 +720,29 @@ html, body {
     <div class="modal-actions">
       <button class="modal-btn cancel" id="modal-cancel">Keep Reading</button>
       <button class="modal-btn confirm" id="modal-confirm">End Test</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── SKIP ALL MODAL ── -->
+<div class="modal-overlay" id="modal-skipal">
+  <div class="modal-box">
+    <div class="modal-title">No results yet</div>
+    <div class="modal-body">You skipped everything.<br>Try another font or head home?</div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" id="skipal-home">Go Home</button>
+      <button class="modal-btn confirm" id="skipal-try">Try Another</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── NO MORE FONTS MODAL ── -->
+<div class="modal-overlay" id="modal-nofonts">
+  <div class="modal-box">
+    <div class="modal-title">That's all the fonts</div>
+    <div class="modal-body">Sorry — no more fonts left to test.</div>
+    <div class="modal-actions">
+      <button class="modal-btn confirm" id="nofonts-ok">Okay</button>
     </div>
   </div>
 </div>
@@ -713,6 +873,8 @@ const S = {
   timerPaused: false,
   timerPausedByUser: false,
   barPausedPct: null,
+  roundEndTimeout: null,
+  advancing: false,
   selectedWord: null,
   wordEls: [],
 };
@@ -753,7 +915,8 @@ function startSession() {
   if (S.contentType === 'custom') {
     const txt = document.getElementById('custom-input').value.trim();
     if (txt.split(/\s+/).length < 100) {
-      alert('Please paste at least 100 words for a reliable test.');
+      document.getElementById('custom-error').classList.add('vis');
+      document.getElementById('custom-input').focus();
       return;
     }
     S.customText = txt;
@@ -899,24 +1062,14 @@ function doSkip() {
   clearInterval(S.timerInterval);
   const font = S.fonts[S.round];
   S.skipped.push(font);
-  S.round++;
-  if (S.round >= S.fontCount) {
+  if (S.round + 1 >= S.fontCount) {
     if (S.results.length === 0) {
-      // all skipped — go home
-      goHome(); return;
+      S.round++;
+      document.getElementById('modal-skipal').classList.add('vis');
+      return;
     }
-    show('screen-roundend');
-    document.getElementById('re-wpm').textContent = '—';
-    document.getElementById('re-tag').textContent = 'Font skipped';
-    document.getElementById('re-next').textContent = 'Calculating your results…';
-    setTimeout(doResults, 1800);
-  } else {
-    show('screen-roundend');
-    document.getElementById('re-wpm').textContent = '—';
-    document.getElementById('re-tag').textContent = 'Font skipped';
-    document.getElementById('re-next').textContent = `Font ${S.round + 1} of ${S.fontCount} up next…`;
-    setTimeout(doCountdown, 1800);
   }
+  showRoundEnd('—', S.round + 1, true);
 }
 
 // ── READING ─────────────────────────────────────────────────────────────────
@@ -934,8 +1087,12 @@ function doReading() {
   document.getElementById('pause-icon').style.display = '';
   document.getElementById('play-icon').style.display = 'none';
   document.getElementById('pause-label').textContent = 'Pause';
-  S.timerPausedByUser = false;
+  document.getElementById('r-controls').classList.remove('timeup');
+  // re-enable restart button (disabled in endTimer)
+  const restartBtn = document.getElementById('btn-restart');
+  if (restartBtn) { restartBtn.disabled = false; restartBtn.style.opacity = ''; restartBtn.style.pointerEvents = ''; }
   S.selectedWord = null;
+  S.advancing = false;
 
   // Dots
   const dotsEl = document.getElementById('r-dots');
@@ -996,6 +1153,7 @@ function endTimer() {
   document.getElementById('r-timer').textContent = '0';
   document.getElementById('timeup-bar').classList.add('vis');
   document.getElementById('r-footer').classList.add('vis');
+  document.getElementById('r-controls').classList.add('timeup');
   document.getElementById('r-passage').classList.add('selecting');
   // disable restart once time is up
   const restartBtn = document.getElementById('btn-restart');
@@ -1007,6 +1165,7 @@ function endTimer() {
 }
 
 function pickWord(idx) {
+  if (S.advancing) return; // already advancing
   S.selectedWord = idx;
   S.wordEls.forEach((sp, i) => {
     sp.classList.toggle('sel-word', i === idx);
@@ -1014,58 +1173,139 @@ function pickWord(idx) {
   document.getElementById('type-input').value = '';
   document.getElementById('type-error').classList.remove('vis');
   document.getElementById('cont-btn').classList.add('rdy');
+  // auto-advance — brief delay so they see the highlight
+  S.advancing = true;
+  setTimeout(doContinue, 420);
 }
 
 // ── CONTINUE ────────────────────────────────────────────────────────────────
 
 function doContinue() {
+  if (S.advancing && S.selectedWord !== null) {
+    // coming from auto-advance tap path
+  } else if (!S.advancing) {
+    // coming from Continue button or Enter key — set advancing now
+    S.advancing = true;
+  } else {
+    return; // already handled
+  }
+
   let idx = S.selectedWord;
 
   if (idx === null) {
     const typed = document.getElementById('type-input').value.trim().toLowerCase().replace(/[^a-z]/g,'');
-    if (!typed) return;
+    if (!typed) { S.advancing = false; return; }
     let found = -1;
     S.wordEls.forEach((sp, i) => {
       if (sp.textContent.toLowerCase().replace(/[^a-z]/g,'') === typed) found = i;
     });
     if (found === -1) {
       document.getElementById('type-error').classList.add('vis');
-      return;
+      S.advancing = false; return;
     }
     idx = found;
   }
 
-  // WPM = words read / time in minutes
-  // time elapsed = 30s (full timer) → 30/60 = 0.5 min
-  const elapsed = (30 - S.timerSecs) === 30 ? 30 : 30; // always 30s since we wait for timer
+  const elapsed = 30;
   const wpm = Math.round(idx / (elapsed / 60));
   const font = S.fonts[S.round];
   S.results.push({ font, wpm, idx });
+  S.advancing = false;
 
   showRoundEnd(wpm, S.round + 1);
 }
 
 // ── ROUND END ───────────────────────────────────────────────────────────────
 
-function showRoundEnd(wpm, roundNum) {
+function showRoundEnd(wpm, roundNum, isSkip) {
   show('screen-roundend');
-  document.getElementById('re-wpm').textContent = wpm;
-  document.getElementById('re-tag').textContent = `Round ${roundNum} of ${S.fontCount} complete`;
+  document.getElementById('re-wpm').textContent = wpm === '—' ? '—' : wpm;
+  document.getElementById('re-tag').textContent = isSkip
+    ? 'Font skipped'
+    : `Round ${roundNum} of ${S.fontCount} complete`;
+
+  // show undo only for real results (not skips, not WPM of —)
+  const undoBtn = document.getElementById('re-undo');
+  undoBtn.classList.toggle('vis', !isSkip && wpm !== '—');
 
   S.round++;
 
+  let nextTimeout;
   if (S.round >= S.fontCount) {
     document.getElementById('re-next').textContent = 'Calculating your results…';
-    setTimeout(doResults, 1800);
+    nextTimeout = setTimeout(doResults, 1800);
   } else {
-    document.getElementById('re-next').textContent = `Font ${S.round + 1} of ${S.fontCount} up next…`;
-    setTimeout(doCountdown, 2200);
+    document.getElementById('re-next').textContent = isSkip
+      ? `Font ${S.round + 1} of ${S.fontCount} up next…`
+      : `Font ${S.round + 1} of ${S.fontCount} up next…`;
+    nextTimeout = setTimeout(doCountdown, 2200);
   }
+  // store timeout so undo can cancel it
+  S.roundEndTimeout = nextTimeout;
+}
+
+function undoSelection() {
+  // cancel the pending countdown/results
+  clearTimeout(S.roundEndTimeout);
+  S.roundEndTimeout = null;
+  // pop the last result and go back one round
+  S.results.pop();
+  S.round--;
+  S.advancing = false;
+  document.getElementById('re-undo').classList.remove('vis');
+  restoreToSelecting();
+}
+
+function restoreToSelecting() {
+  show('screen-reading');
+  // reset UI to post-timer state (don't start timer)
+  document.getElementById('timeup-bar').classList.add('vis');
+  document.getElementById('r-footer').classList.add('vis');
+  document.getElementById('r-controls').classList.add('timeup');
+  document.getElementById('r-timer').textContent = '0';
+  const barEl = document.getElementById('r-bar');
+  barEl.style.transition = 'none';
+  barEl.style.width = '0%';
+  S.timerSecs = 0;
+  S.selectedWord = null;
+  document.getElementById('type-input').value = '';
+  document.getElementById('type-error').classList.remove('vis');
+  document.getElementById('cont-btn').classList.remove('rdy');
+  // re-render passage in selecting mode
+  const font = S.fonts[S.round];
+  const text = S.passages[S.round];
+  const el = document.getElementById('r-passage');
+  el.style.fontFamily = font.css;
+  el.className = 'r-passage selecting';
+  el.innerHTML = '';
+  S.wordEls = [];
+  text.split(/\s+/).filter(Boolean).forEach((w, i) => {
+    if (i > 0) el.appendChild(document.createTextNode(' '));
+    const sp = document.createElement('span');
+    sp.className = 'word';
+    sp.textContent = w;
+    sp.dataset.i = i;
+    el.appendChild(sp);
+    S.wordEls.push(sp);
+  });
+  S.wordEls.forEach((sp, i) => {
+    sp.addEventListener('click', () => pickWord(i));
+  });
+  // rebuild dots
+  const dotsEl = document.getElementById('r-dots');
+  dotsEl.innerHTML = '';
+  for (let i = 0; i < S.fontCount; i++) {
+    const d = document.createElement('div');
+    d.className = 'r-dot' + (i < S.round ? ' done' : i === S.round ? ' now' : '');
+    dotsEl.appendChild(d);
+  }
+  document.querySelector('.r-passage-wrap').scrollTop = 0;
 }
 
 // ── RESULTS ─────────────────────────────────────────────────────────────────
 
 function doResults() {
+  document.getElementById('re-undo').classList.remove('vis');
   show('screen-results');
 
   const sorted = [...S.results].sort((a,b) => b.wpm - a.wpm);
@@ -1200,6 +1440,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initOpts('type-opts', 'contentType');
 
   document.getElementById('start-btn').addEventListener('click', startSession);
+  document.getElementById('custom-input').addEventListener('input', () => {
+    document.getElementById('custom-error').classList.remove('vis');
+  });
   document.getElementById('about-toggle').addEventListener('click', () => {
     const panel = document.getElementById('about-panel');
     const btn = document.getElementById('about-toggle');
@@ -1209,6 +1452,40 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btn-home').addEventListener('click', goHome);
   document.getElementById('modal-cancel').addEventListener('click', cancelHome);
   document.getElementById('modal-confirm').addEventListener('click', confirmHome);
+  // timeup bar buttons
+  document.getElementById('timeup-home').addEventListener('click', goHome);
+  document.getElementById('timeup-skip').addEventListener('click', doSkip);
+  // undo on round-end
+  document.getElementById('re-undo').addEventListener('click', undoSelection);
+
+  // Skip-all modal
+  document.getElementById('skipal-home').addEventListener('click', () => {
+    document.getElementById('modal-skipal').classList.remove('vis');
+    S.round = 0; S.results = []; S.skipped = [];
+    show('screen-intro');
+  });
+  document.getElementById('skipal-try').addEventListener('click', () => {
+    document.getElementById('modal-skipal').classList.remove('vis');
+    // pick a new font not yet tested from the full pool
+    const usedIds = new Set(S.fonts.map(f => f.id));
+    const remaining = FONTS.filter(f => !usedIds.has(f.id));
+    if (remaining.length === 0) {
+      document.getElementById('modal-nofonts').classList.add('vis');
+      return;
+    }
+    const next = remaining[Math.floor(Math.random() * remaining.length)];
+    S.fonts.push(next);
+    S.passages.push(shuffle([...PASSAGES[S.contentType]])[0]);
+    S.fontCount = S.fonts.length;
+    doCountdown();
+  });
+
+  // No more fonts modal
+  document.getElementById('nofonts-ok').addEventListener('click', () => {
+    document.getElementById('modal-nofonts').classList.remove('vis');
+    S.round = 0; S.results = []; S.skipped = [];
+    show('screen-intro');
+  });
   document.getElementById('btn-restart').addEventListener('click', doRestart);
   document.getElementById('btn-pause').addEventListener('click', doPause);
   document.getElementById('btn-skip').addEventListener('click', doSkip);
@@ -1228,6 +1505,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('cont-btn').addEventListener('click', doContinue);
   document.getElementById('retake-btn').addEventListener('click', () => { S.skipped = []; show('screen-intro'); });
+  document.getElementById('share-btn').addEventListener('click', () => {
+    const winner = [...S.results].sort((a,b) => b.wpm - a.wpm)[0];
+    if (!winner) return;
+    const text = `My fastest reading font is ${winner.font.name} at ${winner.wpm} WPM. Find yours at margo.fyi`;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('share-btn');
+      btn.classList.add('copied');
+      btn.textContent = '✓ Copied to clipboard';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> Share my results`;
+      }, 2500);
+    });
+  });
 });
 </script>
 </body>
