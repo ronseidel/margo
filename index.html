@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Margo — Find Your Reading Font</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&family=Lato:wght@400&family=Open+Sans:wght@400&family=Roboto:wght@400&family=Merriweather:ital,wght@0,400;1,400&family=Noto+Sans:wght@400&family=Lexend:wght@400&family=Source+Sans+3:wght@400&family=DM+Sans:wght@400&family=Atkinson+Hyperlegible:wght@400&family=Libre+Baskerville:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F9F9F9;
+  --surface: #FFFFFF;
+  --ink: #034D32;
+  --ink-muted: #2E6B52;
+  --ink-faint: #5A8C76;
+  --accent: #028454;
+  --accent-bg: #E4F3EE;
+  --border: #C0DDD4;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-ui: 'Lora', Georgia, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── SCREEN SYSTEM ── */
+.screen { display: none; min-height: 100vh; width: 100%; flex-direction: column; align-items: center; }
+.screen.active { display: flex; animation: fadeUp 0.35s ease both; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.container { width: 100%; max-width: 580px; padding: 0 24px; }
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: 26px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.wordmark em { color: var(--accent); font-style: normal; }
+
+/* ── INTRO ── */
+#screen-intro { justify-content: center; padding: 48px 0; }
+
+.intro-head { text-align: center; margin-bottom: 44px; }
+.intro-head .tagline {
+  margin-top: 8px;
+  font-size: 15px;
+  color: var(--ink-muted);
+  font-weight: 300;
+  letter-spacing: 0.01em;
+}
+
+.section-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.intro-section { margin-bottom: 28px; }
+
+.option-row { display: flex; gap: 8px; }
+.option-row.cols-4 > * { flex: 1; }
+.option-row.cols-3 > * { flex: 1; }
+
+.opt {
+  padding: 11px 8px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--ink-muted);
+  text-align: center;
+  transition: all 0.14s ease;
+  line-height: 1.35;
+}
+.opt:hover { border-color: var(--accent); color: var(--ink); }
+.opt.sel { border-color: var(--accent); background: var(--accent-bg); color: var(--ink); }
+.opt .ol { display: block; font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+.opt.sel .ol { color: var(--ink); }
+.opt .os { display: block; font-size: 11px; font-weight: 500; color: var(--ink); letter-spacing: 0.01em; opacity: 0.6; }
+.opt.sel .os { color: var(--ink); opacity: 1; }
+
+#custom-wrap { margin-top: 10px; display: none; }
+#custom-wrap.vis { display: block; }
+#custom-input {
+  width: 100%; padding: 13px; min-height: 110px;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  font-family: var(--font-ui); font-size: 14px; color: var(--ink);
+  background: var(--surface); resize: vertical; line-height: 1.6; outline: none;
+}
+#custom-input:focus { border-color: var(--accent); }
+#custom-input::placeholder { color: var(--ink-faint); }
+
+.start-btn {
+  width: 100%; padding: 15px;
+  background: var(--ink); color: #fff; border: none; border-radius: 10px;
+  font-family: var(--font-ui); font-size: 15px; font-weight: 500;
+  letter-spacing: 0.02em; cursor: pointer; transition: background 0.15s;
+}
+.start-btn:hover { background: var(--accent); }
+
+.intro-note {
+  text-align: center; margin-top: 28px;
+  font-size: 12px; color: var(--ink-faint); line-height: 1.75;
+  padding-bottom: 8px;
+}
+
+.about-link {
+  display: block; text-align: center; margin: 16px auto 0;
+  font-size: 11px; color: var(--ink-faint); cursor: pointer;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  font-family: var(--font-ui); font-weight: 500;
+  background: none; border: none; padding: 4px;
+  transition: color 0.13s; width: fit-content;
+}
+.about-link:hover { color: var(--ink-muted); }
+
+.about-panel {
+  display: none; margin-top: 20px;
+  border-top: 1px solid var(--border);
+  padding-top: 20px; padding-bottom: 12px;
+  animation: fadeUp 0.25s ease both;
+}
+.about-panel.vis { display: block; }
+.about-panel p {
+  font-size: 12px; color: var(--ink-muted); line-height: 1.9;
+  text-align: center;
+}
+.about-panel p + p { margin-top: 10px; }
+.about-panel .happy {
+  font-family: var(--font-display); font-size: 18px;
+  color: var(--ink); display: block; margin-top: 14px;
+  text-align: center; font-style: italic;
+}
+
+/* ── COUNTDOWN ── */
+#screen-countdown { justify-content: center; align-items: center; }
+.cd-inner { text-align: center; }
+.cd-label {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-faint); margin-bottom: 28px;
+}
+.cd-num {
+  font-family: var(--font-ui); font-size: 130px; line-height: 1; color: var(--ink);
+  font-weight: 400; letter-spacing: -0.02em;
+  animation: cdPop 0.25s ease both;
+}
+@keyframes cdPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.cd-go { font-family: var(--font-ui); font-size: 130px; line-height: 1; color: var(--ink); font-style: italic; font-weight: 400; }
+
+/* ── READING ── */
+#screen-reading { justify-content: flex-start; height: 100vh; overflow: hidden; }
+
+.r-header {
+  width: 100%; padding: 16px 24px 14px;
+  display: flex; align-items: center; gap: 14px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.r-dots { display: flex; gap: 5px; }
+.r-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border); }
+.r-dot.done { background: var(--ink-faint); }
+.r-dot.now { background: var(--accent); }
+
+.r-bar-wrap {
+  flex: 1; height: 3px; background: var(--border);
+  border-radius: 2px; overflow: hidden;
+}
+.r-bar {
+  height: 100%; background: var(--accent); border-radius: 2px;
+  width: 100%; transition: width 1s linear;
+}
+
+.r-timer {
+  font-size: 13px; font-weight: 500; color: var(--ink-muted);
+  min-width: 24px; text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.timeup-bar {
+  width: 100%; background: var(--accent); color: #fff;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; text-align: center; padding: 7px;
+  flex-shrink: 0; display: none;
+}
+.timeup-bar.vis { display: block; }
+
+.r-passage-wrap {
+  flex: 1; min-height: 0; overflow-y: auto; width: 100%;
+  display: flex; justify-content: center; align-items: flex-start;
+  padding: 36px 24px 0;
+}
+
+.r-passage {
+  font-size: 19px; line-height: 1.82; color: var(--ink);
+  user-select: none; max-width: 560px; width: 100%;
+  padding-bottom: 80px;
+}
+
+.r-passage.selecting .word {
+  cursor: pointer; border-radius: 3px;
+  padding: 1px 2px; margin: -1px -2px;
+  transition: background 0.1s, color 0.1s;
+}
+/* ── READING CONTROLS ── */
+.r-controls {
+  display: flex; gap: 6px; align-items: center; flex-shrink: 0;
+}
+.r-ctrl {
+  padding: 5px 10px; border: 1.5px solid var(--border);
+  background: transparent; border-radius: 6px;
+  font-family: var(--font-ui); font-size: 11px; font-weight: 500;
+  color: var(--ink-faint); cursor: pointer; letter-spacing: 0.02em;
+  transition: all 0.13s ease; white-space: nowrap;
+  display: flex; align-items: center; gap: 4px;
+}
+.r-ctrl:hover { border-color: var(--ink-muted); color: var(--ink); }
+.r-ctrl svg { flex-shrink: 0; }
+
+.r-passage.selecting .word:hover { background: rgba(2,132,84,0.12); color: var(--accent); }
+.r-passage .word.sel-word {
+  background: var(--accent-bg); color: var(--accent);
+  font-weight: 500; border-radius: 3px; padding: 1px 2px; margin: -1px -2px;
+}
+
+/* ── PAUSED OVERLAY ── */
+.paused-bar {
+  width: 100%; background: var(--ink); color: #fff;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase; text-align: center; padding: 7px;
+  flex-shrink: 0; display: none;
+}
+.paused-bar.vis { display: block; }
+
+/* ── CONFIRM MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(3,77,50,0.12); backdrop-filter: blur(2px);
+  z-index: 100; align-items: center; justify-content: center;
+}
+.modal-overlay.vis { display: flex; animation: fadeUp 0.2s ease both; }
+.modal-box {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 14px; padding: 28px 28px 22px;
+  max-width: 320px; width: 90%; text-align: center;
+  box-shadow: 0 8px 32px rgba(3,77,50,0.1);
+}
+.modal-title {
+  font-family: var(--font-display); font-size: 22px;
+  color: var(--ink); margin-bottom: 8px;
+}
+.modal-body {
+  font-size: 13px; color: var(--ink-muted); line-height: 1.6; margin-bottom: 22px;
+}
+.modal-actions { display: flex; gap: 8px; }
+.modal-btn {
+  flex: 1; padding: 11px;
+  border-radius: 8px; font-family: var(--font-ui);
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  transition: all 0.13s ease; border: 1.5px solid var(--border);
+}
+.modal-btn.cancel { background: transparent; color: var(--ink-muted); }
+.modal-btn.cancel:hover { border-color: var(--ink-muted); color: var(--ink); }
+.modal-btn.confirm { background: var(--ink); color: #fff; border-color: var(--ink); }
+.modal-btn.confirm:hover { background: var(--accent); border-color: var(--accent); }
+.unranked-section { margin-top: 28px; width: 100%; }
+.unranked-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; display: block;
+}
+.unranked-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.unranked-pill {
+  padding: 5px 12px; border: 1.5px solid var(--border);
+  border-radius: 20px; font-size: 13px; color: var(--ink-faint);
+  font-family: var(--font-ui);
+}
+
+.r-footer {
+  width: 100%; padding: 14px 24px 20px;
+  border-top: 1px solid var(--border); background: var(--bg);
+  flex-shrink: 0; display: none;
+}
+.r-footer-inner {
+  max-width: 580px; margin: 0 auto;
+}
+.r-footer.vis { display: block; }
+
+.r-footer-inst {
+  font-size: 13px; color: var(--ink-muted); margin-bottom: 10px;
+  text-align: center; line-height: 1.7;
+}
+.r-footer-inst strong { color: var(--ink); }
+.r-footer-inst .nowrap { white-space: nowrap; }
+
+.r-type-row {
+  margin-bottom: 10px;
+}
+.r-type-error {
+  display: none; font-size: 12px; color: #8B1A1A;
+  text-align: center; margin-bottom: 6px;
+  font-style: italic;
+}
+.r-type-error.vis { display: block; }
+#type-input {
+  width: 100%; padding: 9px 12px;
+  border: 1.5px solid var(--border); border-radius: 6px;
+  font-family: var(--font-ui); font-size: 14px; color: var(--ink);
+  background: var(--surface); outline: none;
+  text-align: center;
+}
+#type-input:focus { border-color: var(--accent); }
+
+.cont-btn {
+  width: 100%; padding: 13px;
+  background: var(--ink); color: #fff; border: none; border-radius: 8px;
+  font-family: var(--font-ui); font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: background 0.14s;
+  opacity: 0.35; pointer-events: none;
+}
+.cont-btn.rdy { opacity: 1; pointer-events: all; }
+.cont-btn.rdy:hover { background: var(--accent); }
+
+/* ── ROUND COMPLETE ── */
+#screen-roundend { justify-content: center; align-items: center; }
+.re-inner { text-align: center; }
+.re-wpm { font-family: var(--font-display); font-size: 108px; line-height: 1; color: var(--ink); }
+.re-wpm-lbl {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-faint); margin-top: 6px; margin-bottom: 20px;
+}
+.re-tag {
+  display: inline-block; padding: 5px 14px;
+  background: var(--accent-bg); color: var(--accent);
+  border-radius: 20px; font-size: 13px; font-weight: 500;
+}
+.re-next { font-size: 12px; color: var(--ink-faint); margin-top: 28px; }
+
+/* ── RESULTS ── */
+#screen-results { padding: 48px 0 64px; justify-content: flex-start; }
+
+.res-head { text-align: center; margin-bottom: 36px; }
+.res-wm { margin-bottom: 28px; }
+.res-crown { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.res-winner-name { font-family: var(--font-display); font-size: 56px; line-height: 1.1; color: var(--ink); }
+.res-winner-wpm { font-size: 15px; color: var(--ink-muted); margin-top: 4px; }
+
+.rank-list { width: 100%; margin-bottom: 36px; }
+.rank-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 13px 0; border-bottom: 1px solid var(--border);
+}
+.rr-num { font-size: 12px; color: var(--ink-faint); font-weight: 600; min-width: 18px; text-align: right; }
+.rr-num.gold { color: var(--accent); }
+.rr-name { font-size: 14px; font-weight: 500; color: var(--ink); min-width: 150px; }
+.rr-bar-wrap { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.rr-bar { height: 100%; border-radius: 3px; width: 0; transition: width 0.9s cubic-bezier(0.4,0,0.2,1); }
+.rr-bar.b1 { background: var(--accent); }
+.rr-bar.b2 { background: #3A8F6A; }
+.rr-bar.b3 { background: var(--ink-faint); }
+.rr-wpm { font-size: 13px; font-weight: 500; color: var(--ink-muted); min-width: 58px; text-align: right; font-variant-numeric: tabular-nums; }
+
+/* action card */
+.action-card {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 24px; margin-bottom: 14px; width: 100%;
+}
+.ac-title { font-size: 17px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+.ac-sub { font-size: 13px; color: var(--ink-faint); margin-bottom: 20px; line-height: 1.55; }
+.ac-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.ac-item { display: flex; gap: 12px; align-items: flex-start; }
+.ac-icon {
+  width: 28px; height: 28px; border-radius: 6px;
+  background: var(--accent-bg); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0;
+}
+.ac-text strong { display: block; font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+.ac-text p { font-size: 12px; color: var(--ink-muted); line-height: 1.6; }
+.ac-text a { color: var(--accent); text-decoration: none; }
+.ac-text a:hover { text-decoration: underline; }
+.code-pill {
+  display: inline-block; margin-top: 5px;
+  font-family: 'Courier New', monospace; font-size: 12px;
+  background: #DCF0EA; padding: 6px 10px; border-radius: 4px;
+  color: var(--ink); word-break: break-all;
+}
+
+.retake-btn {
+  width: 100%; padding: 13px; background: transparent;
+  color: var(--ink-muted); border: 1.5px solid var(--border);
+  border-radius: 8px; font-family: var(--font-ui); font-size: 14px;
+  cursor: pointer; transition: all 0.14s; margin-top: 6px;
+}
+.retake-btn:hover { border-color: var(--ink); color: var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- ── INTRO ── -->
+<div id="screen-intro" class="screen">
+  <div class="container">
+    <div class="intro-head">
+      <div class="wordmark">M<em>a</em>rgo</div>
+      <p class="tagline">Find the font your brain reads fastest</p>
+    </div>
+
+    <div class="intro-section">
+      <span class="section-label">How many fonts to test?</span>
+      <div class="option-row cols-3" id="count-opts">
+        <button class="opt" data-v="3">
+          <span class="ol">3 fonts</span>
+          <span class="os">~3 min · rough guide</span>
+        </button>
+        <button class="opt sel" data-v="5">
+          <span class="ol">5 fonts</span>
+          <span class="os">~5 min · recommended</span>
+        </button>
+        <button class="opt" data-v="7">
+          <span class="ol">7 fonts</span>
+          <span class="os">~7 min · most reliable</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="intro-section">
+      <span class="section-label">What would you like to read?</span>
+      <div class="option-row cols-4" id="type-opts">
+        <button class="opt sel" data-v="knowledge">
+          <span class="ol"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/><path d="M8 11h8"/><path d="M8 7h6"/></svg></span>
+          <span class="os">General Knowledge</span>
+        </button>
+        <button class="opt" data-v="fiction">
+          <span class="ol"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v8l3-3 3 3V2"/><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></svg></span>
+          <span class="os">Short Fiction</span>
+        </button>
+        <button class="opt" data-v="nature">
+          <span class="ol"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z"/><path d="M7 16v6"/><path d="M13 19v3"/><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5"/></svg></span>
+          <span class="os">Nature & Science</span>
+        </button>
+        <button class="opt" data-v="custom">
+          <span class="ol"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.364 13.634a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506l4.013-4.009a1 1 0 0 0-3.004-3.004z"/><path d="M14.487 7.858A1 1 0 0 1 14 7V2"/><path d="M20 19.645V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l2.516 2.516"/><path d="M8 18h1"/></svg></span>
+          <span class="os">Paste Your Own</span>
+        </button>
+      </div>
+      <div id="custom-wrap">
+        <textarea id="custom-input" placeholder="Paste at least 300 words of text you enjoy reading — a book excerpt, article, anything…"></textarea>
+      </div>
+    </div>
+
+    <button class="start-btn" id="start-btn">Begin Test →</button>
+    <p class="intro-note">
+      Each round is 30 seconds. Font names are hidden during testing.<br>
+      Read at your natural pace — don't rush.
+    </p>
+    <button class="about-link" id="about-toggle">About</button>
+    <div class="about-panel" id="about-panel">
+      <p>Made March 2026 in New Jersey<br>by <strong>Ron Seidel</strong> (Margo's dad)<br>and all-star assistant <strong>Claudius Anthropicus</strong></p>
+      <p>
+        <strong>Fonts tested</strong><br>
+        Inter<br>Lato<br>Open Sans<br>Roboto<br>Merriweather<br>
+        Noto Sans<br>Lexend<br>Source Sans 3<br>DM Sans<br>
+        Atkinson Hyperlegible<br>Libre Baskerville<br>Verdana
+      </p>
+      <p>
+        <strong>Fonts used in Margo</strong><br>
+        Fraunces<br>Lora
+      </p>
+      <p>
+        <strong>Icons</strong><br>
+        <a href="https://lucide.dev" target="_blank" style="color:var(--accent)">Lucide</a><br>
+        open source, MIT licensed
+      </p>
+      <span class="happy">Happy reading.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── COUNTDOWN ── -->
+<div id="screen-countdown" class="screen">
+  <div class="cd-inner">
+    <div class="cd-label" id="cd-label">Font 1 of 5 — Get ready</div>
+    <div class="cd-num" id="cd-num">3</div>
+  </div>
+</div>
+
+<!-- ── READING ── -->
+<div id="screen-reading" class="screen">
+  <div class="r-header">
+    <div class="r-dots" id="r-dots"></div>
+    <div class="r-bar-wrap"><div class="r-bar" id="r-bar"></div></div>
+    <div class="r-timer" id="r-timer">30</div>
+    <div class="r-controls" id="r-controls">
+      <button class="r-ctrl" id="btn-home" title="Exit to home">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        Home
+      </button>
+      <button class="r-ctrl" id="btn-restart" title="Restart this font">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        Restart
+      </button>
+      <button class="r-ctrl" id="btn-pause" title="Pause">
+        <svg id="pause-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="3" width="5" height="18" rx="1"/><rect x="5" y="3" width="5" height="18" rx="1"/></svg>
+        <svg id="play-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg>
+        <span id="pause-label">Pause</span>
+      </button>
+      <button class="r-ctrl" id="btn-skip" title="Skip this font">
+        Skip
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4v16"/><path d="M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="timeup-bar" id="timeup-bar">Time's up — tap the last word you read</div>
+  <div class="paused-bar" id="paused-bar">Paused — press Resume to continue</div>
+  <div class="r-passage-wrap">
+    <div class="r-passage" id="r-passage"></div>
+  </div>
+  <div class="r-footer" id="r-footer">
+    <div class="r-footer-inner">
+      <p class="r-footer-inst">
+        <span class="nowrap"><strong>Tap the last word you read</strong></span>
+        <span class="nowrap"> in the passage above —</span>
+        <span class="nowrap"> or type it below.</span>
+      </p>
+      <div class="r-type-row">
+        <p class="r-type-error" id="type-error">That word isn't in the passage.</p>
+        <input type="text" id="type-input" placeholder="Type the last word you read…" autocomplete="off" autocorrect="off" autocapitalize="off">
+      </div>
+      <button class="cont-btn" id="cont-btn">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── ROUND END ── -->
+<div id="screen-roundend" class="screen">
+  <div class="re-inner">
+    <div class="re-wpm" id="re-wpm">—</div>
+    <div class="re-wpm-lbl">words per minute</div>
+    <div class="re-tag" id="re-tag">Round 1 complete</div>
+    <div class="re-next" id="re-next">Next font in a moment…</div>
+  </div>
+</div>
+
+<!-- ── RESULTS ── -->
+<div id="screen-results" class="screen">
+  <div class="container">
+    <div class="res-head">
+      <div class="wordmark res-wm">M<em>a</em>rgo</div>
+      <div class="res-crown">Your fastest font</div>
+      <div class="res-winner-name" id="res-name">—</div>
+      <div class="res-winner-wpm" id="res-wpm">—</div>
+    </div>
+    <div class="rank-list" id="rank-list"></div>
+    <div class="unranked-section" id="unranked-section" style="display:none">
+      <span class="unranked-label">Skipped — not ranked</span>
+      <div class="unranked-list" id="unranked-list"></div>
+    </div>
+    <div id="action-area"></div>
+    <button class="retake-btn" id="retake-btn">↺ Test again with different fonts</button>
+  </div>
+</div>
+
+<!-- ── CONFIRM MODAL ── -->
+<div class="modal-overlay" id="modal-home">
+  <div class="modal-box">
+    <div class="modal-title">End the test?</div>
+    <div class="modal-body">You'll lose your results so far<br>and return to the start.</div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" id="modal-cancel">Keep Reading</button>
+      <button class="modal-btn confirm" id="modal-confirm">End Test</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── FONT POOL ──────────────────────────────────────────────────────────────
+
+const FONTS = [
+  {
+    id:'inter', name:'Inter', css:"'Inter', sans-serif",
+    cat:'Screen-optimized sans-serif',
+    dl:'https://fonts.google.com/specimen/Inter',
+    about:'Built by Rasmus Andersson from the ground up for screen readability. The default font of Figma, GitHub, and Linear.'
+  },
+  {
+    id:'lato', name:'Lato', css:"'Lato', sans-serif",
+    cat:'Humanist sans-serif',
+    dl:'https://fonts.google.com/specimen/Lato',
+    about:'Warm, human letterforms with a sturdy structure. Originally designed for corporate use, widely loved for body text.'
+  },
+  {
+    id:'opensans', name:'Open Sans', css:"'Open Sans', sans-serif",
+    cat:'Neutral sans-serif',
+    dl:'https://fonts.google.com/specimen/Open+Sans',
+    about:'One of the most-used web fonts ever. Optimized for legibility across print, web, and mobile interfaces.'
+  },
+  {
+    id:'roboto', name:'Roboto', css:"'Roboto', sans-serif",
+    cat:'Neo-grotesque sans-serif',
+    dl:'https://fonts.google.com/specimen/Roboto',
+    about:"Google's flagship UI font, built for Android with mechanical skeleton and friendly open curves."
+  },
+  {
+    id:'merriweather', name:'Merriweather', css:"'Merriweather', serif",
+    cat:'Screen serif',
+    dl:'https://fonts.google.com/specimen/Merriweather',
+    about:'Designed specifically for reading on screens — large x-height, slightly condensed letterforms, generous line spacing.'
+  },
+  {
+    id:'notosans', name:'Noto Sans', css:"'Noto Sans', sans-serif",
+    cat:'Universal sans-serif',
+    dl:'https://fonts.google.com/specimen/Noto+Sans',
+    about:"Google's universal typeface, designed for readability across all scripts and small displays."
+  },
+  {
+    id:'lexend', name:'Lexend', css:"'Lexend', sans-serif",
+    cat:'Readability-engineered',
+    dl:'https://fonts.google.com/specimen/Lexend',
+    about:'Built from academic research on reading proficiency. Letter spacing, weight, and shape are all tuned for reading speed.'
+  },
+  {
+    id:'sourcesans', name:'Source Sans 3', css:"'Source Sans 3', sans-serif",
+    cat:'Editorial sans-serif',
+    dl:'https://fonts.google.com/specimen/Source+Sans+3',
+    about:"Adobe's first open-source typeface. Designed for both UI work and sustained long-form reading."
+  },
+  {
+    id:'dmsans', name:'DM Sans', css:"'DM Sans', sans-serif",
+    cat:'Geometric sans-serif',
+    dl:'https://fonts.google.com/specimen/DM+Sans',
+    about:'Low-contrast, geometric sans-serif with excellent legibility at small sizes. Used across many modern SaaS products.'
+  },
+  {
+    id:'atkinson', name:'Atkinson Hyperlegible', css:"'Atkinson Hyperlegible', sans-serif",
+    cat:'Accessibility-first',
+    dl:'https://fonts.google.com/specimen/Atkinson+Hyperlegible',
+    about:'Developed by the Braille Institute. Every letterform is uniquely shaped to minimize confusion between similar characters.'
+  },
+  {
+    id:'baskerville', name:'Libre Baskerville', css:"'Libre Baskerville', serif",
+    cat:'Classic serif',
+    dl:'https://fonts.google.com/specimen/Libre+Baskerville',
+    about:'Web-optimized revival of Baskerville, warm and literary with strong on-screen presence at comfortable sizes.'
+  },
+  {
+    id:'verdana', name:'Verdana', css:'Verdana, sans-serif',
+    cat:'Screen classic',
+    dl: null,
+    about:'Designed by Matthew Carter for Microsoft in 1996 specifically for low-resolution screens. Consistently ranks high in academic readability studies.'
+  }
+];
+
+// ── PASSAGES ────────────────────────────────────────────────────────────────
+
+const PASSAGES = {
+  knowledge: [
+    "The octopus has three hearts and blue blood. Two hearts pump blood through the gills, while a third keeps circulation flowing to the rest of the body. This third heart stops beating when the octopus swims, which is why these animals prefer crawling along the seafloor to open-water swimming. Their blue blood comes from a copper-rich protein called hemocyanin, which carries oxygen efficiently in cold, low-oxygen environments where ordinary hemoglobin would struggle. Despite having no skeleton, an octopus can squeeze through any opening larger than its beak — the only rigid part of its body. Their intelligence continues to surprise researchers: they open child-proof jars, navigate mazes, use tools, and recognize individual human faces even after months apart. Each of their eight arms contains roughly two-thirds of the animal's total neurons, meaning the arms process information and react to their environment largely on their own, almost as if each one carries its own small mind. An octopus is less a single animal than a committee of nine loosely cooperating intelligences, all pointed more or less in the same direction.",
+    "Before mechanical clocks existed, people tracked time by watching shadows lengthen and shorten. Sundials were among the earliest instruments, and some ancient cultures built entire monuments partly to mark the solstices and equinoxes. Water clocks, known as clepsydras, measured time through the controlled drip of liquid from one vessel into another and were used in Athenian courts to limit how long lawyers could speak. Mechanical clocks emerged in medieval Europe, installed first in church towers to call monks to prayer at regular intervals. For centuries afterward, every town kept its own local time, set by the sun directly overhead at noon. Standardized time zones only became necessary in the nineteenth century, when expanding railroad networks required a single consistent schedule across hundreds of miles. The pocket watch then moved timekeeping from the public tower into the private pocket, making punctuality a personal responsibility in a way it had never quite been before. The anxiety of being late is, historically speaking, a very recent invention.",
+    "Salt was once so valuable that Roman soldiers were partly paid in it — the word salary descends directly from this practice. For most of recorded history, salt was the only reliable technology for preserving food across winter, and controlling its supply meant controlling entire populations. Ancient trade routes formed around salt deposits, and cities grew where those routes intersected. Empires taxed it heavily, and revolts broke out when the taxes became unbearable. Gandhi's march to the sea in 1930 was a protest against the British salt monopoly in India — a gesture that seemed minor but helped unravel a colonial system. Salt is chemically unremarkable: sodium chloride, two elements. Yet it activates a receptor on the human tongue considered so fundamental that newborns respond to it within hours of birth. Today a canister costs less than a cup of coffee. We pour it onto icy sidewalks and shake it carelessly over food without registering that for thousands of years it was weighed, guarded, and traded as carefully as gold.",
+    "Every map is a controlled distortion. A sphere cannot be unfolded onto a flat surface without introducing error, so every projection sacrifices something — shape, area, distance, or direction — to preserve something else. The Mercator projection, standard in most Western classrooms for over four centuries, keeps angles accurate for navigation but inflates land masses near the poles dramatically. On a Mercator map, Greenland looks roughly equal to Africa in size. Africa is actually fourteen times larger. Other projections correct for area but warp the shapes of continents into something unfamiliar. No flat map can be both accurate in shape and accurate in size simultaneously — the mathematics simply does not allow it. Beyond the geometry, maps encode politics. Who gets labeled, which borders are drawn as firm lines versus dotted ones, and which country occupies the center of the world are all choices made by people with specific histories and interests. The map you internalized as a child quietly shaped your sense of what the world looks like, and that sense is more fictional than most people ever stop to consider.",
+    "Bees communicate through choreography. When a worker bee locates a productive source of nectar, she returns to the hive and performs what Karl von Frisch described as the waggle dance — a figure-eight movement in which the straight central run encodes both direction and distance. The angle of the run relative to vertical indicates the direction of the flowers relative to the sun. The duration of the waggling indicates distance; a longer run means farther away. Bees watching the dance read these cues and fly directly to the source, sometimes several miles distant. Von Frisch received the Nobel Prize in 1973 for decoding this system. What remains less understood is how individual bees evaluate competing dances when several scouts return simultaneously advertising different sites. Somehow the colony aggregates these competing signals and reaches a consensus, often the objectively best site, without any single bee directing the process. Thousands of insects, each following simple rules, collectively make decisions that would impress a trained economist.",
+    "The deepest point on Earth's surface is Challenger Deep, a slot in the Mariana Trench roughly eleven kilometers below sea level. The pressure at that depth exceeds a thousand atmospheres, enough to crush an unprotected submarine like a paper cup. And yet life persists there: single-celled microbes colonize the sediment, small crustaceans called amphipods drift through the water column, and occasional fish have been filmed moving through the total darkness. Less than twenty percent of the global ocean floor has been mapped in meaningful detail, which means we currently have better topographic charts of the surface of Mars than of our own seafloor. Every expedition that descends with modern equipment tends to return with species not previously catalogued. What may live in the enormous unmapped portions of the deep — entire ecosystems built around chemical vents, pressure regimes nothing on the surface has prepared us for — is genuinely unknown, and will likely remain so for decades.",
+    "Coffee traces its origins to the highlands of Ethiopia, where the plant grew wild and goatherds reportedly noticed their animals becoming unusually energetic after eating the red berries. Cultivation began in Yemen by the fifteenth century, where Sufi monks brewed the beans to sustain nighttime devotions. From Yemen, coffee traveled to Mecca and Cairo, then to Constantinople, where coffeehouses became centers of political discussion lively enough that Ottoman authorities periodically tried to ban them. European traders carried the beans to Venice around 1600, and the coffeehouse spread rapidly across the continent. Within decades, London alone contained over three hundred such establishments, called penny universities because for the price of a cup anyone could sit and participate in the conversation of merchants, scientists, and politicians. Lloyd's of London, the London Stock Exchange, and several major newspapers all trace their origins to specific coffeehouses where their founders happened to meet. A hot drink consumed mostly out of habit quietly reorganized the intellectual and financial architecture of the modern world."
+  ],
+  fiction: [
+    "The lighthouse keeper had kept meticulous records for thirty-one years. Every morning he logged the wind speed, the color of the horizon, the temperature at six and noon and dusk, and the number of ships that passed. At first the records were practical — the coast guard required them and collected them quarterly. But the coast guard stopped requesting the logs in 1987, and he kept writing anyway, in the same small marbled notebooks he ordered by the dozen from a stationery shop in Portland. His daughter visited one August and found the shelf: eleven rows of identical notebooks, each labeled by year and month in his careful block letters. She asked him why he bothered, now that no one was reading them. He thought about it for a long time before he answered. He said that if he didn't write it down, the days felt like they hadn't fully happened — as if experience required a witness to become real. She found this both beautiful and a little heartbreaking, and she was not certain which feeling was the more accurate.",
+    "She kept the letters in a shoebox on the top shelf of her closet, bound with rubber bands sorted by year, going back to her twenties. She had never reread a single one. It was not that they were painful — some were, some were not — but that she preferred to think of them as still being written. As long as she never opened the box, the people who had sent those letters existed somewhere at a desk, still choosing their words, still in the middle of saying something to her. To read them would be to fix the past in place, to close it off. She had no interest in that. Her daughter thought this was hoarding. Her therapist thought it was avoidance. She considered both interpretations and decided they both missed the essential thing, though she was never quite able to articulate what the essential thing was. She only knew that the weight of that box on the shelf above her, familiar and dense, was a kind of comfort she was not willing to relinquish.",
+    "The old man came to the library every Tuesday and read the same newspaper from 1962. The librarians had laminated it years ago when they noticed how often he handled it, and now it crinkled faintly as he turned each page, slow and deliberate, as though the news were still arriving. No one could say why that particular paper — the date was unremarkable, no assassination, no catastrophe, no significant election. For years the staff speculated quietly and reached no satisfying conclusion. One young librarian finally worked up the nerve to ask him directly. He set the paper flat on the table and tapped a photograph on the back page: a small crowd gathered outside a factory at its opening, blurry and gray in the way of photographs from that era. He pointed to a woman standing in the second row, half-turned toward someone just outside the frame. That is the only photograph I have of her, he said. He folded the paper with great care and placed it between them on the table, and the librarian understood that she had been given something, though she was not sure she could explain to anyone else what it was.",
+    "The last bookstore in the city was run by a man who had never finished a single book in his life. He was a gifted reader — fast, attentive, capable of holding long passages in memory — but somewhere around the three-quarter mark of every book he had ever attempted, he stopped. He told customers this was because endings ruined what came before. He told himself the real reason was more embarrassing: he preferred the version of the story that existed only in the space between where he stopped reading and wherever the author had actually chosen to go. The ending he imagined was always more interesting than any conclusion a real writer would have dared to commit to. His shelves held hundreds of books with handwritten notes that stopped abruptly mid-chapter, mid-sentence sometimes. Regulars found this charming, even philosophically interesting, and told him so. He accepted the compliment and smiled and privately found the whole thing mildly humiliating, in the specific way that our truest habits tend to feel when someone else holds them up to the light.",
+    "They had lived beside each other for eleven years and had never spoken beyond pleasantries. They knew each other's routines the way neighbors do — by sound and smell and the rhythm of footsteps on shared stairs. She knew he worked late on Thursdays. He knew she left early on Fridays. Neither had ever learned the other's last name. Then one January the pipes in the wall between their apartments froze, and at two in the morning she knocked on his door carrying a wrench and the calm expression of someone who had fixed pipes before. He opened the door in the oversized sweatshirt he slept in and let her in without asking questions, which she later thought showed good judgment. They worked in the kitchen for an hour. When the heat finally hissed back into the radiator, they stood there with nothing left to do and discovered they had no idea what to say to each other. It was not awkward, exactly. It was the particular warmth of having briefly shared something real with a stranger, and of knowing it would most likely not happen again.",
+    "The cartographer had been working on the same map for twenty-two years. Not because the territory was vast — it was a single market town of four hundred people in the north of the country — but because the place refused to stay still. Buildings were added and occasionally torn down. Fences moved when farms changed hands. New paths appeared where people had walked the same shortcut often enough to kill the grass. He updated the map on the first of every month and recorded each alteration in a separate ledger with the date and a brief note explaining the change. Without intending to, he had assembled the slow biography of a living place: every road widened, every garden paved over, every hedgerow cut back and every old tree that had come down. The town council asked him once why he didn't simply use a satellite image. He said that a satellite sees from too far up to notice what actually matters. The councillors weren't entirely sure what he meant, but the map was very good, and none of them argued.",
+    "She learned to cook from her grandmother's hands, not from her recipes. The recipes did exist — a tin box of index cards, the ink faded to brown on the older ones — but they were written in a language of approximation: a good handful of this, cook until it smells right, add more if it needs it. These were not instructions. They were memories compressed into the shortest form they could survive in. Her grandmother had never measured anything in her life. She cooked by feel and instinct, by the sound of oil in a hot pan and the particular way steam rose from a pot when the liquid was almost right. All of that died with her — the instincts and the specific knowledge of her hands both. What remained was a box of cards that named the ingredients but could not tell you how much, and a granddaughter who had stood in that kitchen often enough to know, with a clarity that brought her no comfort at all, that the distance between the two could never be closed."
+  ],
+  nature: [
+    "Trees communicate through a network of fungal threads stretched beneath the forest floor. A single mature tree may be connected to dozens of neighbors through mycorrhizal fungi — hair-thin filaments that weave through soil and fuse with root tips. Through this network, trees exchange carbon, phosphorus, water, and chemical distress signals. Well-established trees sometimes route surplus sugars toward struggling seedlings growing in deep shade, effectively subsidizing the next generation. When a tree is attacked by insects or disease, it can release chemical warnings through the network, and nearby trees respond by ramping up their own chemical defenses before the threat arrives. Researchers call this system the wood wide web, though some caution against overstating the cooperative framing — the network also facilitates competition, and trees can use it to suppress rivals as readily as to assist them. What is not in dispute is that a forest functions as a system rather than a collection of individuals, and that most of its activity is invisible, happening slowly underground in the dark.",
+    "A bolt of lightning is not a single event but a rapid negotiation between sky and ground. A stepped leader — an invisible channel of ionized air — descends from a storm cloud in discontinuous jumps, branching as it falls, probing for the path of least resistance. Simultaneously, upward streamers of electrical charge rise from pointed objects on the ground below: trees, towers, the tips of radio antennas, occasionally people standing in open fields. The two channels feel toward each other. When they finally connect, an enormous return stroke surges upward through the newly completed circuit, traveling at a significant fraction of the speed of light. What the eye perceives as lightning moving downward is actually the luminous return stroke moving up. The thunder that follows is the pressure wave of air exploding outward from the channel, which for a fraction of a second reaches temperatures five times hotter than the surface of the sun. All of it — the negotiation, the connection, the crack of superheated air — unfolds in less time than it takes to blink.",
+    "The monarch butterfly navigates by sun compass, using its antennae as light-sensing organs calibrated to an internal circadian clock. Each autumn, millions of monarchs funnel south from across North America and converge on a small cluster of high-altitude forests in central Mexico — a journey of up to four thousand kilometers, to mountains no individual butterfly has ever visited. They are following the route their great-grandparents flew, encoded somehow in their biology across several generations. Researchers confirmed the mechanism by painting the antennae of migrating monarchs with opaque paint, blocking light input, and observing that the treated butterflies immediately lost directional coherence. When sensing was restored, they oriented correctly again. How the specific longitude and latitude of those Mexican forests is transmitted from one generation to the next — through genetics, epigenetics, or some mechanism not yet described — remains genuinely unresolved. It is one of the cleaner examples of a biological mystery hiding in plain sight, performed every autumn over millions of square miles of open sky.",
+    "Starling murmurations — those enormous, liquid flocks that roll and contract across autumn skies — emerge from rules followed by individual birds that have no awareness of the pattern they are creating. Each starling tracks roughly its seven nearest neighbors and continuously adjusts its own velocity to match theirs, staying close without colliding. No starling directs the flock. No starling sees the shape of the whole. The coherent, flowing forms visible from a distance are a property that exists only at the scale of the group, arising from millions of small, local adjustments made simultaneously. Because information travels through the flock faster than any predator can track, murmurations are thought to be a defense — disorienting to a hawk, which hunts by fixating on a single target. Computational models have reproduced murmuration-like behavior using the same simple rules, and researchers have since identified similar emergent coordination in fish schools, pedestrian crowds, and the cascading failures of electrical grids. The flock has no mind. It thinks anyway.",
+    "Water is one of very few substances that becomes less dense when it freezes rather than more. Most materials contract as they cool, their molecules packing tighter and sinking. Ice does the opposite: water molecules form a crystalline lattice that holds them slightly farther apart than in liquid form, making ice lighter than the water beneath it. The consequences of this quirk are enormous. Because ice floats, lakes and rivers freeze from the surface downward rather than from the bottom up. The ice layer insulates the water below, preventing most temperate bodies of water from freezing solid and preserving the aquatic life within them. If ice sank, this would not happen. Deep lakes in cold climates would freeze entirely through the winter and thaw only slowly in spring, and the ecosystems they contain would be unrecognizable or absent. This single anomalous property of water — the result of a specific angle between oxygen and hydrogen atoms in the molecule — shaped the conditions under which complex life could persist in cold latitudes, which is to say it shaped a significant part of the history of life on Earth.",
+    "Most flowers look different to bees than they do to us, because bees can see ultraviolet light and we cannot. Blooms that appear solid-colored to human eyes often carry elaborate patterns in the ultraviolet spectrum — concentric rings, radiating lines, bull's-eye targets positioned directly over the nectaries. These markings evolved specifically to guide pollinators efficiently to the reward, reducing the time a bee needs to spend on each flower and increasing the speed of pollination. The flower and the bee shaped each other across millions of years of coevolution, each generation selecting for traits that made the other more useful. The result is a communication system that is entirely invisible to the species that benefits most from the flowers' abundance: us. We bred the vegetables and fruits and cut flowers that organize much of our agriculture, largely oblivious to the visual language they are speaking. It is a useful reminder that the world as we experience it is a narrow interpretation, filtered through the specific sensory equipment evolution happened to give one particular primate.",
+    "Coral reefs cover less than one percent of the ocean floor but shelter roughly a quarter of all known marine species. The structure is built over centuries from the calcium carbonate skeletons of coral polyps — small, soft-bodied animals that live in colonies and house photosynthetic algae called zooxanthellae within their tissues. The algae use sunlight to produce sugars, which feed the coral. The coral provides the algae with shelter and a supply of carbon dioxide. This partnership is the engine of the reef's extraordinary productivity. When ocean temperatures rise even one or two degrees above the seasonal average for an extended period, the coral expels its algae in a physiological stress response. Without the algae, the coral loses its color, fading to bone white in what is called bleaching, and loses its primary food source at the same time. A bleached reef can recover if temperatures return to normal quickly. If the heat persists, the coral starves, the structure deteriorates, and the hundreds of species that depended on it lose their habitat simultaneously."
+  ]
+};
+
+// ── STATE ───────────────────────────────────────────────────────────────────
+
+const S = {
+  fontCount: 5,
+  contentType: 'knowledge',
+  customText: '',
+  fonts: [],
+  passages: [],
+  round: 0,
+  results: [],
+  skipped: [],
+  timerSecs: 30,
+  timerInterval: null,
+  timerPaused: false,
+  timerPausedByUser: false,
+  barPausedPct: null,
+  selectedWord: null,
+  wordEls: [],
+};
+
+// ── HELPERS ─────────────────────────────────────────────────────────────────
+
+const shuffle = a => {
+  const b = [...a];
+  for (let i = b.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [b[i], b[j]] = [b[j], b[i]];
+  }
+  return b;
+};
+
+const show = id => {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+};
+
+// ── INTRO LOGIC ─────────────────────────────────────────────────────────────
+
+function initOpts(groupId, key) {
+  document.querySelectorAll(`#${groupId} .opt`).forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll(`#${groupId} .opt`).forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel');
+      const v = btn.dataset.v;
+      S[key] = ['3','5','7'].includes(v) ? parseInt(v) : v;
+      if (key === 'contentType') {
+        document.getElementById('custom-wrap').classList.toggle('vis', v === 'custom');
+      }
+    });
+  });
+}
+
+function startSession() {
+  if (S.contentType === 'custom') {
+    const txt = document.getElementById('custom-input').value.trim();
+    if (txt.split(/\s+/).length < 100) {
+      alert('Please paste at least 100 words for a reliable test.');
+      return;
+    }
+    S.customText = txt;
+  }
+
+  S.fonts = shuffle(FONTS).slice(0, S.fontCount);
+  S.round = 0;
+  S.results = [];
+
+  if (S.contentType === 'custom') {
+    const words = S.customText.split(/\s+/).filter(Boolean);
+    const size = 220;
+    const chunks = [];
+    for (let i = 0; i < words.length; i += size) chunks.push(words.slice(i, i + size).join(' '));
+    S.passages = [];
+    for (let i = 0; i < S.fontCount; i++) S.passages.push(chunks[i % chunks.length]);
+  } else {
+    S.passages = shuffle([...PASSAGES[S.contentType]]).slice(0, S.fontCount);
+  }
+
+  doCountdown();
+}
+
+// ── COUNTDOWN ───────────────────────────────────────────────────────────────
+
+function doCountdown() {
+  show('screen-countdown');
+  document.getElementById('cd-label').textContent = `Font ${S.round + 1} of ${S.fontCount} — Get ready`;
+  const numEl = document.getElementById('cd-num');
+  let n = 3;
+  numEl.innerHTML = '3';
+  numEl.className = 'cd-num';
+
+  const tick = setInterval(() => {
+    n--;
+    numEl.className = 'cd-num';
+    void numEl.offsetWidth; // force reflow for animation
+    numEl.className = 'cd-num';
+    if (n > 0) {
+      numEl.textContent = n;
+    } else if (n === 0) {
+      numEl.innerHTML = '<span class="cd-go">Read.</span>';
+    } else {
+      clearInterval(tick);
+      doReading();
+    }
+  }, 800);
+}
+
+function doPause() {
+  if (S.timerPausedByUser) {
+    // resume
+    S.timerPausedByUser = false;
+    document.getElementById('paused-bar').classList.remove('vis');
+    document.getElementById('pause-icon').style.display = '';
+    document.getElementById('play-icon').style.display = 'none';
+    document.getElementById('pause-label').textContent = 'Pause';
+    // resume bar
+    const barEl = document.getElementById('r-bar');
+    const valEl = document.getElementById('r-timer');
+    requestAnimationFrame(() => {
+      barEl.style.transition = `width ${S.timerSecs}s linear`;
+      barEl.style.width = '0%';
+    });
+    S.timerInterval = setInterval(() => {
+      S.timerSecs--;
+      valEl.textContent = S.timerSecs;
+      if (S.timerSecs <= 0) {
+        clearInterval(S.timerInterval);
+        endTimer();
+      }
+    }, 1000);
+  } else {
+    // pause
+    const barEl = document.getElementById('r-bar');
+    const computedWidth = barEl.getBoundingClientRect().width;
+    const wrapWidth = barEl.parentElement.getBoundingClientRect().width;
+    const pct = wrapWidth > 0 ? (computedWidth / wrapWidth) * 100 : 0;
+    barEl.style.transition = 'none';
+    barEl.style.width = pct.toFixed(2) + '%';
+    clearInterval(S.timerInterval);
+    S.timerPausedByUser = true;
+    document.getElementById('paused-bar').classList.add('vis');
+    document.getElementById('pause-icon').style.display = 'none';
+    document.getElementById('play-icon').style.display = '';
+    document.getElementById('pause-label').textContent = 'Resume';
+  }
+}
+
+function goHome() {
+  // snapshot computed bar width before freezing
+  const barEl = document.getElementById('r-bar');
+  const computedWidth = barEl.getBoundingClientRect().width;
+  const wrapWidth = barEl.parentElement.getBoundingClientRect().width;
+  const pct = wrapWidth > 0 ? (computedWidth / wrapWidth) * 100 : 0;
+  // freeze bar exactly where it is
+  barEl.style.transition = 'none';
+  barEl.style.width = pct.toFixed(2) + '%';
+  S.barPausedPct = pct;
+  // stop JS timer
+  clearInterval(S.timerInterval);
+  S.timerPaused = true;
+  document.getElementById('modal-home').classList.add('vis');
+}
+
+function confirmHome() {
+  document.getElementById('modal-home').classList.remove('vis');
+  S.timerPaused = false;
+  S.timerPausedByUser = false;
+  S.barPausedPct = null;
+  S.round = 0; S.results = []; S.skipped = [];
+  show('screen-intro');
+}
+
+function cancelHome() {
+  document.getElementById('modal-home').classList.remove('vis');
+  if (S.timerPaused && S.timerSecs > 0) {
+    S.timerPaused = false;
+    const barEl = document.getElementById('r-bar');
+    const valEl = document.getElementById('r-timer');
+    // resume bar animation from frozen position over remaining seconds
+    requestAnimationFrame(() => {
+      barEl.style.transition = `width ${S.timerSecs}s linear`;
+      barEl.style.width = '0%';
+    });
+    S.timerInterval = setInterval(() => {
+      S.timerSecs--;
+      valEl.textContent = S.timerSecs;
+      if (S.timerSecs <= 0) {
+        clearInterval(S.timerInterval);
+        endTimer();
+      }
+    }, 1000);
+  }
+}
+
+function doRestart() {
+  clearInterval(S.timerInterval);
+  doReading();
+}
+
+function doSkip() {
+  clearInterval(S.timerInterval);
+  const font = S.fonts[S.round];
+  S.skipped.push(font);
+  S.round++;
+  if (S.round >= S.fontCount) {
+    if (S.results.length === 0) {
+      // all skipped — go home
+      goHome(); return;
+    }
+    show('screen-roundend');
+    document.getElementById('re-wpm').textContent = '—';
+    document.getElementById('re-tag').textContent = 'Font skipped';
+    document.getElementById('re-next').textContent = 'Calculating your results…';
+    setTimeout(doResults, 1800);
+  } else {
+    show('screen-roundend');
+    document.getElementById('re-wpm').textContent = '—';
+    document.getElementById('re-tag').textContent = 'Font skipped';
+    document.getElementById('re-next').textContent = `Font ${S.round + 1} of ${S.fontCount} up next…`;
+    setTimeout(doCountdown, 1800);
+  }
+}
+
+// ── READING ─────────────────────────────────────────────────────────────────
+
+function doReading() {
+  show('screen-reading');
+
+  // Reset UI
+  document.getElementById('timeup-bar').classList.remove('vis');
+  document.getElementById('paused-bar').classList.remove('vis');
+  document.getElementById('r-footer').classList.remove('vis');
+  document.getElementById('type-input').value = '';
+  document.getElementById('type-input').style.borderColor = '';
+  document.getElementById('cont-btn').classList.remove('rdy');
+  document.getElementById('pause-icon').style.display = '';
+  document.getElementById('play-icon').style.display = 'none';
+  document.getElementById('pause-label').textContent = 'Pause';
+  S.timerPausedByUser = false;
+  S.selectedWord = null;
+
+  // Dots
+  const dotsEl = document.getElementById('r-dots');
+  dotsEl.innerHTML = '';
+  for (let i = 0; i < S.fontCount; i++) {
+    const d = document.createElement('div');
+    d.className = 'r-dot' + (i < S.round ? ' done' : i === S.round ? ' now' : '');
+    dotsEl.appendChild(d);
+  }
+
+  // Passage
+  const font = S.fonts[S.round];
+  const text = S.passages[S.round];
+  const el = document.getElementById('r-passage');
+  el.style.fontFamily = font.css;
+  el.className = 'r-passage';
+  el.innerHTML = '';
+  S.wordEls = [];
+
+  text.split(/\s+/).filter(Boolean).forEach((w, i) => {
+    if (i > 0) el.appendChild(document.createTextNode(' '));
+    const sp = document.createElement('span');
+    sp.className = 'word';
+    sp.textContent = w;
+    sp.dataset.i = i;
+    el.appendChild(sp);
+    S.wordEls.push(sp);
+  });
+
+  // Scroll to top
+  document.querySelector('.r-passage-wrap').scrollTop = 0;
+
+  // Timer
+  S.timerSecs = 30;
+  const barEl = document.getElementById('r-bar');
+  const valEl = document.getElementById('r-timer');
+  barEl.style.transition = 'none';
+  barEl.style.width = '100%';
+  valEl.textContent = '30';
+
+  clearInterval(S.timerInterval);
+  setTimeout(() => {
+    barEl.style.transition = 'width 30s linear';
+    barEl.style.width = '0%';
+  }, 60);
+
+  S.timerInterval = setInterval(() => {
+    S.timerSecs--;
+    valEl.textContent = S.timerSecs;
+    if (S.timerSecs <= 0) {
+      clearInterval(S.timerInterval);
+      endTimer();
+    }
+  }, 1000);
+}
+
+function endTimer() {
+  document.getElementById('r-timer').textContent = '0';
+  document.getElementById('timeup-bar').classList.add('vis');
+  document.getElementById('r-footer').classList.add('vis');
+  document.getElementById('r-passage').classList.add('selecting');
+  // disable restart once time is up
+  const restartBtn = document.getElementById('btn-restart');
+  if (restartBtn) { restartBtn.disabled = true; restartBtn.style.opacity = '0.3'; restartBtn.style.pointerEvents = 'none'; }
+
+  S.wordEls.forEach((sp, i) => {
+    sp.addEventListener('click', () => pickWord(i));
+  });
+}
+
+function pickWord(idx) {
+  S.selectedWord = idx;
+  S.wordEls.forEach((sp, i) => {
+    sp.classList.toggle('sel-word', i === idx);
+  });
+  document.getElementById('type-input').value = '';
+  document.getElementById('type-error').classList.remove('vis');
+  document.getElementById('cont-btn').classList.add('rdy');
+}
+
+// ── CONTINUE ────────────────────────────────────────────────────────────────
+
+function doContinue() {
+  let idx = S.selectedWord;
+
+  if (idx === null) {
+    const typed = document.getElementById('type-input').value.trim().toLowerCase().replace(/[^a-z]/g,'');
+    if (!typed) return;
+    let found = -1;
+    S.wordEls.forEach((sp, i) => {
+      if (sp.textContent.toLowerCase().replace(/[^a-z]/g,'') === typed) found = i;
+    });
+    if (found === -1) {
+      document.getElementById('type-error').classList.add('vis');
+      return;
+    }
+    idx = found;
+  }
+
+  // WPM = words read / time in minutes
+  // time elapsed = 30s (full timer) → 30/60 = 0.5 min
+  const elapsed = (30 - S.timerSecs) === 30 ? 30 : 30; // always 30s since we wait for timer
+  const wpm = Math.round(idx / (elapsed / 60));
+  const font = S.fonts[S.round];
+  S.results.push({ font, wpm, idx });
+
+  showRoundEnd(wpm, S.round + 1);
+}
+
+// ── ROUND END ───────────────────────────────────────────────────────────────
+
+function showRoundEnd(wpm, roundNum) {
+  show('screen-roundend');
+  document.getElementById('re-wpm').textContent = wpm;
+  document.getElementById('re-tag').textContent = `Round ${roundNum} of ${S.fontCount} complete`;
+
+  S.round++;
+
+  if (S.round >= S.fontCount) {
+    document.getElementById('re-next').textContent = 'Calculating your results…';
+    setTimeout(doResults, 1800);
+  } else {
+    document.getElementById('re-next').textContent = `Font ${S.round + 1} of ${S.fontCount} up next…`;
+    setTimeout(doCountdown, 2200);
+  }
+}
+
+// ── RESULTS ─────────────────────────────────────────────────────────────────
+
+function doResults() {
+  show('screen-results');
+
+  const sorted = [...S.results].sort((a,b) => b.wpm - a.wpm);
+  const winner = sorted[0];
+  const maxWpm = winner ? winner.wpm : 0;
+
+  document.getElementById('res-name').textContent = winner ? winner.font.name : '—';
+  document.getElementById('res-wpm').textContent = winner ? `${winner.wpm} words per minute` : '';
+
+  // Ranked bars
+  const listEl = document.getElementById('rank-list');
+  listEl.innerHTML = '';
+  sorted.forEach((r, i) => {
+    const pct = maxWpm > 0 ? (r.wpm / maxWpm) * 100 : 0;
+    const bc = i === 0 ? 'b1' : i === 1 ? 'b2' : 'b3';
+    const row = document.createElement('div');
+    row.className = 'rank-row';
+    row.innerHTML = `
+      <div class="rr-num${i===0?' gold':''}">${i+1}</div>
+      <div class="rr-name">${r.font.name}</div>
+      <div class="rr-bar-wrap"><div class="rr-bar ${bc}" data-p="${pct.toFixed(1)}"></div></div>
+      <div class="rr-wpm">${r.wpm} wpm</div>
+    `;
+    listEl.appendChild(row);
+  });
+
+  setTimeout(() => {
+    document.querySelectorAll('.rr-bar').forEach(b => {
+      b.style.width = b.dataset.p + '%';
+    });
+  }, 120);
+
+  // Unranked / skipped
+  const unrankedSection = document.getElementById('unranked-section');
+  const unrankedList = document.getElementById('unranked-list');
+  if (S.skipped.length > 0) {
+    unrankedList.innerHTML = '';
+    S.skipped.forEach(f => {
+      const pill = document.createElement('div');
+      pill.className = 'unranked-pill';
+      pill.textContent = f.name;
+      unrankedList.appendChild(pill);
+    });
+    unrankedSection.style.display = 'block';
+  } else {
+    unrankedSection.style.display = 'none';
+  }
+
+  // Actions
+  document.getElementById('action-area').innerHTML = winner ? buildActions(winner.font) : '';
+}
+
+function buildActions(font) {
+  const isSystem = !font.dl;
+  const css = `font-family: ${font.css};`;
+
+  const icons = {
+    dl: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`,
+    computer: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
+    book: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`,
+    globe: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+    code: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+    system: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>`,
+  };
+
+  const dlHtml = isSystem ? `
+    <li class="ac-item">
+      <div class="ac-icon">${icons.system}</div>
+      <div class="ac-text">
+        <strong>Already on your computer</strong>
+        <p>${font.name} ships with Windows and macOS. No download needed — just select it anywhere fonts are listed.</p>
+      </div>
+    </li>` : `
+    <li class="ac-item">
+      <div class="ac-icon">${icons.dl}</div>
+      <div class="ac-text">
+        <strong>Download the font</strong>
+        <p>Get it free from <a href="${font.dl}" target="_blank">Google Fonts</a> → click "Download family" in the top right.</p>
+      </div>
+    </li>
+    <li class="ac-item">
+      <div class="ac-icon">${icons.computer}</div>
+      <div class="ac-text">
+        <strong>Install on your computer</strong>
+        <p>Unzip the downloaded file, select all .ttf or .otf files, right-click → Install (Windows) or double-click → Install Font (macOS).</p>
+      </div>
+    </li>`;
+
+  return `
+    <div class="action-card">
+      <div class="ac-title">How to use ${font.name}</div>
+      <div class="ac-sub">${font.about}</div>
+      <ul class="ac-list">
+        ${dlHtml}
+        <li class="ac-item">
+          <div class="ac-icon">${icons.book}</div>
+          <div class="ac-text">
+            <strong>Use in ebook readers</strong>
+            <p>
+              <b>Kobo:</b> Connect via USB, drag the font file into the <code>fonts/</code> folder. It'll appear in your reading settings under Fonts.<br><br>
+              <b>Kindle:</b> Connect via USB, place the font file in the <code>fonts/</code> folder. Enable in the Aa menu while reading.<br><br>
+              <b>Readwise Reader / Voice Dream:</b> Both support custom font uploads directly in app settings.
+            </p>
+          </div>
+        </li>
+        <li class="ac-item">
+          <div class="ac-icon">${icons.globe}</div>
+          <div class="ac-text">
+            <strong>Set as your browser default</strong>
+            <p>Chrome: Settings → Appearance → Customize fonts → set Standard font to ${font.name}.<br>
+            Firefox: Settings → Fonts → Advanced → set Default font to ${font.name}.</p>
+          </div>
+        </li>
+        <li class="ac-item">
+          <div class="ac-icon">${icons.code}</div>
+          <div class="ac-text">
+            <strong>CSS</strong>
+            <div class="code-pill">${css}</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  `;
+}
+
+// ── INIT ────────────────────────────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', () => {
+  show('screen-intro');
+
+  initOpts('count-opts', 'fontCount');
+  initOpts('type-opts', 'contentType');
+
+  document.getElementById('start-btn').addEventListener('click', startSession);
+  document.getElementById('about-toggle').addEventListener('click', () => {
+    const panel = document.getElementById('about-panel');
+    const btn = document.getElementById('about-toggle');
+    const open = panel.classList.toggle('vis');
+    btn.textContent = open ? 'Close' : 'About';
+  });
+  document.getElementById('btn-home').addEventListener('click', goHome);
+  document.getElementById('modal-cancel').addEventListener('click', cancelHome);
+  document.getElementById('modal-confirm').addEventListener('click', confirmHome);
+  document.getElementById('btn-restart').addEventListener('click', doRestart);
+  document.getElementById('btn-pause').addEventListener('click', doPause);
+  document.getElementById('btn-skip').addEventListener('click', doSkip);
+
+  document.getElementById('type-input').addEventListener('input', e => {
+    const has = e.target.value.trim().length > 0;
+    if (S.selectedWord === null) {
+      document.getElementById('cont-btn').classList.toggle('rdy', has);
+    }
+    document.getElementById('type-error').classList.remove('vis');
+    e.target.style.borderColor = '';
+  });
+
+  document.getElementById('type-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doContinue();
+  });
+
+  document.getElementById('cont-btn').addEventListener('click', doContinue);
+  document.getElementById('retake-btn').addEventListener('click', () => { S.skipped = []; show('screen-intro'); });
+});
+</script>
+</body>
+</html>
