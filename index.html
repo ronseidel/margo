@@ -1195,9 +1195,12 @@ function endTimer() {
   const restartBtn = document.getElementById('btn-restart');
   if (restartBtn) { restartBtn.disabled = true; restartBtn.style.opacity = '0.3'; restartBtn.style.pointerEvents = 'none'; }
 
-  S.wordEls.forEach((sp, i) => {
-    sp.addEventListener('click', () => pickWord(i));
-  });
+  // delay attaching listeners — prevents ghost touch from firing pickWord immediately on mobile
+  setTimeout(() => {
+    S.wordEls.forEach((sp, i) => {
+      sp.addEventListener('click', () => pickWord(i));
+    });
+  }, 350);
 }
 
 function pickWord(idx) {
@@ -1344,11 +1347,27 @@ function doResults() {
   document.getElementById('re-undo').classList.remove('vis');
   show('screen-results');
 
-  const sorted = [...S.results].sort((a,b) => b.wpm - a.wpm);
+  const sorted = [...S.results].sort((a,b) => b.wpm - a.wpm || a.font.name.localeCompare(b.font.name));
   const winner = sorted[0];
   const maxWpm = winner ? winner.wpm : 0;
 
-  document.getElementById('res-name').textContent = winner ? winner.font.name : '—';
+  // assign ranks — ties get the same number
+  let rank = 1;
+  sorted.forEach((r, i) => {
+    if (i > 0 && r.wpm === sorted[i-1].wpm) {
+      r.rank = sorted[i-1].rank;
+    } else {
+      r.rank = rank;
+    }
+    rank++;
+  });
+
+  // winner display — handle ties for first
+  const firstWpm = sorted[0] ? sorted[0].wpm : 0;
+  const winners = sorted.filter(r => r.wpm === firstWpm);
+  document.getElementById('res-name').textContent = winners.length > 1
+    ? winners.map(r => r.font.name).join(' & ')
+    : (winner ? winner.font.name : '—');
   document.getElementById('res-wpm').textContent = winner ? `${winner.wpm} words per minute` : '';
 
   // Ranked bars
@@ -1356,11 +1375,11 @@ function doResults() {
   listEl.innerHTML = '';
   sorted.forEach((r, i) => {
     const pct = maxWpm > 0 ? (r.wpm / maxWpm) * 100 : 0;
-    const bc = i === 0 ? 'b1' : i === 1 ? 'b2' : 'b3';
+    const bc = r.rank === 1 ? 'b1' : r.rank === 2 ? 'b2' : 'b3';
     const row = document.createElement('div');
     row.className = 'rank-row';
     row.innerHTML = `
-      <div class="rr-num${i===0?' gold':''}">${i+1}</div>
+      <div class="rr-num${r.rank===1?' gold':''}">${r.rank}</div>
       <div class="rr-name">${r.font.name}</div>
       <div class="rr-bar-wrap"><div class="rr-bar ${bc}" data-p="${pct.toFixed(1)}"></div></div>
       <div class="rr-wpm">${r.wpm} wpm</div>
@@ -1540,9 +1559,35 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('cont-btn').addEventListener('click', doContinue);
   document.getElementById('retake-btn').addEventListener('click', () => { S.skipped = []; show('screen-intro'); });
   document.getElementById('share-btn').addEventListener('click', () => {
-    const winner = [...S.results].sort((a,b) => b.wpm - a.wpm)[0];
-    if (!winner) return;
-    const text = `My fastest reading font is ${winner.font.name} at ${winner.wpm} WPM. Find yours at margo.fyi`;
+    if (!S.results.length) return;
+    const sorted = [...S.results].sort((a,b) => b.wpm - a.wpm || a.font.name.localeCompare(b.font.name));
+
+    // assign ranks for share copy
+    sorted.forEach((r, i) => {
+      if (i > 0 && r.wpm === sorted[i-1].wpm) { r.rank = sorted[i-1].rank; }
+      else { r.rank = i + 1; }
+    });
+
+    // group by rank
+    const rankGroups = [];
+    sorted.forEach(r => {
+      const last = rankGroups[rankGroups.length - 1];
+      if (last && last[0].rank === r.rank) { last.push(r); }
+      else { rankGroups.push([r]); }
+    });
+
+    // build natural language list: "Inter, Merriweather and Lato" within a tie, comma between ranks
+    const groupStrings = rankGroups.map(group => {
+      const names = group.map(r => r.font.name);
+      if (names.length === 1) return names[0];
+      return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
+    });
+
+    const firstGroup = rankGroups[0];
+    const firstLabel = firstGroup.length > 1 ? 'fastest fonts were' : 'fastest font was';
+    const rest = groupStrings.slice(1).join(', ');
+    const text = `My ${firstLabel} ${groupStrings[0]}${rest ? ', then ' + rest : ''}. Find yours at margo.fyi`;
+
     navigator.clipboard.writeText(text).then(() => {
       const btn = document.getElementById('share-btn');
       btn.classList.add('copied');
