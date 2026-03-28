@@ -17,7 +17,7 @@
 <meta name="twitter:description" content="Find the font your brain reads fastest. A 5-minute personal reading speed test.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&family=Lato:wght@400&family=Open+Sans:wght@400&family=Roboto:wght@400&family=Merriweather:ital,wght@0,400;1,400&family=Noto+Sans:wght@400&family=Lexend:wght@400&family=Source+Sans+3:wght@400&family=DM+Sans:wght@400&family=Atkinson+Hyperlegible:wght@400&family=Libre+Baskerville:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&family=Lato:wght@400&family=Open+Sans:wght@400&family=Roboto:wght@400&family=Merriweather:ital,wght@0,400;1,400&family=Noto+Sans:wght@400&family=Lexend:wght@400&family=Source+Sans+3:wght@400&family=DM+Sans:wght@400&family=Atkinson+Hyperlegible:wght@400&family=Libre+Baskerville:ital,wght@0,400;1,400&family=PT+Serif:ital,wght@0,400;1,400&family=Bitter:ital,wght@0,400;1,400&family=Crimson+Pro:ital,wght@0,400;1,400&family=Playfair:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #F9F9F9;
@@ -80,21 +80,56 @@ a:hover { color: var(--ink); text-decoration: underline; }
   letter-spacing: 0.01em;
 }
 
+/* ── CAROUSEL ── */
+.carousel-wrap {
+  width: 100%; max-width: 580px; overflow: hidden;
+}
+.carousel-track {
+  display: flex;
+  transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+.carousel-step {
+  min-width: 100%; padding: 0 24px;
+  box-sizing: border-box;
+}
+
 .section-label {
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-faint);
-  margin-bottom: 10px;
+  margin-bottom: 16px;
   display: block;
+  text-align: center;
 }
 
 .intro-section { margin-bottom: 28px; }
 
 .option-row { display: flex; gap: 8px; }
-.option-row.cols-4 > * { flex: 1; }
 .option-row.cols-3 > * { flex: 1; }
+
+/* carousel back link */
+.carousel-back-link {
+  display: block; background: none; border: none;
+  font-family: var(--font-ui); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-faint); cursor: pointer;
+  padding: 8px 0; margin-top: 22px; transition: color 0.13s;
+  width: 100%; text-align: center;
+}
+.carousel-back-link:hover { color: var(--ink-muted); }
+
+/* inline begin button for paste-your-own */
+.custom-begin-btn {
+  width: 100%; margin-top: 10px; padding: 14px;
+  background: var(--ink); color: #fff; border: none;
+  border-radius: 10px; font-family: var(--font-ui);
+  font-size: 14px; font-weight: 500; cursor: pointer;
+  transition: background 0.13s;
+}
+.custom-begin-btn:hover { background: #023D28; }
 
 .opt {
   padding: 11px 8px;
@@ -118,6 +153,8 @@ a:hover { color: var(--ink); text-decoration: underline; }
 .opt.sel .ol { color: var(--ink); }
 .opt .os { display: block; font-size: 11px; font-weight: 500; color: var(--ink); letter-spacing: 0.01em; opacity: 0.6; }
 .opt.sel .os { color: var(--ink); opacity: 1; }
+.opt:focus, .opt:focus-visible { outline: none; box-shadow: none; border-color: var(--border); }
+.opt:focus:not(.sel), .opt:focus-visible:not(.sel) { border-color: var(--border); }
 
 #custom-wrap { margin-top: 10px; display: none; }
 #custom-wrap.vis { display: block; }
@@ -147,6 +184,17 @@ a:hover { color: var(--ink); text-decoration: underline; }
   text-align: center; margin-top: 28px;
   font-size: 12px; color: var(--ink-faint); line-height: 1.75;
   padding-bottom: 8px;
+}
+.intro-pace {
+  display: block; text-align: center;
+  margin: 8px auto 0; width: fit-content;
+  background: var(--accent-bg);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-size: 13px; font-weight: 500;
+  font-family: var(--font-ui);
+  padding: 8px 18px;
+  border-radius: 20px;
 }
 
 .about-link {
@@ -192,7 +240,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
 /* ── ABOUT TABLES ── */
 .about-table {
   width: 100%; border-collapse: collapse;
-  font-size: 12px; margin: 6px 0 12px;
+  font-size: 12px; margin: 24px 0 0;
   font-family: var(--font-ui);
   table-layout: fixed;
 }
@@ -226,7 +274,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
   text-transform: uppercase; color: rgba(255,255,255,0.4);
   display: block; margin: 28px 0 12px;
 }
-.about-panel hr { border: none; border-top: 1px solid rgba(255,255,255,0.15); margin: 16px 0; width: 25%; }
+.about-panel hr { border: none; border-top: 1px solid rgba(255,255,255,0.15); margin: 16px 0; width: 100%; }
 .about-panel .happy {
   font-family: var(--font-display); font-size: 20px;
   color: #fff; display: block; margin-top: 28px;
@@ -245,6 +293,13 @@ a:hover { color: var(--ink); text-decoration: underline; }
 /* ── COUNTDOWN ── */
 #screen-countdown { justify-content: center; align-items: center; }
 .cd-inner { text-align: center; margin-bottom: 15vh; }
+.cd-oops {
+  margin-top: 24px; display: block; margin-left: auto; margin-right: auto;
+  background: transparent; border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 9px 20px; font-family: var(--font-ui); font-size: 13px;
+  color: var(--ink-faint); cursor: pointer; transition: all 0.13s;
+}
+.cd-oops:hover { border-color: var(--ink-muted); color: var(--ink); }
 .cd-label {
   font-size: 12px; font-weight: 500; letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--ink-faint); margin-bottom: 28px;
@@ -289,9 +344,11 @@ a:hover { color: var(--ink); text-decoration: underline; }
 
 .timeup-bar {
   width: 100%; background: var(--accent); color: #fff;
-  flex-shrink: 0; display: none;
+  flex-shrink: 0;
+  visibility: hidden; opacity: 0;
+  transition: opacity 0.2s;
 }
-.timeup-bar.vis { display: block; }
+.timeup-bar.vis { visibility: visible; opacity: 1; }
 .timeup-bar-inner {
   max-width: 620px; margin: 0 auto;
   display: flex; align-items: center; justify-content: space-between;
@@ -328,13 +385,13 @@ a:hover { color: var(--ink); text-decoration: underline; }
 .r-passage-wrap {
   flex: 1; min-height: 0; overflow-y: auto; width: 100%;
   display: flex; justify-content: center; align-items: flex-start;
-  padding: 36px 24px 0;
+  padding: 8px 24px 0;
 }
 
 .r-passage {
   font-size: 19px; line-height: 1.82; color: var(--ink);
   max-width: 560px; width: 100%;
-  padding-bottom: 80px;
+  padding-bottom: 40px;
 }
 
 .r-passage.selecting { user-select: none; }
@@ -476,7 +533,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
 
 /* ── ROUND COMPLETE ── */
 #screen-roundend { justify-content: center; align-items: center; }
-.re-inner { text-align: center; }
+.re-inner { text-align: center; margin-bottom: 15vh; }
 .re-wpm { font-family: var(--font-display); font-size: 108px; line-height: 1; color: var(--ink); }
 .re-wpm-lbl {
   font-size: 12px; font-weight: 500; letter-spacing: 0.12em;
@@ -567,57 +624,83 @@ a:hover { color: var(--ink); text-decoration: underline; }
       <div class="wordmark">M<em>a</em>rgo</div>
       <p class="tagline">Find the font your brain reads fastest</p>
     </div>
+  </div>
 
-    <div class="intro-section">
-      <span class="section-label">How many fonts to test?</span>
-      <div class="option-row cols-3" id="count-opts">
-        <button class="opt" data-v="3">
-          <span class="ol">3 fonts</span>
-          <span class="os">~3 min · rough guide</span>
-        </button>
-        <button class="opt sel" data-v="5">
-          <span class="ol">5 fonts</span>
-          <span class="os">~5 min · recommended</span>
-        </button>
-        <button class="opt" data-v="7">
-          <span class="ol">7 fonts</span>
-          <span class="os">~7 min · most reliable</span>
-        </button>
-      </div>
-    </div>
+  <div class="carousel-wrap">
+    <div class="carousel-track" id="carousel-track">
 
-    <div class="intro-section">
-      <span class="section-label">What would you like to read?</span>
-      <div class="option-row cols-4" id="type-opts">
-        <button class="opt sel" data-v="knowledge">
-          <span class="ol"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/><path d="M8 11h8"/><path d="M8 7h6"/></svg></span>
-          <span class="os">General Knowledge</span>
-        </button>
-        <button class="opt" data-v="fiction">
-          <span class="ol"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v8l3-3 3 3V2"/><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></svg></span>
-          <span class="os">Short Fiction</span>
-        </button>
-        <button class="opt" data-v="nature">
-          <span class="ol"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z"/><path d="M7 16v6"/><path d="M13 19v3"/><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5"/></svg></span>
-          <span class="os">Nature & Science</span>
-        </button>
-        <button class="opt" data-v="custom">
-          <span class="ol"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.364 13.634a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506l4.013-4.009a1 1 0 0 0-3.004-3.004z"/><path d="M14.487 7.858A1 1 0 0 1 14 7V2"/><path d="M20 19.645V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l2.516 2.516"/><path d="M8 18h1"/></svg></span>
-          <span class="os">Paste Your Own</span>
-        </button>
+      <!-- STEP 1: How many fonts -->
+      <div class="carousel-step">
+        <div class="intro-section">
+          <span class="section-label">How many fonts to test?</span>
+          <div class="option-row cols-3" id="count-opts">
+            <button class="opt" data-v="3">
+              <span class="ol">3 fonts</span>
+              <span class="os">~3 min · rough guide</span>
+            </button>
+            <button class="opt" data-v="5">
+              <span class="ol">5 fonts</span>
+              <span class="os">~5 min · recommended</span>
+            </button>
+            <button class="opt" data-v="7">
+              <span class="ol">7 fonts</span>
+              <span class="os">~7 min · most reliable</span>
+            </button>
+          </div>
+        </div>
       </div>
-      <div id="custom-wrap">
-        <textarea id="custom-input" placeholder="Paste at least 150 words — a book excerpt, article, anything you enjoy reading…"></textarea>
-        <p id="custom-error">Needs at least 150 words for a reliable test. Paste a bit more and try again.</p>
-      </div>
-    </div>
 
-    <button class="start-btn" id="start-btn">Begin Test →</button>
-    <p class="intro-note">
-      <span style="white-space:nowrap">Each round is 30 seconds.</span> <span style="white-space:nowrap">Font names are hidden during testing.</span><br>
-      <span style="white-space:nowrap">Read at your natural pace — don't rush.</span>
-    </p>
-    <button class="about-link" id="about-toggle">About</button>
+      <!-- STEP 2: What to read -->
+      <div class="carousel-step">
+        <div class="intro-section">
+          <span class="section-label">What would you like to read?</span>
+          <div class="option-row cols-3" id="type-opts">
+            <button class="opt" data-v="fiction">
+              <span class="ol"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v8l3-3 3 3V2"/><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></svg></span>
+              <span class="os">Short Fiction</span>
+            </button>
+            <button class="opt" data-v="wiki">
+              <span class="ol"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+              <span class="os">Random Wikipedia</span>
+            </button>
+            <button class="opt" data-v="nature">
+              <span class="ol"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z"/><path d="M7 16v6"/><path d="M13 19v3"/><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5"/></svg></span>
+              <span class="os">Nature & Science</span>
+            </button>
+          </div>
+          <p id="wiki-fetch-note" style="display:none;text-align:center;font-size:11px;color:var(--ink-faint);margin-top:10px;">Pulling random Wikipedia articles — takes a few seconds.</p>
+          <div class="option-row cols-3" id="type-opts-row2" style="margin-top:8px;">
+            <button class="opt" data-v="simple">
+              <span class="ol"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg></span>
+              <span class="os">Plain & Simple</span>
+            </button>
+            <button class="opt" data-v="technical">
+              <span class="ol"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+              <span class="os">Dense & Technical</span>
+            </button>
+            <button class="opt" data-v="custom">
+              <span class="ol"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.364 13.634a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506l4.013-4.009a1 1 0 0 0-3.004-3.004z"/><path d="M14.487 7.858A1 1 0 0 1 14 7V2"/><path d="M20 19.645V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l2.516 2.516"/><path d="M8 18h1"/></svg></span>
+              <span class="os">Paste Your Own</span>
+            </button>
+          </div>
+          <div id="custom-wrap">
+            <textarea id="custom-input" placeholder="Paste at least 150 words — a book excerpt, article, anything you enjoy reading…"></textarea>
+            <p id="custom-error">Needs at least 150 words for a reliable test. Paste a bit more and try again.</p>
+            <button class="custom-begin-btn" id="custom-begin-btn">Begin Test →</button>
+          </div>
+          <button class="carousel-back-link" id="carousel-back">Back</button>
+        </div>
+      </div>
+
+    </div><!-- end carousel-track -->
+  </div><!-- end carousel-wrap -->
+
+  <p class="intro-note">
+    <span style="white-space:nowrap">Each round is 30 seconds.</span><br>
+    <span style="white-space:nowrap">Font names are hidden during testing.</span>
+  </p>
+  <p class="intro-pace">Read at your natural pace — don't rush.</p>
+  <button class="about-link" id="about-toggle">About</button>
     <div class="about-panel" id="about-panel">
       <div class="about-panel-inner">
         <button class="about-back" id="about-back">Close</button>
@@ -630,45 +713,49 @@ a:hover { color: var(--ink); text-decoration: underline; }
         <p><a href="/making-of">How Margo was built →</a></p>
         <hr>
         <p>
-          <strong>Inspired by</strong><br>
+          <strong>Inspiration</strong><br>
           <a href="https://library.oapen.org/bitstream/handle/20.500.12657/53344/978-3-030-90984-0.pdf" target="_blank">The Legibility of Serif and Sans Serif Typefaces</a><br>
-          <a href="https://dl.acm.org/doi/10.1145/3502222" target="_blank">Different Fonts Increase Reading Speed for Different Individuals</a><br>
-          <em>(Didn't really read 'em, but the summaries were awesome 🤙)</em>
+          <a href="https://dl.acm.org/doi/10.1145/3502222" target="_blank">Different Fonts Increase Reading Speed for Different Individuals</a><br><br>
+          My mom reading on iPad Minis for the last 15 years — because the regular iPad is too big for train commutes, and a phone is too small. And seeing her read introduced me to the fact that reading apps let users change the font.
         </p>
-        <span class="about-section-label">App Fonts</span>
+        <p style="margin-top:28px;"><strong>About this Website</strong></p>
         <table class="about-table">
           <colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup>
-          <thead><tr><th>Name</th><th>Uses</th><th>Designer</th></tr></thead>
+          <thead><tr><th>App Fonts</th><th>Uses</th><th>Designer</th></tr></thead>
           <tbody>
             <tr><td><a href="https://fonts.google.com/specimen/Fraunces" target="_blank">Fraunces</a></td><td>Wordmark &amp; display</td><td>Undercase Type</td></tr>
             <tr><td><a href="https://fonts.google.com/specimen/Lora" target="_blank">Lora</a></td><td>UI body copy</td><td>Cyreal</td></tr>
           </tbody>
         </table>
 
-        <span class="about-section-label">Legibility / Reading Fonts</span>
         <table class="about-table">
           <colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup>
-          <thead><tr><th>Name</th><th>Classification</th><th>Designer</th></tr></thead>
+          <thead><tr><th>Reading Fonts</th><th>Classification</th><th>Designer</th></tr></thead>
           <tbody>
             <tr><td><a href="https://fonts.google.com/specimen/Atkinson+Hyperlegible" target="_blank">Atkinson Hyperlegible</a></td><td>Sans serif</td><td>Braille Institute</td></tr>
+            <tr><td><a href="https://fonts.google.com/specimen/Bitter" target="_blank">Bitter</a></td><td>Slab serif</td><td>Sol Matas</td></tr>
+            <tr><td><a href="https://fonts.google.com/specimen/Crimson+Pro" target="_blank">Crimson Pro</a></td><td>Serif</td><td>Jacques Le Bailly</td></tr>
             <tr><td><a href="https://fonts.google.com/specimen/DM+Sans" target="_blank">DM Sans</a></td><td>Sans serif</td><td>Colophon Foundry</td></tr>
+            <tr><td><a href="https://en.wikipedia.org/wiki/Georgia_(typeface)" target="_blank">Georgia</a></td><td>Serif</td><td>Matthew Carter</td></tr>
             <tr><td><a href="https://fonts.google.com/specimen/Inter" target="_blank">Inter</a></td><td>Sans serif</td><td>Rasmus Andersson</td></tr>
             <tr><td><a href="https://fonts.google.com/specimen/Lato" target="_blank">Lato</a></td><td>Sans serif</td><td>Łukasz Dziedzic</td></tr>
             <tr><td><a href="https://fonts.google.com/specimen/Lexend" target="_blank">Lexend</a></td><td>Sans serif</td><td>Bonnie Shaver-Troup</td></tr>
             <tr><td><a href="https://fonts.google.com/specimen/Libre+Baskerville" target="_blank">Libre Baskerville</a></td><td>Serif</td><td>Impallari Type</td></tr>
+            <tr><td><a href="https://fonts.google.com/specimen/Lora" target="_blank">Lora</a></td><td>Serif</td><td>Cyreal</td></tr>
             <tr><td><a href="https://fonts.google.com/specimen/Merriweather" target="_blank">Merriweather</a></td><td>Serif</td><td>Eben Sorkin</td></tr>
             <tr><td><a href="https://fonts.google.com/specimen/Noto+Sans" target="_blank">Noto Sans</a></td><td>Sans serif</td><td>Google</td></tr>
             <tr><td><a href="https://fonts.google.com/specimen/Open+Sans" target="_blank">Open Sans</a></td><td>Sans serif</td><td>Steve Matteson</td></tr>
+            <tr><td><a href="https://fonts.google.com/specimen/Playfair" target="_blank">Playfair</a></td><td>Serif</td><td>Claus Eggers Sørensen</td></tr>
+            <tr><td><a href="https://fonts.google.com/specimen/PT+Serif" target="_blank">PT Serif</a></td><td>Serif</td><td>ParaType</td></tr>
             <tr><td><a href="https://fonts.google.com/specimen/Roboto" target="_blank">Roboto</a></td><td>Sans serif</td><td>Christian Robertson</td></tr>
             <tr><td><a href="https://fonts.google.com/specimen/Source+Sans+3" target="_blank">Source Sans 3</a></td><td>Sans serif</td><td>Paul D. Hunt</td></tr>
             <tr><td><a href="https://en.wikipedia.org/wiki/Verdana" target="_blank">Verdana</a></td><td>Sans serif</td><td>Matthew Carter</td></tr>
           </tbody>
         </table>
 
-        <span class="about-section-label">Colors</span>
         <table class="about-table">
           <colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup>
-          <thead><tr><th>Name</th><th>HEX</th><th>HSL / oklch</th></tr></thead>
+          <thead><tr><th>Color</th><th>HEX</th><th>HSL / oklch</th></tr></thead>
           <tbody>
             <tr><td><span class="about-swatch" style="background:#034D32"></span> <strong>Forest Green</strong></td><td>#034D32</td><td>hsl (158, 93%, 16%)<br><span style="font-size:10px;opacity:0.5;">oklch (37.4% 0.041 147.7°)</span></td></tr>
             <tr><td><span class="about-swatch" style="background:#028454"></span> <strong>Accent Green</strong></td><td>#028454</td><td>hsl (158, 97%, 26%)<br><span style="font-size:10px;opacity:0.5;">oklch (54.4% 0.062 145.0°)</span></td></tr>
@@ -679,10 +766,9 @@ a:hover { color: var(--ink); text-decoration: underline; }
           </tbody>
         </table>
 
-        <span class="about-section-label">Icons</span>
         <table class="about-table">
           <colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup>
-          <thead><tr><th>Library</th><th>Contributors</th><th>License</th></tr></thead>
+          <thead><tr><th>Icons</th><th>Contributors</th><th>License</th></tr></thead>
           <tbody>
             <tr><td><a href="https://lucide.dev" target="_blank">Lucide</a></td><td>Community<br><span style="font-size:10px;opacity:0.5;">fork of Feather Icons by Cole Bemis</span></td><td>MIT</td></tr>
           </tbody>
@@ -712,6 +798,11 @@ a:hover { color: var(--ink); text-decoration: underline; }
   <span class="font-preload" style="font-family:'Atkinson Hyperlegible',sans-serif">m</span>
   <span class="font-preload" style="font-family:'Libre Baskerville',serif">m</span>
   <span class="font-preload" style="font-family:Verdana,sans-serif">m</span>
+  <span class="font-preload" style="font-family:Georgia,serif">m</span>
+  <span class="font-preload" style="font-family:'PT Serif',serif">m</span>
+  <span class="font-preload" style="font-family:'Bitter',serif">m</span>
+  <span class="font-preload" style="font-family:'Crimson Pro',serif">m</span>
+  <span class="font-preload" style="font-family:'Playfair',serif">m</span>
 </div>
 
 <!-- ── COUNTDOWN ── -->
@@ -719,6 +810,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
   <div class="cd-inner">
     <div class="cd-label" id="cd-label">Font 1 of 5 — Get ready</div>
     <div class="cd-num" id="cd-num">3</div>
+    <button class="cd-oops" id="cd-oops">Oops, Back</button>
   </div>
 </div>
 
@@ -855,76 +947,112 @@ a:hover { color: var(--ink); text-decoration: underline; }
 
 const FONTS = [
   {
-    id:'inter', name:'Inter', css:"'Inter', sans-serif",
+    id:'inter', name:'Inter', size:1.0, css:"'Inter', sans-serif", type:'sans',
     cat:'Screen-optimized sans-serif',
     dl:'https://fonts.google.com/specimen/Inter',
     about:'Built by Rasmus Andersson from the ground up for screen readability. The default font of Figma, GitHub, and Linear.'
   },
   {
-    id:'lato', name:'Lato', css:"'Lato', sans-serif",
+    id:'lato', name:'Lato', size:1.05, css:"'Lato', sans-serif", type:'sans',
     cat:'Humanist sans-serif',
     dl:'https://fonts.google.com/specimen/Lato',
     about:'Warm, human letterforms with a sturdy structure. Originally designed for corporate use, widely loved for body text.'
   },
   {
-    id:'opensans', name:'Open Sans', css:"'Open Sans', sans-serif",
+    id:'opensans', name:'Open Sans', size:1.0, css:"'Open Sans', sans-serif", type:'sans',
     cat:'Neutral sans-serif',
     dl:'https://fonts.google.com/specimen/Open+Sans',
     about:'One of the most-used web fonts ever. Optimized for legibility across print, web, and mobile interfaces.'
   },
   {
-    id:'roboto', name:'Roboto', css:"'Roboto', sans-serif",
+    id:'roboto', name:'Roboto', size:1.0, css:"'Roboto', sans-serif", type:'sans',
     cat:'Neo-grotesque sans-serif',
     dl:'https://fonts.google.com/specimen/Roboto',
     about:"Google's flagship UI font, built for Android with mechanical skeleton and friendly open curves."
   },
   {
-    id:'merriweather', name:'Merriweather', css:"'Merriweather', serif",
+    id:'merriweather', name:'Merriweather', size:0.9, css:"'Merriweather', serif", type:'serif',
     cat:'Screen serif',
     dl:'https://fonts.google.com/specimen/Merriweather',
     about:'Designed specifically for reading on screens — large x-height, slightly condensed letterforms, generous line spacing.'
   },
   {
-    id:'notosans', name:'Noto Sans', css:"'Noto Sans', sans-serif",
+    id:'notosans', name:'Noto Sans', size:1.0, css:"'Noto Sans', sans-serif", type:'sans',
     cat:'Universal sans-serif',
     dl:'https://fonts.google.com/specimen/Noto+Sans',
     about:"Google's universal typeface, designed for readability across all scripts and small displays."
   },
   {
-    id:'lexend', name:'Lexend', css:"'Lexend', sans-serif",
+    id:'lexend', name:'Lexend', size:1.0, css:"'Lexend', sans-serif", type:'sans',
     cat:'Readability-engineered',
     dl:'https://fonts.google.com/specimen/Lexend',
     about:'Built from academic research on reading proficiency. Letter spacing, weight, and shape are all tuned for reading speed.'
   },
   {
-    id:'sourcesans', name:'Source Sans 3', css:"'Source Sans 3', sans-serif",
+    id:'sourcesans', name:'Source Sans 3', size:1.0, css:"'Source Sans 3', sans-serif", type:'sans',
     cat:'Editorial sans-serif',
     dl:'https://fonts.google.com/specimen/Source+Sans+3',
     about:"Adobe's first open-source typeface. Designed for both UI work and sustained long-form reading."
   },
   {
-    id:'dmsans', name:'DM Sans', css:"'DM Sans', sans-serif",
+    id:'dmsans', name:'DM Sans', size:1.0, css:"'DM Sans', sans-serif", type:'sans',
     cat:'Geometric sans-serif',
     dl:'https://fonts.google.com/specimen/DM+Sans',
     about:'Low-contrast, geometric sans-serif with excellent legibility at small sizes. Used across many modern SaaS products.'
   },
   {
-    id:'atkinson', name:'Atkinson Hyperlegible', css:"'Atkinson Hyperlegible', sans-serif",
+    id:'atkinson', name:'Atkinson Hyperlegible', size:1.05, css:"'Atkinson Hyperlegible', sans-serif", type:'sans',
     cat:'Accessibility-first',
     dl:'https://fonts.google.com/specimen/Atkinson+Hyperlegible',
     about:'Developed by the Braille Institute. Every letterform is uniquely shaped to minimize confusion between similar characters.'
   },
   {
-    id:'baskerville', name:'Libre Baskerville', css:"'Libre Baskerville', serif",
+    id:'baskerville', name:'Libre Baskerville', size:0.9, css:"'Libre Baskerville', serif", type:'serif',
     cat:'Classic serif',
     dl:'https://fonts.google.com/specimen/Libre+Baskerville',
     about:'Web-optimized revival of Baskerville, warm and literary with strong on-screen presence at comfortable sizes.'
   },
   {
-    id:'verdana', name:'Verdana', css:'Verdana, sans-serif',
+    id:'verdana', name:'Verdana', size:1.0, css:'Verdana, sans-serif', type:'sans',
     cat:'Screen classic',
     dl: null,
     about:'Designed by Matthew Carter for Microsoft in 1996 specifically for low-resolution screens. Consistently ranks high in academic readability studies.'
+  },
+  {
+    id:'georgia', name:'Georgia', size:1.0, css:'Georgia, serif', type:'serif',
+    cat:'Screen serif',
+    dl: null,
+    about:'Designed by Matthew Carter specifically for screen readability before high-resolution displays existed. Warm, familiar, and beloved across the web.'
+  },
+  {
+    id:'ptserif', name:'PT Serif', size:1.0, css:"'PT Serif', serif", type:'serif',
+    cat:'Humanist serif',
+    dl:'https://fonts.google.com/specimen/PT+Serif',
+    about:'Designed by ParaType for the Russian government, with exceptional Latin rendering. A warm and readable workhorse widely underused on the web.'
+  },
+  {
+    id:'bitter', name:'Bitter', size:1.05, css:"'Bitter', serif", type:'serif',
+    cat:'Slab serif',
+    dl:'https://fonts.google.com/specimen/Bitter',
+    about:'Designed specifically for e-readers and long-form reading. High x-height and sturdy slab serifs make it exceptionally legible on screens of all sizes.'
+  },
+  {
+    id:'lora', name:'Lora', size:1.0, css:"'Lora', serif", type:'serif',
+    cat:'Contemporary serif',
+    dl:'https://fonts.google.com/specimen/Lora',
+    about:'A well-balanced contemporary serif with roots in calligraphy. Moderate contrast and sturdy serifs make it comfortable for sustained reading on screens.'
+  },
+  {
+    id:'crimsonpro', name:'Crimson Pro', size:1.05, css:"'Crimson Pro', serif", type:'serif',
+    cat:'Book serif',
+    dl:'https://fonts.google.com/specimen/Crimson+Pro',
+    about:'An evolution of Crimson Text, optimized for text-heavy reading. Elegant and literary, with optical sizes that perform especially well at body text sizes.'
+  },
+  {
+    id:'playfair', name:'Playfair', size:1.05, css:"'Playfair', serif", type:'serif',
+    cat:'Transitional serif',
+    dl:'https://fonts.google.com/specimen/Playfair',
+    about:'High-contrast transitional serif with dramatic thick-thin stroke variation. The updated Playfair (2022) improves significantly on its predecessor for reading at body sizes.'
   }
 ];
 
@@ -957,6 +1085,24 @@ const PASSAGES = {
     "Water is one of very few substances that becomes less dense when it freezes rather than more. Most materials contract as they cool, their molecules packing tighter and sinking. Ice does the opposite: water molecules form a crystalline lattice that holds them slightly farther apart than in liquid form, making ice lighter than the water beneath it. The consequences of this quirk are enormous. Because ice floats, lakes and rivers freeze from the surface downward rather than from the bottom up. The ice layer insulates the water below, preventing most temperate bodies of water from freezing solid and preserving the aquatic life within them. If ice sank, this would not happen. Deep lakes in cold climates would freeze entirely through the winter and thaw only slowly in spring, and the ecosystems they contain would be unrecognizable or absent. This single anomalous property of water — the result of a specific angle between oxygen and hydrogen atoms in the molecule — shaped the conditions under which complex life could persist in cold latitudes, which is to say it shaped a significant part of the history of life on Earth.",
     "Most flowers look different to bees than they do to us, because bees can see ultraviolet light and we cannot. Blooms that appear solid-colored to human eyes often carry elaborate patterns in the ultraviolet spectrum — concentric rings, radiating lines, bull's-eye targets positioned directly over the nectaries. These markings evolved specifically to guide pollinators efficiently to the reward, reducing the time a bee needs to spend on each flower and increasing the speed of pollination. The flower and the bee shaped each other across millions of years of coevolution, each generation selecting for traits that made the other more useful. The result is a communication system that is entirely invisible to the species that benefits most from the flowers' abundance: us. We bred the vegetables and fruits and cut flowers that organize much of our agriculture, largely oblivious to the visual language they are speaking. It is a useful reminder that the world as we experience it is a narrow interpretation, filtered through the specific sensory equipment evolution happened to give one particular primate.",
     "Coral reefs cover less than one percent of the ocean floor but shelter roughly a quarter of all known marine species. The structure is built over centuries from the calcium carbonate skeletons of coral polyps — small, soft-bodied animals that live in colonies and house photosynthetic algae called zooxanthellae within their tissues. The algae use sunlight to produce sugars, which feed the coral. The coral provides the algae with shelter and a supply of carbon dioxide. This partnership is the engine of the reef's extraordinary productivity. When ocean temperatures rise even one or two degrees above the seasonal average for an extended period, the coral expels its algae in a physiological stress response. Without the algae, the coral loses its color, fading to bone white in what is called bleaching, and loses its primary food source at the same time. A bleached reef can recover if temperatures return to normal quickly. If the heat persists, the coral starves, the structure deteriorates, and the hundreds of species that depended on it lose their habitat simultaneously."
+  ],
+  simple: [
+    "Dogs are good at reading people. They watch our faces closely. They notice when we are happy. They notice when we are sad. A dog will often come sit close to you when you are upset. Some dogs will lick your hand. Others will rest their head on your lap and stay there. They do not need to be taught this. They figured it out by living with us. Dogs have been with people for a very long time — longer than any other animal. Over thousands of years, they learned what our expressions mean. They learned what it sounds like when we are pleased and what it sounds like when we are not. A wagging tail usually means a dog is happy. But dogs also wag when they are nervous or uncertain, so you have to watch the whole body, not just the tail. Ears back can mean fear. A relaxed, open mouth usually means comfort. A stiff posture usually means something is wrong. Dogs read us constantly. They track our eyes, our body language, and even our smell. Research has shown that dogs can detect changes in human stress hormones just by sniffing. They know before we do sometimes. No one taught them this either. It happened slowly, across many generations, as dogs and people spent more and more time together. The result is an animal that is, in some ways, better at understanding humans than any other creature on earth. That is a remarkable thing when you think about it. A dog cannot talk. It has no words for what it knows. But it still knows quite a lot about you.",
+    "Bread is one of the oldest foods in the world. People have been making it for thousands of years. The basic idea has not changed much. You need flour. You need water. You need a little salt. And you need something to make it rise. Most of the time that means yeast. Yeast is a living thing. It is very small — you cannot see it without a microscope — but it is alive, and it is hungry. It eats the sugars in flour. As it eats, it releases gas. That gas gets trapped inside the dough as tiny bubbles. The dough swells and grows. This is called proofing. When you put the dough in a hot oven, the heat kills the yeast. But the bubbles stay. The heat also causes proteins in the flour to set and starches to gelatinize, locking the whole structure in place. That is why bread has that open, airy texture inside and a firm crust outside. The crust forms because the surface dries out and browns from the heat, a process called the Maillard reaction. The same reaction is responsible for the brown on toast, the crust on a seared steak, and the color of roasted coffee. Bread can be made with almost any grain. Wheat, rye, corn, rice, oats — all have been used. The specific flour changes the texture and flavor significantly. Rye bread is dense and tangy. Cornbread is crumbly and slightly sweet. Sourdough gets its flavor from wild yeast and bacteria that ferment together over hours. Some breads are leavened with baking powder or baking soda instead of yeast. Those rise from chemical reactions rather than biological ones. But the principle is the same: trapped gas makes things light. Simple idea. Very good results.",
+    "Rain starts in the ocean, though not directly. Water covers about seventy percent of the earth's surface, and the sun warms it constantly. When the surface heats up enough, water molecules gain enough energy to leave the liquid and become vapor. This vapor rises into the atmosphere. The higher you go, the colder it gets. As the warm, moist air rises and cools, the vapor begins to condense back into liquid water. But it needs something to condense around — a tiny particle of dust or salt or smoke. These particles float in the air and act as seeds for water droplets. Millions of tiny droplets cluster together and form clouds. The droplets in a cloud are very small and light, light enough to stay suspended in the air. But as more vapor condenses and droplets merge, they get heavier. Eventually they become too heavy to float and they fall. That is rain. Snow forms the same way but in colder air, where the droplets freeze into ice crystals before they fall. Sleet is rain that freezes on the way down. Hail forms when strong upward currents in thunderstorms carry raindrops high into freezing air over and over again, coating them with more ice each time until they finally fall too heavy to go back up. Once rain hits the ground, some soaks in, some runs off into streams and rivers, and some evaporates back into the air. Water that soaks into the soil can travel underground for years before reaching a river or the sea. Eventually, almost all of it finds its way back to the ocean. Then the sun warms it again, and the whole cycle starts over. This has been running for about four billion years.",
+    "The moon looks the same size every night, but its distance from Earth actually changes. The moon's orbit is not a perfect circle — it is an ellipse. That means sometimes it is closer to Earth and sometimes it is farther away. When it is closest, it is called a perigee. When it is farthest, it is called an apogee. The difference in distance is about fifty thousand kilometers, which sounds like a lot but is less than fifteen percent of the average distance. At perigee, the moon looks slightly larger and brighter than usual. At apogee, slightly smaller. Most people cannot notice the difference without comparing images side by side. Beyond its changing distance, the moon is also slowly moving away from Earth over time. Each year, it drifts about four centimeters farther. That is roughly how fast your fingernails grow. It does not sound like much, but across billions of years it adds up enormously. Long ago, the moon was much closer. When it was closer, its gravity pulled more strongly on Earth's oceans, creating much larger tides. The friction of those powerful tides slowed Earth's rotation. Days were shorter then — closer to six hours rather than twenty-four. As the moon moved farther away, the tides weakened and Earth's spin slowed less quickly, eventually settling into its current pace. The moon and Earth are locked in a long, slow conversation through gravity. The moon shapes our tides, stabilizes our axial tilt, and has been influencing the rhythm of life on this planet for as long as there has been life to influence. It is still moving away, a little farther every year.",
+    "Ice cream is mostly air. This surprises people, but it is true. Premium ice cream is typically about twenty-five to thirty percent air by volume. Cheaper ice cream can be fifty percent or more. The air is whipped in during churning — the process of freezing the ice cream base while stirring it constantly. Without air, ice cream would be a solid, icy block with none of the soft, scoopable texture people expect. The fat in the cream coats tiny air bubbles and holds them in place as the mixture freezes, creating a foam-like structure that is simultaneously cold, creamy, and light. Temperature matters enormously. Ice cream should be stored at about negative eighteen degrees Celsius. If it warms even slightly and then refreezes, the ice crystals that form become larger and coarser. The texture turns grainy instead of smooth. Once that structure is disrupted, you cannot restore it by refreezing. The small, uniform ice crystals and the foam of trapped air bubbles are both one-time achievements. Another important ingredient is sugar. Sugar lowers the freezing point of the mixture, which is why ice cream is soft and scoopable rather than rock solid even at freezer temperatures. Reduce the sugar and the ice cream freezes harder. Increase it and the mixture may not freeze firmly enough. Stabilizers like guar gum or carrageenan help hold everything together and slow the growth of ice crystals over time. Every ingredient is doing structural work. What looks like a simple dessert is actually a carefully managed balance of fat, sugar, water, air, and temperature. Get any of it wrong and you notice immediately.",
+    "Maps have been around for a very long time. Long before GPS, people drew the world by hand. Some early maps were made on clay tablets. Others were painted on walls. Most of them got a lot of things wrong. Coastlines were off. Countries were the wrong shape. Distances were hard to measure. But even a bad map is better than no map at all. It gives you a place to start. The more people explored, the better the maps got. Ships returned with new information. Coastlines were redrawn. Islands were added. Blank spaces slowly filled in. Today we can see the whole planet from space. Satellites measure distances to within a few centimeters. We know the shape of almost every shoreline and mountain range. But there are still blank spaces. The deep ocean floor is one. More of the moon has been mapped than the bottom of the sea. The ocean is dark and cold and hard to reach. So for now, parts of our own planet remain unknown. That feels strange when you think about it. We have maps of Mars. But we do not have a good map of what is directly beneath the water we sail across every day.",
+    "Sleep is not just rest. A lot happens while you are asleep. Your brain sorts through the day. It decides what to keep and what to let go. Memories get stronger during sleep. Things you learned earlier in the day get filed away properly. Without enough sleep, that process gets cut short. You still remember some things. But the details fade faster. Your body also does repair work while you sleep. Muscles recover. Cells divide. The immune system gets a chance to catch up. Most people need between seven and nine hours a night. Children and teenagers need more. Very few people can function well on less than six hours, even if they think they can. The brain gets used to less sleep and starts to feel normal. But tests show that performance keeps dropping even when the person feels fine. Coffee helps you feel more awake. It does not replace sleep. It blocks the signal that tells your brain it is tired. The tiredness is still there underneath. When the coffee wears off, it comes back. The only real fix is sleep itself."
+  ],
+  technical: [
+    "The Hypertext Transfer Protocol is an application-layer protocol for transmitting hypermedia documents, such as HTML. It was designed for communication between web browsers and web servers, but it can also be used for other purposes. HTTP follows a classical client-server model, with a client opening a connection to make a request, then waiting until it receives a response. HTTP is a stateless protocol, meaning that the server does not keep any data, called state, between two requests. Although often based on a TCP/IP layer, it can be used on any reliable transport layer — that is, a protocol that does not lose messages silently, like UDP. The HTTP specification defines how requests and responses should be structured. A request message includes a request line containing the method, the target URL, and the protocol version. The request line is followed by headers, which convey additional information about the request or the client. Common request methods include GET, which retrieves a resource; POST, which submits data to be processed; PUT, which replaces a resource; DELETE, which removes a resource; and PATCH, which applies a partial modification. The server responds with a status line indicating the protocol version, a status code, and a reason phrase. Common status codes include 200 for success, 301 for permanent redirect, 400 for a bad request, 401 for unauthorized, 404 for not found, and 500 for an internal server error. After the status line, the response also includes headers and, for most responses, a body containing the requested content. HTTP/1.1 introduced persistent connections, allowing multiple requests and responses to be sent over a single TCP connection. HTTP/2 added multiplexing, header compression, and server push. HTTP/3 replaced the underlying TCP transport with QUIC, a protocol built on UDP, to reduce latency further.",
+    "Cascading Style Sheets, commonly known as CSS, is a stylesheet language used to describe the presentation of a document written in HTML or XML. CSS describes how elements should be rendered on screen, on paper, in speech, or on other media. CSS is designed to enable the separation of presentation from content, including aspects such as layout, colors, and fonts. This separation improves content accessibility, provides more flexibility and control in the specification of presentation characteristics, enables multiple web pages to share formatting by specifying the relevant CSS in a separate file, and reduces complexity and repetition in the structural content. The CSS specification is maintained by the World Wide Web Consortium. CSS uses a rule-based syntax. A rule consists of a selector and a declaration block. The selector identifies which HTML elements the rule applies to. The declaration block contains one or more declarations, each consisting of a property and a value separated by a colon. Multiple declarations are separated by semicolons, and the block is enclosed in curly braces. CSS selectors range from simple element selectors, which target all elements of a given type, to complex compound selectors combining type, class, and attribute conditions. The cascade in cascading stylesheets refers to the algorithm that determines which styles apply when multiple rules target the same element. The cascade considers specificity, source order, and the origin of the stylesheet. Inline styles have the highest specificity. ID selectors are more specific than class selectors. Class selectors are more specific than element type selectors. When specificity is equal, rules defined later in the source order take precedence. The box model is another foundational concept, describing how elements occupy space on the page as nested rectangles of content, padding, border, and margin.",
+    "The Transmission Control Protocol provides reliable, ordered, and error-checked delivery of a stream of bytes between applications running on hosts communicating via an IP network. TCP is connection-oriented, which means a connection must be established before data can be sent. This connection is established through a process called the three-way handshake. In the first step, the initiating party, known as the client, sends a segment with the SYN flag set, indicating its initial sequence number. The receiving party, known as the server, responds with a segment containing both the SYN and ACK flags, acknowledging the client's sequence number and advertising its own. The client then sends a final ACK segment acknowledging the server's sequence number, completing the handshake. After this exchange, both parties have agreed on sequence numbers and the connection is established. Data is transmitted in segments. Each byte of data in the stream is assigned a sequence number. The receiver sends acknowledgment segments indicating which sequence numbers it has received. If the sender does not receive an acknowledgment within a timeout period, it retransmits the unacknowledged segments. This mechanism guarantees delivery but introduces overhead compared to the User Datagram Protocol, which sends datagrams without acknowledgment or sequencing. TCP also implements flow control through a window mechanism. The receiver advertises a window size indicating how many bytes it is prepared to accept. The sender limits its transmission to this window, preventing the receiver's buffer from being overwhelmed. Additionally, TCP implements congestion control algorithms that monitor network conditions and reduce the transmission rate when congestion is detected. Common algorithms include Slow Start, Congestion Avoidance, Fast Retransmit, and Fast Recovery. These mechanisms together ensure reliable communication across networks that may drop, reorder, or duplicate packets.",
+    "The Document Object Model is a programming interface for web documents. It represents the document as a tree of nodes and objects so that programming languages can interact with the page. The DOM is not a programming language — it is a model, an agreed-upon representation that can be accessed and manipulated by any language capable of communicating with the browser. In practice, JavaScript is most commonly used, but the DOM itself is language-independent. The DOM was standardized by the World Wide Web Consortium and is continuously updated to reflect the capabilities of modern browsers. In the DOM tree, each HTML element is represented as a node. The document itself is the root node. The html element is its child. The head and body are children of html. Each element within the head and body becomes a child node of its parent. Text inside elements is also represented as a node, called a text node. Attributes of elements are represented as attribute nodes associated with the element node. This tree structure allows developers to navigate relationships between elements using properties such as parentNode, childNodes, firstChild, lastChild, nextSibling, and previousSibling. The DOM provides methods for finding elements, such as getElementById, getElementsByClassName, getElementsByTagName, querySelector, and querySelectorAll. It also provides methods for modifying the document: createElement creates new element nodes, appendChild and insertBefore add nodes to the tree, removeChild removes them, and replaceChild swaps one node for another. Properties like textContent and innerHTML allow reading and setting the content of nodes. Event listeners can be added to nodes to respond to user interactions. Because the DOM is a live representation of the document, changes made through the DOM API are immediately reflected in what the user sees in the browser.",
+    "Accessibility in web development refers to the inclusive practice of ensuring that websites and web applications can be used by people with disabilities. Disabilities affecting web use include visual impairments such as blindness and low vision, auditory impairments, motor impairments that limit use of a mouse or keyboard, and cognitive impairments that affect reading, attention, and comprehension. The Web Content Accessibility Guidelines, commonly abbreviated as WCAG, are the internationally recognized standard for web accessibility. They are published by the World Wide Web Consortium's Web Accessibility Initiative. WCAG is organized around four principles, often summarized by the acronym POUR: Perceivable, Operable, Understandable, and Robust. Perceivable means that information and user interface components must be presentable to users in ways they can perceive — for example, providing text alternatives for images so that screen readers can convey the content to blind users. Operable means that user interface components and navigation must be usable — for example, ensuring all functionality is available via keyboard for users who cannot use a mouse. Understandable means that information and the operation of user interfaces must be comprehensible — for example, using clear language and providing error messages that explain how to correct input mistakes. Robust means that content must be interpretable reliably by a wide variety of user agents, including current and future assistive technologies. Each WCAG principle is supported by specific guidelines, and each guideline is supported by testable success criteria rated at three levels: A, AA, and AAA. Level AA is the standard most organizations target as a baseline. Common practices for meeting AA conformance include providing sufficient color contrast, labeling form inputs with associated label elements, providing captions for video content, and ensuring focus indicators are visible during keyboard navigation.",
+    "The Web Storage API provides mechanisms by which browsers can store key-value pairs locally within the user's browser, in a much more intuitive fashion than using cookies. The two mechanisms within Web Storage are sessionStorage and localStorage. sessionStorage maintains a separate storage area for each given origin that is available for the duration of the page session, that is, for as long as the browser is open, including page reloads and restores. localStorage does the same thing, but persists even when the browser is closed and reopened. These mechanisms are available via the Window.sessionStorage and Window.localStorage properties respectively. Invoking one of these properties will create an instance of the Storage object, through which data items can be set, retrieved, and removed. A different Storage object is used for the sessionStorage and localStorage for each origin — they function and are controlled separately. Storage objects are simple key-value stores, similar to objects, but they stay intact through page loads. The keys and the values are always strings, so numeric values and objects must be serialized to strings before storage and parsed back out on retrieval. The storage event is fired on the window object whenever a change is made to storage, allowing other documents using the same storage area to synchronize their state.",
+    "SVG, or Scalable Vector Graphics, is an XML-based markup language for describing two-dimensional vector graphics. As an XML dialect, SVG is integrated with other XML-based technologies such as XHTML and is used extensively on the web for icons, illustrations, charts, and user interface elements. Unlike raster formats such as PNG or JPEG, SVG images are defined in terms of points, lines, curves, and shapes — mathematical descriptions that can be rendered at any size without loss of clarity. This makes SVG ideal for responsive design contexts where elements must display crisply at multiple screen densities, including high-DPI retina displays. An SVG document consists of elements that describe shapes, paths, text, filters, and animations, and these elements can be styled with CSS and manipulated with JavaScript via the standard DOM API. The path element is the most general shape element; it can represent any two-dimensional figure using a compact sequence of commands in its d attribute. The commands include moveto, lineto, arc, and cubic and quadratic Bézier curve instructions. SVG filters allow complex visual effects such as blurs, color transformations, and compositing operations to be applied declaratively. Because SVG documents are text-based XML, they are compressible, indexable by search engines, and directly editable with any text editor, which distinguishes them fundamentally from binary image formats."
   ]
 };
 
@@ -964,7 +1110,7 @@ const PASSAGES = {
 
 const S = {
   fontCount: 5,
-  contentType: 'knowledge',
+  contentType: 'fiction',
   customText: '',
   fonts: [],
   passages: [],
@@ -983,6 +1129,94 @@ const S = {
 };
 
 // ── HELPERS ─────────────────────────────────────────────────────────────────
+
+// carousel state — module level so resetCarousel() is accessible from any function
+let navBack, navNext;
+
+function resetCarousel() {
+  const t = document.getElementById('carousel-track');
+  if (t) { t.style.transition = 'none'; t.style.transform = 'translateX(0)'; setTimeout(() => t.style.transition = '', 50); }
+  // clear all selections
+  document.querySelectorAll('#count-opts .opt, #type-opts .opt, #type-opts-row2 .opt').forEach(b => b.classList.remove('sel'));
+  const cw = document.getElementById('custom-wrap');
+  if (cw) cw.classList.remove('vis');
+  wikiPool = []; wikiPoolPromise = null;
+}
+
+function goToStep(n) {
+  const track = document.getElementById('carousel-track');
+  if (track) track.style.transform = `translateX(-${n * 100}%)`;
+  if (document.activeElement) document.activeElement.blur();
+}
+
+// ── WIKI FETCH ───────────────────────────────────────────────────────────────
+
+async function fetchWikiPassages(count) {
+  const TARGET_WORDS = 250;
+  const MIN_ARTICLE_WORDS = 60;
+
+  // Two parallel random-title requests + one extract request
+  const [r1a, r1b] = await Promise.all([
+    fetch('https://en.wikipedia.org/w/api.php?action=query&list=random&rnnamespace=0&rnlimit=20&format=json&origin=*&rnminsize=8000'),
+    fetch('https://en.wikipedia.org/w/api.php?action=query&list=random&rnnamespace=0&rnlimit=20&format=json&origin=*&rnminsize=8000')
+  ]);
+  const [d1a, d1b] = await Promise.all([r1a.json(), r1b.json()]);
+  const titles = [...(d1a.query?.random || []), ...(d1b.query?.random || [])].map(p => p.title);
+  if (!titles.length) return [];
+
+  const r2 = await fetch(`https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&titles=${titles.map(encodeURIComponent).join('|')}&format=json&origin=*`);
+  const d2 = await r2.json();
+
+  const articles = Object.values(d2.query?.pages || {})
+    .map(p => (p.extract || '')
+      .replace(/\n+/g, ' ')
+      .replace(/={2,}[^=]+=+/g, '')
+      .replace(/\s{2,}/g, ' ')
+      .trim()
+    )
+    .filter(t => t.split(/\s+/).filter(Boolean).length >= MIN_ARTICLE_WORDS);
+
+  const passages = [];
+  let i = 0;
+  while (passages.length < count && i < articles.length) {
+    let text = articles[i++];
+    while (text.split(/\s+/).filter(Boolean).length < TARGET_WORDS && i < articles.length) {
+      text += ' ' + articles[i++];
+    }
+    if (text.split(/\s+/).filter(Boolean).length >= 80) passages.push(text.trim());
+  }
+  return passages;
+}
+
+async function fetchOnePassage() {
+  const results = await fetchWikiPassages(1);
+  return results[0] || null;
+}
+
+// Pre-fetch pool — populated when user reaches step 2
+let wikiPool = []; // passages accumulated across all prefetch stages
+let wikiPoolPromise = null; // current in-flight fetch
+
+// Fetch N more passages into wikiPool
+function topUpWiki(needed) {
+  const have = wikiPool.length;
+  if (have >= needed) return Promise.resolve();
+  if (wikiPoolPromise) {
+    // In-flight fetch — wait for it, then top up further if still not enough
+    return wikiPoolPromise.then(() => topUpWiki(needed));
+  }
+  const fetch_n = needed - wikiPool.length;
+  wikiPoolPromise = fetchWikiPassages(fetch_n).then(results => {
+    wikiPool = [...wikiPool, ...(results || [])];
+    wikiPoolPromise = null;
+  }).catch(() => { wikiPoolPromise = null; });
+  return wikiPoolPromise;
+}
+
+// Stage 1: fetch 3 on page load
+function prefetchWiki() {
+  topUpWiki(3);
+}
 
 const shuffle = a => {
   const b = [...a];
@@ -1025,7 +1259,13 @@ function startSession() {
     S.customText = txt;
   }
 
-  S.fonts = shuffle(FONTS).slice(0, S.fontCount);
+  // Select fonts — guarantee at least 1 serif and 1 sans-serif
+  const serifs = shuffle(FONTS.filter(f => f.type === 'serif'));
+  const sans = shuffle(FONTS.filter(f => f.type === 'sans'));
+  const guaranteed = [serifs[0], sans[0]];
+  const rest = shuffle(FONTS.filter(f => f.id !== serifs[0].id && f.id !== sans[0].id));
+  S.fonts = [...guaranteed, ...rest].slice(0, S.fontCount);
+  S.fonts = shuffle(S.fonts); // re-shuffle so guaranteed picks aren't always first
   S.round = 0;
   S.results = [];
 
@@ -1036,11 +1276,44 @@ function startSession() {
     for (let i = 0; i < words.length; i += size) chunks.push(words.slice(i, i + size).join(' '));
     S.passages = [];
     for (let i = 0; i < S.fontCount; i++) S.passages.push(chunks[i % chunks.length]);
+    doCountdown();
+  } else if (S.contentType === 'wiki') {
+    const wikiBtn = document.querySelector('[data-v="wiki"]');
+    const origLabel = wikiBtn ? wikiBtn.querySelector('.os').textContent : '';
+    const wikiNote = document.getElementById('wiki-fetch-note');
+
+    const showError = () => {
+      if (wikiBtn) { wikiBtn.querySelector('.os').textContent = origLabel; wikiBtn.style.pointerEvents = ''; }
+      if (wikiNote) { wikiNote.textContent = 'Having trouble connecting to Wikipedia. Try again later.'; wikiNote.style.display = 'block'; }
+    };
+
+    const usePassages = () => {
+      if (wikiPool.length === 0) { showError(); return; }
+      // If pool is short, remainder fills from fiction silently
+      if (wikiBtn) { wikiBtn.querySelector('.os').textContent = origLabel; wikiBtn.style.pointerEvents = ''; }
+      if (wikiNote) { wikiNote.style.display = 'none'; wikiNote.textContent = 'Pulling random Wikipedia articles — takes a few seconds.'; }
+      const fallback = shuffle([...PASSAGES.fiction]);
+      S.passages = Array.from({length: S.fontCount}, (_, i) =>
+        wikiPool[i] || fallback[i % fallback.length]
+      );
+      wikiPool = [];
+      doCountdown();
+    };
+
+    if (wikiPool.length >= S.fontCount) {
+      usePassages();
+    } else {
+      if (wikiBtn) { wikiBtn.querySelector('.os').textContent = 'Fetching…'; wikiBtn.style.pointerEvents = 'none'; }
+      if (wikiNote) wikiNote.style.display = 'block';
+      topUpWiki(S.fontCount)
+        .then(usePassages)
+        .catch(showError);
+    }
+
   } else {
     S.passages = shuffle([...PASSAGES[S.contentType]]).slice(0, S.fontCount);
+    doCountdown();
   }
-
-  doCountdown();
 }
 
 // ── COUNTDOWN ───────────────────────────────────────────────────────────────
@@ -1049,19 +1322,33 @@ function doCountdown() {
   show('screen-countdown');
   document.getElementById('cd-label').textContent = `Font ${S.round + 1} of ${S.fontCount} — Get ready`;
   const numEl = document.getElementById('cd-num');
+  const oopsBtn = document.getElementById('cd-oops');
   let n = 3;
   numEl.innerHTML = '3';
   numEl.className = 'cd-num';
 
+  // Only show Oops on the very first round
+  oopsBtn.style.visibility = S.round === 0 ? 'visible' : 'hidden';
+
+  let cancelled = false;
+  oopsBtn.onclick = () => {
+    cancelled = true;
+    clearInterval(tick);
+    S.round = 0; S.results = []; S.skipped = [];
+    show('screen-intro'); resetCarousel();
+  };
+
   const tick = setInterval(() => {
+    if (cancelled) return;
     n--;
     numEl.className = 'cd-num';
-    void numEl.offsetWidth; // force reflow for animation
+    void numEl.offsetWidth;
     numEl.className = 'cd-num';
     if (n > 0) {
       numEl.textContent = n;
     } else if (n === 0) {
       numEl.innerHTML = '<span class="cd-go">Read.</span>';
+      oopsBtn.style.visibility = 'hidden'; // hide once Read. shows
     } else {
       clearInterval(tick);
       doReading();
@@ -1131,7 +1418,7 @@ function confirmHome() {
   S.timerPausedByUser = false;
   S.barPausedPct = null;
   S.round = 0; S.results = []; S.skipped = [];
-  show('screen-intro');
+  show('screen-intro'); resetCarousel();
 }
 
 function cancelHome() {
@@ -1211,6 +1498,7 @@ function doReading() {
   const text = S.passages[S.round];
   const el = document.getElementById('r-passage');
   el.style.fontFamily = font.css;
+  el.style.fontSize = `${19 * (font.size || 1.0)}px`;
   el.className = 'r-passage';
   el.innerHTML = '';
   S.wordEls = [];
@@ -1327,7 +1615,7 @@ function showRoundEnd(wpm, roundNum, isSkip) {
   show('screen-roundend');
   document.getElementById('re-wpm').textContent = wpm === '—' ? '—' : wpm;
   document.getElementById('re-tag').textContent = isSkip
-    ? 'Font skipped'
+    ? 'Font Skipped'
     : `Round ${roundNum} of ${S.fontCount} complete`;
 
   // show undo only for real results (not skips, not WPM of —)
@@ -1557,11 +1845,49 @@ function buildActions(font) {
 
 document.addEventListener('DOMContentLoaded', () => {
   show('screen-intro');
+  prefetchWiki(); // fetch 3 wiki passages on load
 
+  navBack = null; // no longer used
+  navNext = null;
+
+  // Step 1: font count buttons → advance to step 2
   initOpts('count-opts', 'fontCount');
-  initOpts('type-opts', 'contentType');
+  document.querySelectorAll('#count-opts .opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.blur();
+      document.querySelectorAll('.opt').forEach(b => b.blur());
+      // Stage 2/3: top up wiki pool for selected font count
+      const count = parseInt(btn.dataset.v);
+      topUpWiki(count);
+      goToStep(1);
+    });
+  });
 
-  document.getElementById('start-btn').addEventListener('click', startSession);
+  // Step 2: back link
+  document.getElementById('carousel-back').addEventListener('click', () => {
+    document.querySelectorAll('#count-opts .opt').forEach(b => b.classList.remove('sel'));
+    goToStep(0);
+  });
+
+  // Step 2: content type buttons → start test immediately (except custom)
+  const allTypeOpts = () => [
+    ...document.getElementById('type-opts').querySelectorAll('.opt'),
+    ...document.getElementById('type-opts-row2').querySelectorAll('.opt')
+  ];
+  allTypeOpts().forEach(btn => {
+    btn.addEventListener('click', () => {
+      allTypeOpts().forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel');
+      S.contentType = btn.dataset.v;
+      const isCustom = S.contentType === 'custom';
+      document.getElementById('custom-wrap').classList.toggle('vis', isCustom);
+      if (!isCustom) startSession();
+    });
+  });
+
+  // Custom: begin button inside textarea wrap
+  document.getElementById('custom-begin-btn').addEventListener('click', startSession);
+
   document.getElementById('custom-input').addEventListener('input', () => {
     document.getElementById('custom-error').classList.remove('vis');
   });
@@ -1582,7 +1908,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('skipal-home').addEventListener('click', () => {
     document.getElementById('modal-skipal').classList.remove('vis');
     S.round = 0; S.results = []; S.skipped = [];
-    show('screen-intro');
+    show('screen-intro'); resetCarousel();
   });
   document.getElementById('skipal-try').addEventListener('click', () => {
     document.getElementById('modal-skipal').classList.remove('vis');
@@ -1595,16 +1921,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const next = remaining[Math.floor(Math.random() * remaining.length)];
     S.fonts.push(next);
-    S.passages.push(shuffle([...PASSAGES[S.contentType]])[0]);
-    S.fontCount = S.fonts.length;
-    doCountdown();
+    if (S.contentType === 'wiki') {
+      fetchOnePassage().then(passage => {
+        S.passages.push(passage || shuffle([...PASSAGES.fiction])[0]);
+        S.fontCount = S.fonts.length;
+        doCountdown();
+      });
+    } else if (S.contentType === 'custom') {
+      const words = S.customText.split(/\s+/).filter(Boolean);
+      const size = 220;
+      const chunks = [];
+      for (let i = 0; i < words.length; i += size) chunks.push(words.slice(i, i + size).join(' '));
+      S.passages.push(chunks[S.passages.length % chunks.length]);
+      S.fontCount = S.fonts.length;
+      doCountdown();
+    } else {
+      const pool = PASSAGES[S.contentType] || PASSAGES.fiction;
+      S.passages.push(shuffle([...pool])[0]);
+      S.fontCount = S.fonts.length;
+      doCountdown();
+    }
   });
 
   // No more fonts modal
   document.getElementById('nofonts-ok').addEventListener('click', () => {
     document.getElementById('modal-nofonts').classList.remove('vis');
     S.round = 0; S.results = []; S.skipped = [];
-    show('screen-intro');
+    show('screen-intro'); resetCarousel();
   });
   document.getElementById('btn-restart').addEventListener('click', doRestart);
   document.getElementById('btn-pause').addEventListener('click', doPause);
@@ -1624,7 +1967,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('cont-btn').addEventListener('click', doContinue);
-  document.getElementById('retake-btn').addEventListener('click', () => { S.skipped = []; show('screen-intro'); });
+  document.getElementById('retake-btn').addEventListener('click', () => { S.skipped = []; show('screen-intro'); resetCarousel(); });
   document.getElementById('share-btn').addEventListener('click', () => {
     if (!S.results.length) return;
     const sorted = [...S.results].sort((a,b) => b.wpm - a.wpm || a.font.name.localeCompare(b.font.name));
