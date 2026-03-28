@@ -182,24 +182,62 @@ a:hover { color: var(--ink); text-decoration: underline; }
 }
 .about-panel p {
   font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.9;
-  text-align: center; margin-bottom: 10px;
+  text-align: left; margin-bottom: 10px;
 }
 .about-panel p + p { margin-top: 0; }
 .about-panel p strong { color: rgba(255,255,255,0.9); }
 .about-panel p a { color: #00BD78; }
 .about-panel p a:hover { color: #fff; text-decoration: underline; }
-.about-panel hr { border: none; border-top: 1px solid rgba(255,255,255,0.15); margin: 16px auto; width: 25%; }
+
+/* ── ABOUT TABLES ── */
+.about-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 12px; margin: 6px 0 12px;
+  font-family: var(--font-ui);
+  table-layout: fixed;
+}
+.about-table th {
+  text-align: left; font-size: 10px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255,255,255,0.35); padding: 0 8px 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.about-table td {
+  padding: 6px 8px 6px 0; color: rgba(255,255,255,0.65);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  vertical-align: top; line-height: 1.4;
+  overflow: hidden; text-overflow: ellipsis;
+}
+.about-table tr:last-child td { border-bottom: none; }
+.about-table td a { color: #00BD78; text-decoration: none; }
+.about-table td a:hover { color: #fff; text-decoration: underline; }
+.about-table td strong { color: rgba(255,255,255,0.9); font-weight: 500; }
+.about-table col.c1 { width: 38%; }
+.about-table col.c2 { width: 32%; }
+.about-table col.c3 { width: 30%; }
+.about-swatch {
+  width: 12px; height: 12px; border-radius: 50%;
+  display: inline-block; vertical-align: middle;
+  border: 1px solid rgba(255,255,255,0.2);
+  margin-right: 6px;
+}
+.about-section-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(255,255,255,0.4);
+  display: block; margin: 28px 0 12px;
+}
+.about-panel hr { border: none; border-top: 1px solid rgba(255,255,255,0.15); margin: 16px 0; width: 25%; }
 .about-panel .happy {
   font-family: var(--font-display); font-size: 20px;
-  color: #fff; display: block; margin-top: 20px;
-  text-align: center; font-style: italic;
+  color: #fff; display: block; margin-top: 28px;
+  text-align: left; font-style: italic;
 }
 .about-back {
-  display: block; text-align: center; margin: 0 auto 32px;
+  display: block; text-align: left; margin-bottom: 32px;
   font-size: 11px; color: rgba(255,255,255,0.4); cursor: pointer;
   letter-spacing: 0.1em; text-transform: uppercase;
   font-family: var(--font-ui); font-weight: 600;
-  background: none; border: none; padding: 4px;
+  background: none; border: none; padding: 4px 4px 4px 0;
   transition: color 0.13s; width: 100%;
 }
 .about-back:hover { color: rgba(255,255,255,0.8); }
@@ -597,30 +635,58 @@ a:hover { color: var(--ink); text-decoration: underline; }
           <a href="https://dl.acm.org/doi/10.1145/3502222" target="_blank">Different Fonts Increase Reading Speed for Different Individuals</a><br>
           <em>(Didn't really read 'em, but the summaries were awesome 🤙)</em>
         </p>
-        <p>
-          <strong>Fonts Tested</strong><br>
-          <a href="https://fonts.google.com/specimen/Atkinson+Hyperlegible" target="_blank">Atkinson Hyperlegible</a><br>
-          <a href="https://fonts.google.com/specimen/DM+Sans" target="_blank">DM Sans</a><br>
-          <a href="https://fonts.google.com/specimen/Inter" target="_blank">Inter</a><br>
-          <a href="https://fonts.google.com/specimen/Lato" target="_blank">Lato</a><br>
-          <a href="https://fonts.google.com/specimen/Lexend" target="_blank">Lexend</a><br>
-          <a href="https://fonts.google.com/specimen/Libre+Baskerville" target="_blank">Libre Baskerville</a><br>
-          <a href="https://fonts.google.com/specimen/Merriweather" target="_blank">Merriweather</a><br>
-          <a href="https://fonts.google.com/specimen/Noto+Sans" target="_blank">Noto Sans</a><br>
-          <a href="https://fonts.google.com/specimen/Open+Sans" target="_blank">Open Sans</a><br>
-          <a href="https://fonts.google.com/specimen/Roboto" target="_blank">Roboto</a><br>
-          <a href="https://fonts.google.com/specimen/Source+Sans+3" target="_blank">Source Sans 3</a><br>
-          <a href="https://en.wikipedia.org/wiki/Verdana" target="_blank">Verdana</a>
-        </p>
-        <p>
-          <strong>Margo App Fonts</strong><br>
-          <a href="https://fonts.google.com/specimen/Fraunces" target="_blank">Fraunces</a><br>
-          <a href="https://fonts.google.com/specimen/Lora" target="_blank">Lora</a>
-        </p>
-        <p>
-          <strong>Icons</strong><br>
-          <a href="https://lucide.dev" target="_blank">Lucide</a>
-        </p>
+        <span class="about-section-label">App Fonts</span>
+        <table class="about-table">
+          <colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup>
+          <thead><tr><th>Name</th><th>Uses</th><th>Designer</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://fonts.google.com/specimen/Fraunces" target="_blank">Fraunces</a></td><td>Wordmark &amp; display</td><td>Undercase Type</td></tr>
+            <tr><td><a href="https://fonts.google.com/specimen/Lora" target="_blank">Lora</a></td><td>UI body copy</td><td>Cyreal</td></tr>
+          </tbody>
+        </table>
+
+        <span class="about-section-label">Legibility / Reading Fonts</span>
+        <table class="about-table">
+          <colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup>
+          <thead><tr><th>Name</th><th>Classification</th><th>Designer</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://fonts.google.com/specimen/Atkinson+Hyperlegible" target="_blank">Atkinson Hyperlegible</a></td><td>Sans serif</td><td>Braille Institute</td></tr>
+            <tr><td><a href="https://fonts.google.com/specimen/DM+Sans" target="_blank">DM Sans</a></td><td>Sans serif</td><td>Colophon Foundry</td></tr>
+            <tr><td><a href="https://fonts.google.com/specimen/Inter" target="_blank">Inter</a></td><td>Sans serif</td><td>Rasmus Andersson</td></tr>
+            <tr><td><a href="https://fonts.google.com/specimen/Lato" target="_blank">Lato</a></td><td>Sans serif</td><td>Łukasz Dziedzic</td></tr>
+            <tr><td><a href="https://fonts.google.com/specimen/Lexend" target="_blank">Lexend</a></td><td>Sans serif</td><td>Bonnie Shaver-Troup</td></tr>
+            <tr><td><a href="https://fonts.google.com/specimen/Libre+Baskerville" target="_blank">Libre Baskerville</a></td><td>Serif</td><td>Impallari Type</td></tr>
+            <tr><td><a href="https://fonts.google.com/specimen/Merriweather" target="_blank">Merriweather</a></td><td>Serif</td><td>Eben Sorkin</td></tr>
+            <tr><td><a href="https://fonts.google.com/specimen/Noto+Sans" target="_blank">Noto Sans</a></td><td>Sans serif</td><td>Google</td></tr>
+            <tr><td><a href="https://fonts.google.com/specimen/Open+Sans" target="_blank">Open Sans</a></td><td>Sans serif</td><td>Steve Matteson</td></tr>
+            <tr><td><a href="https://fonts.google.com/specimen/Roboto" target="_blank">Roboto</a></td><td>Sans serif</td><td>Christian Robertson</td></tr>
+            <tr><td><a href="https://fonts.google.com/specimen/Source+Sans+3" target="_blank">Source Sans 3</a></td><td>Sans serif</td><td>Paul D. Hunt</td></tr>
+            <tr><td><a href="https://en.wikipedia.org/wiki/Verdana" target="_blank">Verdana</a></td><td>Sans serif</td><td>Matthew Carter</td></tr>
+          </tbody>
+        </table>
+
+        <span class="about-section-label">Colors</span>
+        <table class="about-table">
+          <colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup>
+          <thead><tr><th>Name</th><th>HEX</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><span class="about-swatch" style="background:#034D32"></span> <strong>Forest Green</strong></td><td>#034D32</td><td></td></tr>
+            <tr><td><span class="about-swatch" style="background:#028454"></span> <strong>Accent Green</strong></td><td>#028454</td><td></td></tr>
+            <tr><td><span class="about-swatch" style="background:#00BD78"></span> <strong>Mint</strong></td><td>#00BD78</td><td></td></tr>
+            <tr><td><span class="about-swatch" style="background:#E4F3EE"></span> <strong>Accent BG</strong></td><td>#E4F3EE</td><td></td></tr>
+            <tr><td><span class="about-swatch" style="background:#C0DDD4"></span> <strong>Border</strong></td><td>#C0DDD4</td><td></td></tr>
+            <tr><td><span class="about-swatch" style="background:#F9F9F9; border-color:rgba(255,255,255,0.4)"></span> <strong>Background</strong></td><td>#F9F9F9</td><td></td></tr>
+          </tbody>
+        </table>
+
+        <span class="about-section-label">Icons</span>
+        <table class="about-table">
+          <colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup>
+          <thead><tr><th>Library</th><th>Contributors</th><th>License</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://lucide.dev" target="_blank">Lucide</a></td><td>Community<br><span style="font-size:10px;opacity:0.5;">fork of Feather Icons by Cole Bemis</span></td><td>MIT</td></tr>
+          </tbody>
+        </table>
         <hr>
         <p>Like Margo? <a href="https://ko-fi.com/ronseidel" target="_blank">Leave a tip. ☕</a></p>
         <span class="happy">Happy reading.</span>
