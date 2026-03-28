@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0027)https://margo.fyi/making-of -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#034D32">
 <title>How Margo Was Built — One Conversation</title>
@@ -10,10 +10,10 @@
 <meta property="og:description" content="A Hacker News link, 13 years of design experience, and a conversation with Claude. No code written.">
 <meta property="og:url" content="https://margo.fyi/making-of">
 <meta property="og:image" content="https://margo.fyi/og-image.png">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23034D32'/><text y='78' font-size='72' x='50' text-anchor='middle' font-family='Georgia,serif' fill='%2367C99A' font-style='italic'>m</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;&gt;&lt;rect width=&#39;100&#39; height=&#39;100&#39; rx=&#39;16&#39; fill=&#39;%23034D32&#39;/&gt;&lt;text y=&#39;78&#39; font-size=&#39;72&#39; x=&#39;50&#39; text-anchor=&#39;middle&#39; font-family=&#39;Georgia,serif&#39; fill=&#39;%2367C99A&#39; font-style=&#39;italic&#39;&gt;m&lt;/text&gt;&lt;/svg&gt;">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./making-of_files/css2" rel="stylesheet">
 <style>
 :root {
   --bg: #F9F9F9;
@@ -108,32 +108,32 @@ a:hover { color: var(--ink); text-decoration: underline; }
 .making-footer .happy { font-family: var(--font-display); font-size: 22px; color: var(--ink); font-style: italic; display: block; margin-top: 20px; }
 </style>
 </head>
-<body>
+<body cz-shortcut-listen="true" data-new-gr-c-s-check-loaded="14.1279.0" data-gr-ext-installed="">
 <div class="page">
 
 <header class="site-header">
-  <a href="https://margo.fyi" class="back-link">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+  <a href="https://margo.fyi/" class="back-link">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
     margo.fyi
   </a>
   <span class="wordmark">M<em>a</em>rgo</span>
   <h1 class="page-title">Built in one day.<br>Not one line of code written.</h1>
   <p class="page-meta">
     <span class="date">March 27, 2026</span>
-    By <a href="https://rontheron.com">Ron Seidel</a> and <a href="https://claude.ai">Claudius Anthropicus</a>
+    By <a href="https://rontheron.com/">Ron Seidel</a> and <a href="https://claude.ai/">Claudius Anthropicus</a>
   </p>
-  <p class="page-meta" style="margin-top:8px; font-style:italic;">Updated March 28, 2026 — added Section 8 on production bug handling.</p>
+  <p class="page-meta" style="margin-top:8px; font-style:italic;">Updated March 28, 2026 — added Section 8 on production bug handling and Section 9 on morning-after improvements.</p>
 </header>
 
 <div class="explainer">
   <span class="explainer-label">Why Margo exists</span>
   <p class="explainer-text">Find the font you read fastest — then set it on your Kindle, in your browser, or anywhere you read. Research shows switching to your personal fastest font can add 30+ words per minute. That's hours of reading time per year.</p>
-  <a href="https://margo.fyi" class="explainer-link">Try Margo — it takes 5 minutes →</a>
+  <a href="https://margo.fyi/" class="explainer-link">Try Margo — it takes 5 minutes →</a>
 </div>
 
 <div class="prose">
-  <p>On a Friday morning in March, I came across <a href="https://news.ycombinator.com/item?id=47492894" target="_blank">a link on Hacker News</a> — <a href="https://library.oapen.org/viewer/web/viewer.html?file=/bitstream/handle/20.500.12657/53344/978-3-030-90984-0.pdf?sequence=1&isAllowed=y" target="_blank">a PDF about typeface legibility</a>. I didn't read it. I asked Claude to summarize it. That turned into a question about dark mode vs. light mode, which turned into a question about Inter — if it's really the GOAT — which turned into: <strong>"should we make a mini web app?"</strong></p>
-  <p>By end of day, <a href="https://margo.fyi">margo.fyi</a> was live. I didn't write any code.</p>
+  <p>On a Friday morning in March, I came across <a href="https://news.ycombinator.com/item?id=47492894" target="_blank">a link on Hacker News</a> — <a href="https://library.oapen.org/viewer/web/viewer.html?file=/bitstream/handle/20.500.12657/53344/978-3-030-90984-0.pdf?sequence=1&amp;isAllowed=y" target="_blank">a PDF about typeface legibility</a>. I didn't read it. I asked Claude to summarize it. That turned into a question about dark mode vs. light mode, which turned into a question about Inter — if it's really the GOAT — which turned into: <strong>"should we make a mini web app?"</strong></p>
+  <p>By end of day, <a href="https://margo.fyi/">margo.fyi</a> was live. I didn't write any code.</p>
   <p>But the story isn't: "just ask Claude to make an app." I mean, you can try. Actually, definitely try. But it's been 13 years, or 20 if you count high school and college, since I started designing. I knew which questions to ask (I've asked them before), I knew which outputs to push back on, and when something felt off, I had Claude fix it.</p>
   <p>That judgment is the work. The refining is the work. The bug fixing. Making things feel buttery smooth. <strong>That's the work. The tool removes the friction between thinking and making.</strong></p>
   <p>What follows is the full conversation — including the back-and-forth, the design debates, the bugs, the naming arguments (which, for me, always happen too early), and the moments where things got better because someone pushed back. Claude even called one of my suggestions "the most obvious pun in typography." I love it!</p>
@@ -152,7 +152,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">Serif vs. sans serif — what does the research actually say?</span>
       <span class="accordion-count">6 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -170,7 +170,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">Reading speed research — Inter, Verdana, Lexend, and the 35% finding</span>
       <span class="accordion-count">4 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -197,7 +197,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">Fontastic → Lumen → Severance → Butter → Margo</span>
       <span class="accordion-count">14 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -235,7 +235,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">Rejecting Outfit, IM Fell, and Cormorant — landing on Fraunces + Lora</span>
       <span class="accordion-count">8 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -256,7 +256,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">Brand colors — pulling exact hex values from rontheron.com via browser inspection</span>
       <span class="accordion-count">5 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -274,13 +274,13 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">Icons — from emoji to Lucide, fetching exact SVG paths from the CDN</span>
       <span class="accordion-count">6 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>re: svgs, you want me to get you those? i was referring to the globe emoji above general knowledge, book emoji for short fiction, branch and pencil. my concern is every system has their own emojis</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Don't make them yourself. The content-type icons are UI chrome, not brand moments. Best fit: <strong>Lucide</strong> — same icon set Figma uses internally, MIT licensed, SVG-based, consistent stroke weight. Zero emoji variance across systems.</div></div>
-        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>icons aren't exactly working for me. try these icons...<br>general knowledge: lucide.dev/icons/book-text<br>short fiction: lucide.dev/icons/book-marked<br>nature & science: lucide.dev/icons/trees<br>paste your own: lucide.dev/icons/file-pen-line<br><br>and there's a bit of mis-match between the weight of the icons vs the weight of the font within the buttons</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>icons aren't exactly working for me. try these icons...<br>general knowledge: lucide.dev/icons/book-text<br>short fiction: lucide.dev/icons/book-marked<br>nature &amp; science: lucide.dev/icons/trees<br>paste your own: lucide.dev/icons/file-pen-line<br><br>and there's a bit of mis-match between the weight of the icons vs the weight of the font within the buttons</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div><em>[fetched all four SVG path strings from unpkg.com/lucide-static CDN]</em><br><br>All four swapped to your exact icons at stroke-width 1.5 — lighter stroke so they harmonize with Lora text rather than competing. Also bumped the label text from ink-faint to ink-muted, font-weight: 500. Both elements now in the same optical weight range.</div></div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>Still feels like the font within the buttons isn't right — especially in the selected buttons.</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Found the real issue: selected state was using var(--accent) for both icon and text — medium green on a light green background. That's the readability problem. The selection signal should come from the border and background, not by lowering the text contrast. <strong>Flipped: dark ink text on green-tinted background. The container communicates selection; the text just reads cleanly.</strong></div></div>
@@ -293,7 +293,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">UX decisions — controls placement, auto-advance, the undo button</span>
       <span class="accordion-count">8 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -323,7 +323,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">The timer pause bug — CSS animations run on the GPU, not in JavaScript</span>
       <span class="accordion-count">3 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -338,7 +338,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">The scroll bug — flexbox min-height and align-items: stretch</span>
       <span class="accordion-count">4 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -355,7 +355,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">The syntax error — one missing brace that silently consumed every function</span>
       <span class="accordion-count">3 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -379,7 +379,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">GitHub, DNS, and the mysterious trailing period</span>
       <span class="accordion-count">7 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -399,7 +399,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">Favicon, OG image, font preloading, 404 — the finishing layer</span>
       <span class="accordion-count">6 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -425,7 +425,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">Day-2 ideas, what this story is actually about, and a note for the reader</span>
       <span class="accordion-count">5 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -456,7 +456,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">The about panel animation — from jumpy to buttery</span>
       <span class="accordion-count">7 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -476,7 +476,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">The horizontal rules — finding the right weight and width</span>
       <span class="accordion-count">5 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -495,7 +495,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">Close vs Back vs ← Back — one word, three tries</span>
       <span class="accordion-count">4 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -512,7 +512,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">Button hover states — icons, big text, small text, in the right order</span>
       <span class="accordion-count">4 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -529,7 +529,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">text-wrap: pretty, orphans, widows, and what "professional" means in type</span>
       <span class="accordion-count">3 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -562,7 +562,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">The about panel was visible when you scrolled — visibility: hidden</span>
       <span class="accordion-count">5 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -580,7 +580,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">Random word highlighted on mobile at the end of a round</span>
       <span class="accordion-count">3 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -596,7 +596,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <button class="accordion-toggle" onclick="tog(this)">
       <span class="accordion-label">The lesson — shipping is when the real testing begins</span>
       <span class="accordion-count">2 exchanges</span>
-      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
     <div class="accordion-body">
       <div class="chat">
@@ -608,11 +608,113 @@ a:hover { color: var(--ink); text-decoration: underline; }
   </div>
 </div>
 
+<!-- 9. MORNING AFTER PLUSSING -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">9</span>
+    <h2 class="section-title">Morning After Plussing</h2>
+  </div>
+
+  <p class="section-summary">It's not a joke. Software is never done.</p>
+  <p class="section-summary" style="margin-top:-10px;">You wake up, load margo.fyi and immediately think of a million ways to make it better. Why did I make that decision? It'd be lightyears better if we did X instead of Y.</p>
+  <p class="section-summary" style="margin-top:-10px;">Then you get other ideas... Keep things fresh by grabbing random Wiki articles. Show our color and font docs like we know what we're doing. Trim some less-than-hilarious fat. Destress your users: "Don't rush..."</p>
+  <p class="section-summary" style="margin-top:-10px;">Something grossly overlooked: perceived performance is way more important than "real" performance metrics. It doesn't have to be fast. It's gotta feel fast.</p>
+  <p class="section-summary" style="margin-top:-10px;">Throwing a little "We're fetching..." goes a long way in making sure no one's like "Why's this thing so effing slow?!"</p>
+  <p class="section-summary" style="margin-top:-10px; margin-bottom:24px;">And you give your mom a shout. Because she's your mom.</p>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">One question at a time — the carousel intro</span>
+      <span class="accordion-count">4 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>maybe on the initial flow we center the back and remove the arrow. everything else is centered. and how would you feel about the second question having 5 items so we could put general knowledge in the middle?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Good instinct on both. Centering the labels feels more deliberate — like a form rather than a document. On 5 items: Random Wikipedia is my vote for the 5th. Genuinely random, varies every test, built-in hook — "you might learn something." Pop culture dates fast. Wikipedia doesn't.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>maybe on the initial flow... the buttons themselves are the triggers to go to next step and start test. don't need the next and begin test buttons</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Clean. Step 1: clicking a font-count button slides to step 2 immediately. Step 2: clicking a content type starts the test. Paste Your Own shows the textarea with an inline Begin Test button. No defaults on either step — user makes an active choice.</div></div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>The original design showed both questions at once. It worked. But one at a time is better — the user has one job, makes one choice, advances. Less cognitive load. This is the kind of thing that's easy to miss on day one when you're trying to get the thing working at all. Day two is when you notice it.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">The Wikipedia API wall — when the obvious approach fails</span>
+      <span class="accordion-count">8 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>I just got one that's just this text: "Jack Harold Paar was an American talk show host, writer, radio and television comedian, and film actor. He was the second host of The Tonight Show from 1957 to 1962..." — i think we need a larger min word count, or we have to staple two wiki articles together</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Good catch. That's 57 words. The fix: fetch articles one at a time and keep concatenating until we hit 250 words, up to a max of 5 fetches. Varied Wikipedia content stitched together rather than one stub article.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>fetch stills feels much longer than 2 seconds</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>[measured in browser] 20 parallel fetches takes 5.4 seconds and yields only 1012 total words — avg 51 per article. For a 7-font test at 250 words each, we need 1750 words minimum. We can't beat the Wikipedia summary API — it returns short introductions by design. Need a different approach.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>does the wikipedia let you specify: i need an article that's at least x words long?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Not directly. But there's a better API endpoint entirely — the Action API with prop=extracts returns full article intro text. Two parallel title requests + one extract request for all titles at once = three HTTP calls total. Tested it: 698ms for 7 passages at 271–582 words each.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>Got "Having trouble connecting to Wikipedia. Try again later." — maybe we're hitting it too many times?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Race condition in topUpWiki. When the page-load prefetch was still running and the user clicked 7 fonts triggering another topUpWiki, it returned the in-flight promise — which was only fetching 3. Fixed: wait for the in-flight fetch, then chain another for the remainder.</div></div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>We started with the obvious endpoint (random/summary), hit a real ceiling (browser concurrency + short summaries by design), measured it, pivoted to a different API entirely, then found a race condition in the state management. That's four separate problems that looked like one. Most tutorials show you the working version. This is what the path to the working version actually looks like.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">Perceived performance — it doesn't have to be fast, it's gotta feel fast</span>
+      <span class="accordion-count">3 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>the fetching kinda takes a long time now. should we set expectations?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Yes — easy. Button label changes to "Fetching…" and a note appears below: "Pulling random Wikipedia articles — takes a few seconds." Both disappear the moment passages are ready and the countdown starts.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>sorry -- can we start fetching on load of the page... and hold on to it just in case they click wikipedia. or pick wikipedia in a later turn</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Clean and simple. prefetchWiki() fires on DOMContentLoaded — silently, in the background, before the user has done anything. Staged: 3 passages on load, more when they pick font count, remainder when they tap Wikipedia. By the time they tap, most of it is done.</div></div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>Two things happening here. First: setting expectations with a loading label costs nothing and removes frustration — "Fetching…" turns a confusing pause into a comprehensible one. Second: staging the work across the user's natural interaction time (page load → pick font count → pick content type) means by the time they tap Wikipedia, the wait is often zero. The fetch didn't get faster. The perceived wait did. That distinction is the whole lesson.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">Font size normalization — equal numbers aren't equal experiences</span>
+      <span class="accordion-count">3 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>and would it be possible to make column align on the different tables? and should we compensate for some fonts feeling smaller than others?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Yes on both. For columns: table-layout: fixed with named col classes so all four tables share the same widths. For fonts: measuring with Canvas API — ctx.measureText() at 19px for every font. Merriweather and Libre Baskerville render ~24% taller than Crimson Pro and Playfair at the same pixel size. Adding a size multiplier to each font, applied at render time.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>nicely done</div></div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>This matters for the integrity of the test. If Merriweather renders visually larger at the same font-size, it might feel easier to read — not because it's faster for you, but because it's bigger. The WPM result could be skewed by something that has nothing to do with the font's actual legibility. Normalization is a design decision and a scientific one at the same time. Eighteen fonts, eighteen multipliers, all applied dynamically. Nobody will notice it. That's the point.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">The pre-push audit — catching what testing missed</span>
+      <span class="accordion-count">2 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>anything else to test? are you sure? i'll be leaving my computer and won't be able to fix</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>[ran 12-point code audit] Found it — resetCarousel() had been accidentally appended to the end of the prefetch comment line: "prefetchWiki(7); // start fetching wiki articles immediately in background resetCarousel();" — so on page load it fired immediately after prefetchWiki() and reset wikiPrefetchPromise to null, killing the prefetch. Every Wikipedia session was fetching cold. Fixed. 12/12 checks passing. Push it.</div></div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>This bug was invisible in manual testing. The prefetch appeared to work because the fetch still happened — just later, from a cold start, with the full wait. The audit caught it by checking that resetCarousel() wasn't called where it shouldn't be. The habit of running a systematic check before shipping — not just "does it work" but "is anything structurally wrong" — is the difference between a bug that ships and one that doesn't. Write the checklist once. Run it every time.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 <footer class="making-footer">
   <p>Made in New Jersey</p>
-  <p>by <a href="https://rontheron.com">Ron Seidel</a> and <a href="https://claude.ai">Claudius Anthropicus</a></p>
+  <p>by <a href="https://rontheron.com/">Ron Seidel</a> and <a href="https://claude.ai/">Claudius Anthropicus</a></p>
   <p style="margin-top:8px;"><span style="display:block">March 27, 2026</span></p>
-  <p style="margin-top:14px;"><a href="https://margo.fyi">← Back to margo.fyi</a></p>
+  <p style="margin-top:14px;"><a href="https://margo.fyi/">← Back to margo.fyi</a></p>
   <span class="happy">Happy reading.</span>
 </footer>
 
@@ -624,5 +726,26 @@ function tog(btn) {
   btn.classList.toggle('open', open);
 }
 </script>
-</body>
-</html>
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
