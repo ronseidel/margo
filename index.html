@@ -1190,9 +1190,13 @@ function endTimer() {
   const restartBtn = document.getElementById('btn-restart');
   if (restartBtn) { restartBtn.disabled = true; restartBtn.style.opacity = '0.3'; restartBtn.style.pointerEvents = 'none'; }
 
-  S.wordEls.forEach((sp, i) => {
-    sp.addEventListener('click', () => pickWord(i));
-  });
+  // delay attaching listeners — prevents ghost touch from the timer interval
+  // firing pickWord immediately on mobile
+  setTimeout(() => {
+    S.wordEls.forEach((sp, i) => {
+      sp.addEventListener('click', () => pickWord(i));
+    });
+  }, 350);
 }
 
 function pickWord(idx) {
