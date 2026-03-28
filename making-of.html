@@ -122,6 +122,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <span class="date">March 27, 2026</span>
     By <a href="https://rontheron.com">Ron Seidel</a> and <a href="https://claude.ai">Claudius Anthropicus</a>
   </p>
+  <p class="page-meta" style="margin-top:8px; font-style:italic;">Updated March 28, 2026 — added Section 8 on production bug handling.</p>
 </header>
 
 <div class="explainer">
@@ -246,7 +247,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
         <div class="divider">· · ·</div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>nice, though the lora in the thin weight in the less than contrasty gray might be problematic.</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>The font was fine — <strong>the colors were the culprit.</strong> --ink-muted was #6B6260 and --ink-faint was #A09893 — warm grays that lose contrast against Lora's thinner strokes on screen. Bumped both to proper green-tinted darks that stay readable at all weights.</div></div>
-        <div class="note">Ron identified this as a feel problem before diagnosing it as a contrast problem. That's the difference between someone who's been doing this 13 years and someone who just learned what contrast ratios are.</div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>Ron identified this as a feel problem before diagnosing it as a contrast problem. That's the difference between someone who's been doing this 13 years and someone who just learned what contrast ratios are.</div>
       </div>
     </div>
   </div>
@@ -264,7 +265,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>hover state on the home button is still from the old color system.</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Found three remnants: option button hover was #D4A07A (old amber), rank bar #2 was #C49070 (old copper), code pill was #EEE9E3 (old warm gray). All replaced with green-system values.</div></div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>please check hover states, we have remnants of the old color system</div></div>
-        <div class="note">Both instances caught by feel, not by reading the CSS. That's what 13 years buys you.</div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>Both instances caught by feel, not by reading the CSS. That's what 13 years buys you.</div>
       </div>
     </div>
   </div>
@@ -283,7 +284,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div><em>[fetched all four SVG path strings from unpkg.com/lucide-static CDN]</em><br><br>All four swapped to your exact icons at stroke-width 1.5 — lighter stroke so they harmonize with Lora text rather than competing. Also bumped the label text from ink-faint to ink-muted, font-weight: 500. Both elements now in the same optical weight range.</div></div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>Still feels like the font within the buttons isn't right — especially in the selected buttons.</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Found the real issue: selected state was using var(--accent) for both icon and text — medium green on a light green background. That's the readability problem. The selection signal should come from the border and background, not by lowering the text contrast. <strong>Flipped: dark ink text on green-tinted background. The container communicates selection; the text just reads cleanly.</strong></div></div>
-        <div class="note">Ron described it as "feels like the font isn't right." That's enough. The diagnosis came from there.</div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>Ron described it as "feels like the font isn't right." That's enough. The diagnosis came from there.</div>
       </div>
     </div>
   </div>
@@ -304,7 +305,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Yes, with one nuance: tap auto-advances after a ~400ms delay so they can <em>see</em> the word highlight before the screen changes. That feels satisfying. For <em>typed</em> words, the Continue button stays — you can't auto-advance mid-type.<br><br>For undo: put it on the <strong>round-end screen</strong> rather than interrupting the countdown. They see their WPM, realize they fat-fingered, click "← Undo" within the 2-second window. Cleaner.</div></div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>undo selection button didn't work for me. and in second font test, the restart button seems disabled</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Two bugs:<br><br><strong>Restart disabled on round 2</strong> — endTimer was setting disabled, opacity, and pointerEvents as inline styles. Those survive class removal. doReading now explicitly clears all three.<br><br><strong>Undo not working</strong> — root cause: pickWord set a 420ms setTimeout, but if the user also hit Continue manually before it fired, doContinue ran twice — pushing two results. Added an S.advancing flag that prevents double-execution.</div></div>
-        <div class="note">Both bugs are classic async/state management issues. The restart bug is about the difference between CSS classes (which can be removed) and inline styles (which persist unless explicitly cleared). The undo bug is about race conditions between user actions and timers.</div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>Both bugs are classic async/state management issues. The restart bug is about the difference between CSS classes (which can be removed) and inline styles (which persist unless explicitly cleared). The undo bug is about race conditions between user actions and timers.</div>
       </div>
     </div>
   </div>
@@ -328,7 +329,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
       <div class="chat">
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>clicking home doesn't pause the timer.</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Found the root cause. CSS transitions run on the compositor thread — completely separate from JavaScript. <code>clearInterval</code> stops the JS counter but the bar keeps sliding because it's a CSS animation, not a JS loop.<br><br>Fix: at the moment of pause, snapshot the bar's computed pixel width, convert to percentage, set that explicitly with <code>transition: none</code> to freeze it in place. On resume, use <code>requestAnimationFrame</code> to let the DOM settle before restarting the animation over exactly <code>S.timerSecs</code> remaining seconds.</div></div>
-        <div class="note">This is a browser architecture issue, not a code mistake. The browser runs CSS transitions on the GPU for performance. Understanding this requires knowing how browsers render, not just how to write CSS. Most developers would reach for a JS-only timer animation — the better fix is to work with the CSS architecture rather than against it.</div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>This is a browser architecture issue, not a code mistake. The browser runs CSS transitions on the GPU for performance. Understanding this requires knowing how browsers render, not just how to write CSS. Most developers would reach for a JS-only timer animation — the better fix is to work with the CSS architecture rather than against it.</div>
       </div>
     </div>
   </div>
@@ -345,7 +346,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Classic flexbox scrolling bug. In a flex column, children have <code>min-height: auto</code> by default — the passage wrap won't shrink below its content height, so overflow never kicks in. Fix: <code>min-height: 0</code>.</div></div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>nah that didn't fix it. there's something wrong with r-passage. the browser thinks its height is much shorter</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Found the real cause. The wrapper was <code>display: flex</code> with default <code>align-items: stretch</code> — which forces the inner passage to match the <em>container's</em> height rather than grow to its content height. The browser measured zero overflow and never triggered a scrollbar.<br><br>Fix: <strong><code>align-items: flex-start</code></strong> — lets the passage grow to its natural content height, which overflows the container and scrolls correctly.</div></div>
-        <div class="note">The symptom (can't scroll) points nowhere near the cause (align-items: stretch collapsing the inner element). This is the kind of bug that takes 30 minutes to find if you don't know the flexbox model intimately. The first fix (min-height: 0) was a reasonable guess that addresses a different common flexbox scroll issue — but it wasn't this one.</div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>The symptom (can't scroll) points nowhere near the cause (align-items: stretch collapsing the inner element). This is the kind of bug that takes 30 minutes to find if you don't know the flexbox model intimately. The first fix (min-height: 0) was a reasonable guess that addresses a different common flexbox scroll issue — but it wasn't this one.</div>
       </div>
     </div>
   </div>
@@ -360,7 +361,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
       <div class="chat">
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div><code>Uncaught Error: Uncaught SyntaxError: Unexpected end of input</code></div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div><em>[ran a Python brace-counting script on the extracted JavaScript]</em><br><br>Open braces: 130. Close braces: 129. Diff: 1. Found it — the <code>doSkip</code> function was missing its closing <code>}</code>. The function body was left open, silently swallowing every function definition after it until the parser hit end-of-file. That's why everything appeared to exist in the source but nothing ran.</div></div>
-        <div class="note">The parser error — "Unexpected end of input" — points to the end of the file, not the actual location of the problem. The brace counter is the right tool: simple script, unambiguous output, found a needle in a 1500-line file in seconds.</div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>The parser error — "Unexpected end of input" — points to the end of the file, not the actual location of the problem. The brace counter is the right tool: simple script, unambiguous output, found a needle in a 1500-line file in seconds.</div>
       </div>
     </div>
   </div>
@@ -445,10 +446,11 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <h2 class="section-title">The details</h2>
   </div>
   <p class="section-summary">This might seem like overkill. And it might be.</p>
-  <p class="section-summary" style="margin-top:-10px;">It's fixing the stuff that only a few people will ever notice. It's making the design match what's in my head. Or it's noticing something is kinda weaksauce. And turning it into A1. Or Tabasco.</p>
-  <p class="section-summary" style="margin-top:-10px;">It's the drive. The persistence. You noticed it. Now you can't settle. It'd keep you up at night.</p>
+  <p class="section-summary" style="margin-top:-10px;">It's fixing the stuff only a few people would notice. It's making an implementation not only match a design, but match what you know it should be.</p>
+  <p class="section-summary" style="margin-top:-10px;">It's noticing something's kinda weaksauce. And turning it into A1.</p>
+  <p class="section-summary" style="margin-top:-10px;">It's persistence. You notice it. Now you gotta fix it. It'd keep you up at night.</p>
   <p class="section-summary" style="margin-top:-10px;">It's when something goes from cool to awesome, from good to great, from "Oh, neat..." to "Whoa, bro!"</p>
-  <p class="section-summary" style="margin-top:-10px; margin-bottom: 24px;"><em>This, to me, is love.</em></p>
+  <p class="section-summary" style="margin-top:-10px; margin-bottom: 24px;"><em>It's never done.</em></p>
 
   <div class="accordion">
     <button class="accordion-toggle" onclick="tog(this)">
@@ -465,7 +467,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>doesn't feel smooth yet to me. maybe the about content slides up to cover the regular app nice and smooth... then when you click close it slides down like a shelf disappearing?</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Love this direction — a fixed overlay that slides up like a sheet. CSS transform: translateY is GPU-accelerated. That's the butter.</div></div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>AWESOME! So close! We're at the finish line</div></div>
-        <div class="note">The first two attempts were the right instinct, wrong tool. max-height animation is notoriously bad at easing because the browser doesn't know the actual target height. transform: translateY(100%) → translateY(0) is one CSS property, GPU-composited, no layout reflow. It's the difference between moving furniture and teleporting it.</div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>The first two attempts were the right instinct, wrong tool. max-height animation is notoriously bad at easing because the browser doesn't know the actual target height. transform: translateY(100%) → translateY(0) is one CSS property, GPU-composited, no layout reflow. It's the difference between moving furniture and teleporting it.</div>
       </div>
     </div>
   </div>
@@ -484,7 +486,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Pure CSS — width: 25%, margin: 0 auto. Should feel like a quiet typographic ornament rather than a divider.</div></div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>does the line under close need to be full width? that could also match the other horizontal lines.</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Used a ::before pseudo-element so all three rules are exactly the same: 25% wide, centered, same border color. Consistent throughout.</div></div>
-        <div class="note">Nobody will consciously notice a rule that's the right width. They'll just feel that something is balanced. That's the job.</div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>Nobody will consciously notice a rule that's the right width. They'll just feel that something is balanced. That's the job.</div>
       </div>
     </div>
   </div>
@@ -501,7 +503,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>For the about panel close button — let me suggest "← Back".</div></div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>this animation makes it seem like something opened that you're closing. not changing pages and going back. maybe it should say "CLOSE"</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Exactly right. The slide-down motion tells you what's happening — the word just confirms it. Changed to Close.</div></div>
-        <div class="note">This is a three-word interaction design decision that took three tries. "Back" implies navigation. "← Back" implies pages. "Close" implies a thing that opened. The animation made the right word obvious once Ron articulated what the motion felt like.</div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>This is a three-word interaction design decision that took three tries. "Back" implies navigation. "← Back" implies pages. "Close" implies a thing that opened. The animation made the right word obvious once Ron articulated what the motion felt like.</div>
       </div>
     </div>
   </div>
@@ -518,7 +520,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>On hover: icons and big text go #028454, small subtitle goes full ink at 100% opacity.</div></div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>i meant the big text, not the small text. maybe we switch the small text to black and the big text and icons to #028454</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Got it — flipped. Icons and "3 fonts / 5 fonts / 7 fonts" go green. Subtitle goes full ink, darker and crisper. Clean hierarchy — the accent draws the eye to the primary label.</div></div>
-        <div class="note">The first guess was wrong. This is normal. Ron knew immediately which felt right without needing to explain the information hierarchy theory behind it — that's 13 years doing its job.</div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>The first guess was wrong. This is normal. Ron knew immediately which felt right without needing to explain the information hierarchy theory behind it — that's 13 years doing its job.</div>
       </div>
     </div>
   </div>
@@ -535,15 +537,79 @@ a:hover { color: var(--ink); text-decoration: underline; }
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Added orphans: 3 and widows: 3 to the body — no paragraph will end or start with fewer than 3 lines.</div></div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>what's this 3 line? i thought there was a line that had something with "pretty" to tell browsers to avoid single word lines</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>You're thinking of text-wrap: pretty — a newer CSS property that tells the browser to avoid single-word last lines across a block. orphans and widows are specifically for paginated/print contexts and don't do much in a browser. Swapping it now.</div></div>
-        <div class="note">Ron knew the concept and roughly what it was called. That's enough. Knowing that single-word line endings exist and are fixable — that's the taste. Knowing the exact property name is just Google.</div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>Ron knew the concept and roughly what it was called. That's enough. Knowing that single-word line endings exist and are fixable — that's the taste. Knowing the exact property name is just Google.</div>
       </div>
     </div>
   </div>
 
 </div>
 
+<!-- 8. PRODUCTION BUGS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">8</span>
+    <h2 class="section-title">When it went live</h2>
+  </div>
+  <p class="section-summary">This is the part folks don't like to show.</p>
+  <p class="section-summary" style="margin-top:-10px;">The app works perfectly in local testing. "It works on my computer!"</p>
+  <p class="section-summary" style="margin-top:-10px;">Ours did. Or we thought it did. So we push to production and publicize it. BOOM. Immediately notice three bugs.</p>
+  <p class="section-summary" style="margin-top:-10px;">That's why you never, ever call anything "_final" — you're immediately blessing yourself with "_final-2" 🤣</p>
+  <p class="section-summary" style="margin-top:-10px;">People might've started using it. That's okay. We don't know because we intentionally don't track.</p>
+  <p class="section-summary" style="margin-top:-10px;">Either way, those bugs showed up immediately. This is normal. Totally normal.</p>
+  <p class="section-summary" style="margin-top:-10px; margin-bottom:24px;">Don't freak out — that won't help. Try to stay mellow-ish and keep the vibes "Let's fix this together" instead of "Bro, what the eff did you do?!" It might be the hardest part of this kind of work.</p>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">The about panel was visible when you scrolled — visibility: hidden</span>
+      <span class="accordion-count">5 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>oh no. the about isn't hidden by default? i didn't notice it's there if you scroll</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>It's an iOS Safari overscroll issue — the elastic bounce reveals the panel sitting just below the viewport even though it's translateY(100%). Fix: add visibility: hidden when closed so it's truly gone, visibility: visible when open. Need to delay it so the slide-down animation plays before it disappears.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>still scrolls and shows white space</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>I've been approaching this wrong. The body itself is scrollable when it shouldn't be. Adding overflow: hidden to the body.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>now we can't scroll on the results page</div></div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>Three attempts before the right fix. The actual diagnosis: screen-intro had a scrollHeight of 1502px inside a 751px viewport with no overflow clipping. Adding overflow: hidden to .screen and overflow-y: auto to #screen-results only was the right surgical fix. Rushing under pressure made it worse before it got better.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">Random word highlighted on mobile at the end of a round</span>
+      <span class="accordion-count">3 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>is it me or on mobile linkedin is there a bug where after a 30 second test, a word is randomly highlighted?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Not just you. When endTimer fires, it immediately attaches click listeners to all word elements. If your finger is anywhere near the passage at that moment, the touch event coincides with the timer end and triggers pickWord instantly. Fix: 350ms delay before attaching the listeners — enough time for any residual touch to clear.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>nicely done</div></div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>This one is subtle. The timer fires at exactly the moment the user's finger lifts from the screen after reading. The DOM becomes tappable at the same instant a touch event is resolving. 350ms is imperceptible to the user but breaks the collision entirely.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">The lesson — shipping is when the real testing begins</span>
+      <span class="accordion-count">2 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>we'll want to update the making of to include our production issues and resolutions. that's a big part of the game — up and coming folks have to expect it, or at least know it exists</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Great instinct. Production bugs are a rite of passage and nobody talks about them honestly. Shipping is when the real testing begins — real devices, real fingers, real network conditions. No amount of local testing replicates it.</div></div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>Every bug above was invisible until real users showed up. The about panel scroll bug was only visible on touch devices with elastic overscroll. The ghost touch only triggered on a real finger at the exact moment a timer fired. You can't simulate this. You ship, you watch, you fix. That's the job.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <footer class="making-footer">
-  <p>Made with love in New Jersey</p>
+  <p>Made in New Jersey</p>
   <p>by <a href="https://rontheron.com">Ron Seidel</a> and <a href="https://claude.ai">Claudius Anthropicus</a></p>
   <p style="margin-top:8px;"><span style="display:block">March 27, 2026</span></p>
   <p style="margin-top:14px;"><a href="https://margo.fyi">← Back to margo.fyi</a></p>
