@@ -40,6 +40,7 @@ html, body {
   color: var(--ink);
   font-family: var(--font-ui);
   -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
 }
 
 a { color: var(--accent); text-decoration: none; transition: color 0.13s; }
@@ -106,7 +107,10 @@ a:hover { color: var(--ink); text-decoration: underline; }
   transition: all 0.14s ease;
   line-height: 1.35;
 }
-.opt:hover { border-color: var(--accent); color: var(--ink); }
+.opt:hover { border-color: var(--accent); }
+.opt:hover .ol { color: var(--accent); }
+.opt:hover .ol svg { stroke: var(--accent); }
+.opt:hover .os { color: var(--ink); opacity: 1; }
 .opt.sel { border-color: var(--accent); background: var(--accent-bg); color: var(--ink); }
 .opt .ol { display: block; font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
 .opt.sel .ol { color: var(--ink); }
@@ -154,27 +158,50 @@ a:hover { color: var(--ink); text-decoration: underline; }
 .about-link:hover { color: var(--ink-muted); }
 
 .about-panel {
-  display: none; margin-top: 20px;
-  border-top: 1px solid var(--border);
-  padding-top: 20px; padding-bottom: 12px;
-  animation: fadeUp 0.25s ease both;
+  position: fixed; inset: 0;
+  background: var(--ink);
+  transform: translateY(100%);
+  transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 50;
+  overflow-y: auto;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 48px 24px 64px;
+  pointer-events: none;
 }
-.about-panel.vis { display: block; }
+.about-panel.vis {
+  transform: translateY(0);
+  pointer-events: all;
+}
+.about-panel-inner {
+  max-width: 480px; width: 100%;
+}
 .about-panel p {
-  font-size: 12px; color: var(--ink-muted); line-height: 1.9;
-  text-align: center;
+  font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.9;
+  text-align: center; margin-bottom: 10px;
 }
-.about-panel p + p { margin-top: 10px; }
-.about-panel hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+.about-panel p + p { margin-top: 0; }
+.about-panel p strong { color: rgba(255,255,255,0.9); }
+.about-panel p a { color: #00BD78; }
+.about-panel p a:hover { color: #fff; text-decoration: underline; }
+.about-panel hr { border: none; border-top: 1px solid rgba(255,255,255,0.15); margin: 16px auto; width: 25%; }
 .about-panel .happy {
-  font-family: var(--font-display); font-size: 18px;
-  color: var(--ink); display: block; margin-top: 14px;
+  font-family: var(--font-display); font-size: 20px;
+  color: #fff; display: block; margin-top: 20px;
   text-align: center; font-style: italic;
 }
+.about-back {
+  display: block; text-align: center; margin: 0 auto 32px;
+  font-size: 11px; color: rgba(255,255,255,0.4); cursor: pointer;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: var(--font-ui); font-weight: 600;
+  background: none; border: none; padding: 4px;
+  transition: color 0.13s; width: 100%;
+}
+.about-back:hover { color: rgba(255,255,255,0.8); }
 
 /* ── COUNTDOWN ── */
 #screen-countdown { justify-content: center; align-items: center; }
-.cd-inner { text-align: center; }
+.cd-inner { text-align: center; margin-bottom: 15vh; }
 .cd-label {
   font-size: 12px; font-weight: 500; letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--ink-faint); margin-bottom: 28px;
@@ -549,46 +576,49 @@ a:hover { color: var(--ink); text-decoration: underline; }
     </p>
     <button class="about-link" id="about-toggle">About</button>
     <div class="about-panel" id="about-panel">
-      <p>
-        Made with love in New Jersey<br>
-        <span style="white-space:nowrap">by <a href="https://rontheron.com" target="_blank" style="color:var(--accent)">Ron Seidel</a> and <a href="https://claude.ai" target="_blank" style="color:var(--accent)">Claudius Anthropicus</a></span>
-      </p>
-      <p>No tracking. No cookies. No data collected.</p>
-      <hr>
-      <p>
-        <strong>Inspired by</strong><br>
-        <a href="https://library.oapen.org/bitstream/handle/20.500.12657/53344/978-3-030-90984-0.pdf" target="_blank" style="color:var(--accent)">The Legibility of Serif and Sans Serif Typefaces</a><br>
-        <a href="https://dl.acm.org/doi/10.1145/3502222" target="_blank" style="color:var(--accent)">Different Fonts Increase Reading Speed for Different Individuals</a><br>
-        <em>(didn't really read 'em, but the summaries were awesome 🤙)</em>
-      </p>
-      <p>
-        <strong>Fonts Tested</strong><br>
-        <a href="https://fonts.google.com/specimen/Atkinson+Hyperlegible" target="_blank" style="color:var(--accent)">Atkinson Hyperlegible</a><br>
-        <a href="https://fonts.google.com/specimen/DM+Sans" target="_blank" style="color:var(--accent)">DM Sans</a><br>
-        <a href="https://fonts.google.com/specimen/Inter" target="_blank" style="color:var(--accent)">Inter</a><br>
-        <a href="https://fonts.google.com/specimen/Lato" target="_blank" style="color:var(--accent)">Lato</a><br>
-        <a href="https://fonts.google.com/specimen/Lexend" target="_blank" style="color:var(--accent)">Lexend</a><br>
-        <a href="https://fonts.google.com/specimen/Libre+Baskerville" target="_blank" style="color:var(--accent)">Libre Baskerville</a><br>
-        <a href="https://fonts.google.com/specimen/Merriweather" target="_blank" style="color:var(--accent)">Merriweather</a><br>
-        <a href="https://fonts.google.com/specimen/Noto+Sans" target="_blank" style="color:var(--accent)">Noto Sans</a><br>
-        <a href="https://fonts.google.com/specimen/Open+Sans" target="_blank" style="color:var(--accent)">Open Sans</a><br>
-        <a href="https://fonts.google.com/specimen/Roboto" target="_blank" style="color:var(--accent)">Roboto</a><br>
-        <a href="https://fonts.google.com/specimen/Source+Sans+3" target="_blank" style="color:var(--accent)">Source Sans 3</a><br>
-        Verdana
-      </p>
-      <p>
-        <strong>Margo App Fonts</strong><br>
-        <a href="https://fonts.google.com/specimen/Fraunces" target="_blank" style="color:var(--accent)">Fraunces</a><br>
-        <a href="https://fonts.google.com/specimen/Lora" target="_blank" style="color:var(--accent)">Lora</a>
-      </p>
-      <p>
-        <strong>Icons</strong><br>
-        <a href="https://lucide.dev" target="_blank" style="color:var(--accent)">Lucide</a>
-      </p>
-      <hr>
-      <p>Like Margo? <a href="https://ko-fi.com/ronseidel" target="_blank" style="color:var(--accent)">Leave a tip. ☕</a></p>
-      <p><a href="/making-of" style="color:var(--accent)">How Margo was built →</a></p>
-      <span class="happy">Happy reading.</span>
+      <div class="about-panel-inner">
+        <button class="about-back" id="about-back">Close</button>
+        <p>
+          Made in New Jersey by<br>
+          <span style="white-space:nowrap"><a href="https://rontheron.com" target="_blank">Ron Seidel</a> and <a href="https://claude.ai" target="_blank">Claudius Anthropicus</a></span>
+        </p>
+        <p>No tracking. No cookies. No data collected.</p>
+        <hr>
+        <p>
+          <strong>Inspired by</strong><br>
+          <a href="https://library.oapen.org/bitstream/handle/20.500.12657/53344/978-3-030-90984-0.pdf" target="_blank">The Legibility of Serif and Sans Serif Typefaces</a><br>
+          <a href="https://dl.acm.org/doi/10.1145/3502222" target="_blank">Different Fonts Increase Reading Speed for Different Individuals</a><br>
+          <em>(Didn't really read 'em, but the summaries were awesome 🤙)</em>
+        </p>
+        <p>
+          <strong>Fonts Tested</strong><br>
+          <a href="https://fonts.google.com/specimen/Atkinson+Hyperlegible" target="_blank">Atkinson Hyperlegible</a><br>
+          <a href="https://fonts.google.com/specimen/DM+Sans" target="_blank">DM Sans</a><br>
+          <a href="https://fonts.google.com/specimen/Inter" target="_blank">Inter</a><br>
+          <a href="https://fonts.google.com/specimen/Lato" target="_blank">Lato</a><br>
+          <a href="https://fonts.google.com/specimen/Lexend" target="_blank">Lexend</a><br>
+          <a href="https://fonts.google.com/specimen/Libre+Baskerville" target="_blank">Libre Baskerville</a><br>
+          <a href="https://fonts.google.com/specimen/Merriweather" target="_blank">Merriweather</a><br>
+          <a href="https://fonts.google.com/specimen/Noto+Sans" target="_blank">Noto Sans</a><br>
+          <a href="https://fonts.google.com/specimen/Open+Sans" target="_blank">Open Sans</a><br>
+          <a href="https://fonts.google.com/specimen/Roboto" target="_blank">Roboto</a><br>
+          <a href="https://fonts.google.com/specimen/Source+Sans+3" target="_blank">Source Sans 3</a><br>
+          <a href="https://en.wikipedia.org/wiki/Verdana" target="_blank">Verdana</a>
+        </p>
+        <p>
+          <strong>Margo App Fonts</strong><br>
+          <a href="https://fonts.google.com/specimen/Fraunces" target="_blank">Fraunces</a><br>
+          <a href="https://fonts.google.com/specimen/Lora" target="_blank">Lora</a>
+        </p>
+        <p>
+          <strong>Icons</strong><br>
+          <a href="https://lucide.dev" target="_blank">Lucide</a>
+        </p>
+        <hr>
+        <p>Like Margo? <a href="https://ko-fi.com/ronseidel" target="_blank">Leave a tip. ☕</a></p>
+        <p><a href="/making-of">How Margo was built →</a></p>
+        <span class="happy">Happy reading.</span>
+      </div>
     </div>
   </div>
 </div>
@@ -1444,12 +1474,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('custom-input').addEventListener('input', () => {
     document.getElementById('custom-error').classList.remove('vis');
   });
-  document.getElementById('about-toggle').addEventListener('click', () => {
-    const panel = document.getElementById('about-panel');
-    const btn = document.getElementById('about-toggle');
-    const open = panel.classList.toggle('vis');
-    btn.textContent = open ? 'Close' : 'About';
-  });
+  const openAbout = () => document.getElementById('about-panel').classList.add('vis');
+  const closeAbout = () => document.getElementById('about-panel').classList.remove('vis');
+  document.getElementById('about-toggle').addEventListener('click', openAbout);
+  document.getElementById('about-back').addEventListener('click', closeAbout);
   document.getElementById('btn-home').addEventListener('click', goHome);
   document.getElementById('modal-cancel').addEventListener('click', cancelHome);
   document.getElementById('modal-confirm').addEventListener('click', confirmHome);

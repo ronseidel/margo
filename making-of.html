@@ -33,6 +33,7 @@ body {
   background: var(--bg); color: var(--ink);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
   font-size: 17px; line-height: 1.75;
 }
 a { color: var(--accent); text-decoration: none; transition: color 0.13s; }
@@ -98,7 +99,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
 .bubble em { font-style: italic; }
 .bubble code { font-family: 'Courier New', monospace; font-size: 12px; background: rgba(0,0,0,0.08); padding: 1px 5px; border-radius: 3px; }
 .turn.ron .bubble code { background: rgba(255,255,255,0.15); }
-.note { font-size: 12px; font-style: italic; color: var(--ink-faint); background: #EEF8F4; border-radius: 6px; padding: 9px 13px; margin: 8px 0; display: block; border-left: 3px solid var(--border); line-height: 1.65; }
+.note { font-size: 14px; font-style: italic; color: var(--ink-faint); background: #EEF8F4; border-radius: 6px; padding: 9px 13px 9px 16px; margin: 8px 0; display: block; border-left: 6px solid var(--border); line-height: 1.65; }
 .divider { text-align: center; color: var(--ink-faint); font-size: 16px; letter-spacing: 0.4em; margin: 12px 0; opacity: 0.3; }
 
 /* FOOTER */
@@ -258,12 +259,12 @@ a:hover { color: var(--ink); text-decoration: underline; }
     </button>
     <div class="accordion-body">
       <div class="chat">
-        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>would we also consider changing the color to match rontheron.com/ux? not that i didn't like your work/design. but we're kinda building a brand.</div></div>
-        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div><em>[navigated to rontheron.com/ux, ran JavaScript to extract all CSS custom properties from the DOM]</em><br><br>Got everything. Background: #F9F9F9. Primary ink: #034D32 (deep forest green). Button/accent: #028454. Light accent: #B8E3D3. Applying the full palette now.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>would we also consider changing the color to match [secret sauce]? not that i didn't like your work/design. but we're kinda building a brand.</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div><em>[navigated to [secret sauce], ran JavaScript to extract all CSS custom properties from the DOM]</em><br><br>Got everything. Background: #F9F9F9. Primary ink: #034D32 (deep forest green). Button/accent: #028454. Light accent: #B8E3D3. Applying the full palette now.</div></div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>hover state on the home button is still from the old color system.</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Found three remnants: option button hover was #D4A07A (old amber), rank bar #2 was #C49070 (old copper), code pill was #EEE9E3 (old warm gray). All replaced with green-system values.</div></div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>please check hover states, we have remnants of the old color system</div></div>
-        <div class="note">This happened twice. Old color values hiding in the codebase is a recurring problem in iterative design — each pass creates new surface area for old values to persist. Ron caught both instances by feel, not by reading the CSS.</div>
+        <div class="note">Both instances caught by feel, not by reading the CSS. That's what 13 years buys you.</div>
       </div>
     </div>
   </div>
@@ -282,7 +283,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div><em>[fetched all four SVG path strings from unpkg.com/lucide-static CDN]</em><br><br>All four swapped to your exact icons at stroke-width 1.5 — lighter stroke so they harmonize with Lora text rather than competing. Also bumped the label text from ink-faint to ink-muted, font-weight: 500. Both elements now in the same optical weight range.</div></div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>Still feels like the font within the buttons isn't right — especially in the selected buttons.</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Found the real issue: selected state was using var(--accent) for both icon and text — medium green on a light green background. That's the readability problem. The selection signal should come from the border and background, not by lowering the text contrast. <strong>Flipped: dark ink text on green-tinted background. The container communicates selection; the text just reads cleanly.</strong></div></div>
-        <div class="note">Ron described this as "feels like the font isn't right" — not "the selected state contrast is insufficient." Translating feel into a technical diagnosis is a core product design skill.</div>
+        <div class="note">Ron described it as "feels like the font isn't right." That's enough. The diagnosis came from there.</div>
       </div>
     </div>
   </div>
@@ -435,6 +436,110 @@ a:hover { color: var(--ink); text-decoration: underline; }
       </div>
     </div>
   </div>
+</div>
+
+<!-- 7. THE DETAILS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">7</span>
+    <h2 class="section-title">The details</h2>
+  </div>
+  <p class="section-summary">This might seem like overkill. And it might be.</p>
+  <p class="section-summary" style="margin-top:-10px;">It's fixing the stuff that only a few people will ever notice. It's making the design match what's in my head. Or it's noticing something is kinda weaksauce. And turning it into A1. Or Tabasco.</p>
+  <p class="section-summary" style="margin-top:-10px;">It's the drive. The persistence. You noticed it. Now you can't settle. It'd keep you up at night.</p>
+  <p class="section-summary" style="margin-top:-10px;">It's when something goes from cool to awesome, from good to great, from "Oh, neat..." to "Whoa, bro!"</p>
+  <p class="section-summary" style="margin-top:-10px; margin-bottom: 24px;"><em>This, to me, is love.</em></p>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">The about panel animation — from jumpy to buttery</span>
+      <span class="accordion-count">7 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>any way to make the page less jumpy when you click the about link to open the info? it's a little disorienting</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>The panel appears instantly with display: none → display: block. The fadeUp animation helps a little but the page layout still reflows abruptly. Smoothest fix: animate max-height instead — the panel slides open rather than popping in.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>still a bit jumpy. any way to make it even smoother and more buttery? you can do it!</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>The jumpiness with max-height is a known limitation — the browser animates from 0 to 1200px regardless of actual content size, so the easing feels off. The buttery fix is JS-driven: measure the real height, animate exactly that far, nothing more.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>doesn't feel smooth yet to me. maybe the about content slides up to cover the regular app nice and smooth... then when you click close it slides down like a shelf disappearing?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Love this direction — a fixed overlay that slides up like a sheet. CSS transform: translateY is GPU-accelerated. That's the butter.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>AWESOME! So close! We're at the finish line</div></div>
+        <div class="note">The first two attempts were the right instinct, wrong tool. max-height animation is notoriously bad at easing because the browser doesn't know the actual target height. transform: translateY(100%) → translateY(0) is one CSS property, GPU-composited, no layout reflow. It's the difference between moving furniture and teleporting it.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">The horizontal rules — finding the right weight and width</span>
+      <span class="accordion-count">5 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>should we add a horizontal rule/thin line above "Inspired by" and above "Like Margo? Leave a tip."</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Yes, makes complete sense — it gives the about panel visual breathing room and clearly separates the three zones: credits, references, and the closing.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>it's live but maybe the horizontal rules don't need to be that wide. might look more elegant if they're a quarter of the full width</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Pure CSS — width: 25%, margin: 0 auto. Should feel like a quiet typographic ornament rather than a divider.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>does the line under close need to be full width? that could also match the other horizontal lines.</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Used a ::before pseudo-element so all three rules are exactly the same: 25% wide, centered, same border color. Consistent throughout.</div></div>
+        <div class="note">Nobody will consciously notice a rule that's the right width. They'll just feel that something is balanced. That's the job.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">Close vs Back vs ← Back — one word, three tries</span>
+      <span class="accordion-count">4 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>icons only can work, but home would need to be a home icon. maybe when the 30 seconds are done… the controls can go to the top… replacing the countdown line? or is that disorienting?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>For the about panel close button — let me suggest "← Back".</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>this animation makes it seem like something opened that you're closing. not changing pages and going back. maybe it should say "CLOSE"</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Exactly right. The slide-down motion tells you what's happening — the word just confirms it. Changed to Close.</div></div>
+        <div class="note">This is a three-word interaction design decision that took three tries. "Back" implies navigation. "← Back" implies pages. "Close" implies a thing that opened. The animation made the right word obvious once Ron articulated what the motion felt like.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">Button hover states — icons, big text, small text, in the right order</span>
+      <span class="accordion-count">4 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>these little details and polish will go a long way. on hover of main page button, change icon colors and "the 3/5/7 fonts" to #028454</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>On hover: icons and big text go #028454, small subtitle goes full ink at 100% opacity.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>i meant the big text, not the small text. maybe we switch the small text to black and the big text and icons to #028454</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Got it — flipped. Icons and "3 fonts / 5 fonts / 7 fonts" go green. Subtitle goes full ink, darker and crisper. Clean hierarchy — the accent draws the eye to the primary label.</div></div>
+        <div class="note">The first guess was wrong. This is normal. Ron knew immediately which felt right without needing to explain the information hierarchy theory behind it — that's 13 years doing its job.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">text-wrap: pretty, orphans, widows, and what "professional" means in type</span>
+      <span class="accordion-count">3 exchanges</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="chat">
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>on all the pages, can we add that css line that makes it so orphans and widows are avoided?</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Added orphans: 3 and widows: 3 to the body — no paragraph will end or start with fewer than 3 lines.</div></div>
+        <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>what's this 3 line? i thought there was a line that had something with "pretty" to tell browsers to avoid single word lines</div></div>
+        <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>You're thinking of text-wrap: pretty — a newer CSS property that tells the browser to avoid single-word last lines across a block. orphans and widows are specifically for paginated/print contexts and don't do much in a browser. Swapping it now.</div></div>
+        <div class="note">Ron knew the concept and roughly what it was called. That's enough. Knowing that single-word line endings exist and are fixable — that's the taste. Knowing the exact property name is just Google.</div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <footer class="making-footer">
