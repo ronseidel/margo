@@ -36,6 +36,7 @@
 
 html, body {
   height: 100%;
+  overflow: hidden;
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-ui);
@@ -161,16 +162,19 @@ a:hover { color: var(--ink); text-decoration: underline; }
   position: fixed; inset: 0;
   background: var(--ink);
   transform: translateY(100%);
-  transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.42s;
   z-index: 50;
   overflow-y: auto;
   display: flex; flex-direction: column; align-items: center;
   padding: 48px 24px 64px;
   pointer-events: none;
+  visibility: hidden;
 }
 .about-panel.vis {
   transform: translateY(0);
   pointer-events: all;
+  visibility: visible;
+  transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0s;
 }
 .about-panel-inner {
   max-width: 480px; width: 100%;
