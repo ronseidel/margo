@@ -52,7 +52,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
 
 /* ── FONT PRELOAD ── */
 .font-preload { position: absolute; opacity: 0; pointer-events: none; font-size: 0; }
-.screen { display: none; min-height: 100dvh; width: 100%; flex-direction: column; align-items: center; }
+.screen { display: none; height: 100dvh; width: 100%; flex-direction: column; align-items: center; overflow-y: auto; }
 .screen.active { display: flex; animation: fadeUp 0.35s ease both; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -451,7 +451,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
 .re-next { font-size: 12px; color: var(--ink-faint); margin-top: 28px; }
 
 /* ── RESULTS ── */
-#screen-results { padding: 48px 0 64px; justify-content: flex-start; overflow-y: auto; height: 100dvh; }
+#screen-results { padding: 48px 0 64px; justify-content: flex-start; }
 
 .res-head { text-align: center; margin-bottom: 36px; }
 .res-wm { margin-bottom: 28px; }
@@ -720,7 +720,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <div class="re-wpm-lbl">words per minute</div>
     <div class="re-tag" id="re-tag">Round 1 complete</div>
     <div class="re-next" id="re-next">Next font in a moment…</div>
-    <button class="re-undo" id="re-undo">← Undo selection</button>
+    <button class="re-undo" id="re-undo">← Undo Selection</button>
   </div>
 </div>
 
