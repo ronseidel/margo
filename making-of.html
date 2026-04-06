@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#034D32">
 <title>How Margo Was Built — One Conversation</title>
-<meta name="description" content="How margo.fyi was built in one day by talking to Claude. A Hacker News link, 13 years of design experience, and a lot of good questions.">
+<meta name="description" content="How margo.fyi was built in one day by talking to Claude. A Hacker News link, design experience, and a lot of good questions.">
 <meta property="og:title" content="How Margo Was Built in One Day">
-<meta property="og:description" content="A Hacker News link, 13 years of design experience, and a conversation with Claude. No code written.">
+<meta property="og:description" content="A Hacker News link, design experience, and a conversation with Claude. No code written.">
 <meta property="og:url" content="https://margo.fyi/making-of">
 <meta property="og:image" content="https://margo.fyi/og-image.png">
 <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;&gt;&lt;rect width=&#39;100&#39; height=&#39;100&#39; rx=&#39;16&#39; fill=&#39;%23034D32&#39;/&gt;&lt;text y=&#39;78&#39; font-size=&#39;72&#39; x=&#39;50&#39; text-anchor=&#39;middle&#39; font-family=&#39;Georgia,serif&#39; fill=&#39;%2367C99A&#39; font-style=&#39;italic&#39;&gt;m&lt;/text&gt;&lt;/svg&gt;">
@@ -108,7 +108,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
 .making-footer .happy { font-family: var(--font-display); font-size: 22px; color: var(--ink); font-style: italic; display: block; margin-top: 20px; }
 </style>
 </head>
-<body cz-shortcut-listen="true" data-new-gr-c-s-check-loaded="14.1279.0" data-gr-ext-installed="">
+<body>
 <div class="page">
 
 <header class="site-header">
@@ -122,7 +122,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <span class="date">March 27, 2026</span>
     By <a href="https://rontheron.com/">Ron Seidel</a> and <a href="https://claude.ai/">Claudius Anthropicus</a>
   </p>
-  <p class="page-meta" style="margin-top:8px; font-style:italic;">Updated March 28, 2026 —<br>Added Section 8 on production bug handling and Section 9 on morning-after improvements.</p>
+  <p class="page-meta" style="margin-top:8px; font-style:italic;">Updated March 28, 2026 — added Section 8 on production bug handling and Section 9 on morning-after improvements.<br>Updated April 5, 2026 — added Section 10 on continued iteration.</p>
 </header>
 
 <div class="explainer">
@@ -229,7 +229,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
     <span class="section-num">3</span>
     <h2 class="section-title">The design decisions</h2>
   </div>
-  <p class="section-summary">This is where 13 years of product design experience shows up. Not in knowing how to code — in knowing what to question, what to push back on, and what "feels off" before you can explain why.</p>
+  <p class="section-summary">I have a bit of experience coding, but even if you don't, by doing this enough and troubleshooting enough, you can learn what to question, what to push back on, and what "feels off" before you can explain why.</p>
 
   <div class="accordion">
     <button class="accordion-toggle" onclick="tog(this)">
@@ -247,7 +247,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
         <div class="divider">· · ·</div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>nice, though the lora in the thin weight in the less than contrasty gray might be problematic.</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>The font was fine — <strong>the colors were the culprit.</strong> --ink-muted was #6B6260 and --ink-faint was #A09893 — warm grays that lose contrast against Lora's thinner strokes on screen. Bumped both to proper green-tinted darks that stay readable at all weights.</div></div>
-        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>Ron identified this as a feel problem before diagnosing it as a contrast problem. That's the difference between someone who's been doing this 13 years and someone who just learned what contrast ratios are.</div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>Ron identified this as a feel problem before diagnosing it as a contrast problem. That's the difference between experience and someone who just learned what contrast ratios are.</div>
       </div>
     </div>
   </div>
@@ -265,7 +265,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>hover state on the home button is still from the old color system.</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Found three remnants: option button hover was #D4A07A (old amber), rank bar #2 was #C49070 (old copper), code pill was #EEE9E3 (old warm gray). All replaced with green-system values.</div></div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>please check hover states, we have remnants of the old color system</div></div>
-        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>Both instances caught by feel, not by reading the CSS. That's what 13 years buys you.</div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>Both instances caught by feel, not by reading the CSS. That's what experience buys you.</div>
       </div>
     </div>
   </div>
@@ -520,7 +520,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>On hover: icons and big text go #028454, small subtitle goes full ink at 100% opacity.</div></div>
         <div class="turn ron"><div class="bubble"><div class="speaker">Ron</div>i meant the big text, not the small text. maybe we switch the small text to black and the big text and icons to #028454</div></div>
         <div class="turn claude"><div class="bubble"><div class="speaker">Claudius</div>Got it — flipped. Icons and "3 fonts / 5 fonts / 7 fonts" go green. Subtitle goes full ink, darker and crisper. Clean hierarchy — the accent draws the eye to the primary label.</div></div>
-        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>The first guess was wrong. This is normal. Ron knew immediately which felt right without needing to explain the information hierarchy theory behind it — that's 13 years doing its job.</div>
+        <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>The first guess was wrong. This is normal. Ron knew immediately which felt right without needing to explain the information hierarchy theory behind it — that's experience doing its job.</div>
       </div>
     </div>
   </div>
@@ -710,6 +710,86 @@ a:hover { color: var(--ink); text-decoration: underline; }
 
 </div>
 
+<!-- 10. CONTINUED ITERATION — April 5, 2026 -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">10</span>
+    <h2 class="section-title">When you see something, say something</h2>
+  </div>
+
+  <p class="section-summary">A part of the job for anyone who's building tools or products or services is to call it out when something feels off. It's also true if you're collaborating on songs or films, or other art.</p>
+  <p class="section-summary" style="margin-top:-10px;">Do you always start dozing when you get to a part of a song? Is one part of the story slightly confusing or off? Or it seems like it's forced?</p>
+  <p class="section-summary" style="margin-top:-10px;">I'd been testing and showing the app to some friends and family and noticing a few things.</p>
+  <p class="section-summary" style="margin-top:-10px;">First, the fonts still didn't feel like they were all a similar size. The serifs felt smaller, the spacing between passages seemed inconsistent. It's still not perfect, but it should be much better.</p>
+  <p class="section-summary" style="margin-top:-10px;">"When you see something, say something" is super important in this field — or in any field where you're working to make something world-class.</p>
+  <p class="section-summary" style="margin-top:-10px;">This leads me to something slightly unrelated but important: a good idea can come from anyone. An engineer, a PM, a janitor walking by, your grandma's hairdresser, your dad's pickleball partner. A good idea is a good idea. A good designer or builder should have the humility and self-reflection capability to admit when someone has a better idea. Or when their pattern has hit a wall. Or their design isn't viable. The goal is for the team to make something timeless and useful, not for you to have your way.</p>
+  <p class="section-summary" style="margin-top:-10px;">Separately, I noticed that when I handed my phone to friends and family to test, they missed the point. Or they didn't really get it. They thought they were being tested, not the font. They tried to read passages as fast as they could to prove they could get to the end before the time ran out. That isn't what this tool is for. It's for reading at a comfortable, un-rushed pace so you find a font that helps when you're reading normally, not when you're sprinting.</p>
+  <p class="section-summary" style="margin-top:-10px; margin-bottom:24px;">The other two fixes involve a smidge of my own obsession with making the test "fair" — having passages alternate between serif and sans-serif fonts — and feeling that our tagline itself is clunky and hard to read. Hope this helps! Would love to know your thoughts.</p>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">Font normalization — measuring the wrong thing, then fixing what the fix broke</span>
+      <span class="accordion-count">lesson</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div style="padding-top:14px; font-size:14px; line-height:1.65; color:var(--ink-muted);">
+        <p style="margin-bottom:12px;">Section 7 covered the first pass at font size normalization — measuring each font with the Canvas API and applying a size multiplier so they all rendered at a similar visual weight. That was correct in principle but wrong in measurement. We were normalizing on <strong>cap height</strong> (the full ascent-to-descent bounding box), when what your eye actually reads by is <strong>x-height</strong> — the height of lowercase letters like x, o, and e.</p>
+        <p style="margin-bottom:12px;">Serif fonts tend to have smaller x-heights relative to their cap height than sans-serifs. That's part of what makes them feel "bookish." So normalizing on cap metrics systematically made every serif font feel smaller than every sans-serif — even though the numbers said they were equal. Merriweather's multiplier went from 0.89 to 1.12. Georgia from 0.99 to 1.11. Sans-serifs barely moved — they were already close.</p>
+        <p style="margin-bottom:12px;">Then the line heights broke. The <code>lh</code> values had been measured at the old render sizes. Merriweather was at 17px when we measured it; now it was at 21.3px. The natural line height scaled up, but our compensation didn't. We had to remeasure all 18 fonts at their new actual render sizes. Merriweather's line-height value went from 1.49 to 1.32. Georgia from 1.7 to 1.49. You can't normalize font size without also normalizing line height — they're coupled.</p>
+      </div>
+      <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>The first normalization pass was technically correct but perceptually wrong. Cap height is what typographers measure. X-height is what readers experience. You can't measure your way to the right answer if you're measuring the wrong thing. And when you fix one variable in a coupled system, the other variable is now wrong too. That's not a bug — it's how coupled systems work. The fix is to expect it.</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">The confirm screen — one design decision, two problems solved</span>
+      <span class="accordion-count">lesson</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div style="padding-top:14px; font-size:14px; line-height:1.65; color:var(--ink-muted);">
+        <p style="margin-bottom:12px;">When I handed my phone to friends and family, they treated it like a race. They tried to read as fast as possible, sprinting to beat the timer. That's not what the test measures. It's meant to capture your <em>comfortable</em> reading pace so you can find the font that helps when you're reading normally.</p>
+        <p style="margin-bottom:12px;">We added a screen between content selection and the test itself. It says: <strong>"We're testing the font, not your reading speed. Read at your natural pace. Don't rush — the font does the work."</strong> Simple. Direct. Fixes the misconception before the test starts.</p>
+        <p style="margin-bottom:12px;">It also solved a second problem we weren't trying to solve. Wikipedia passages were being fetched in the background, but sometimes the user tapped through faster than the fetch could finish. The confirm screen buys 3–4 seconds of reading time — enough for the prefetch to land. One screen, two fixes.</p>
+      </div>
+      <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>The best design solutions often solve more than one problem. But the important thing is that this one was driven by watching real people use the app — not by looking at code or analytics. Ron handed his phone to someone and watched them misunderstand it. That's the oldest and most reliable form of user research. The interstitial wasn't an engineering decision. It was a communication decision that happened to also fix a timing issue.</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">Serif/sans alternation — and the Try Another edge case</span>
+      <span class="accordion-count">lesson</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div style="padding-top:14px; font-size:14px; line-height:1.65; color:var(--ink-muted);">
+        <p style="margin-bottom:12px;">If you test Merriweather followed by Georgia followed by Lora, you're comparing three serifs in a row. Your sense of "which felt better" gets muddied by the similarity. The fix: alternate between serif and sans-serif so each font gets contrasted against a different category. An <code>interleaveByType()</code> function shuffles the font order so you never get two of the same kind back to back.</p>
+        <p style="margin-bottom:12px;">Then we found the edge case. "Try Another" — the button that lets you skip a font and get a new one — picked randomly. If the last font was a serif, there was no guarantee the replacement would be a sans. The alternation held during the main flow but broke the moment someone deviated from it. Small fix, real impact on test integrity.</p>
+      </div>
+      <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>The main flow is the path you design for. The edge case is the path people actually take. Alternation in the primary sequence was easy. Making it hold when someone taps "Try Another" required thinking about the rule, not just the sequence. If the rule is "always contrast," then every entry point — including skips — has to respect it.</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-toggle" onclick="tog(this)">
+      <span class="accordion-label">Dana's tagline — when the right answer comes from someone who isn't you</span>
+      <span class="accordion-count">lesson</span>
+      <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div style="padding-top:14px; font-size:14px; line-height:1.65; color:var(--ink-muted);">
+        <p style="margin-bottom:12px;">The tagline was bothering me. It felt clunky — too many words, hard to say out loud, the kind of line you read and then immediately forget. We brainstormed a bunch of options. I took a few of them to Dana and she helped decide.</p>
+        <p style="margin-bottom:12px;">The winner: <strong>"Which font helps you read fastest?"</strong> — clearest about what the app does, easiest to say, no jargon. It wasn't the one I would have picked on my own.</p>
+      </div>
+      <div class="note"><strong style="font-style:normal;opacity:0.6;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Claude Note</strong><br>Designers and builders spend so long inside a problem that they lose the ability to see it fresh. A tagline that makes perfect sense to the person who built the thing can be completely opaque to someone encountering it for the first time. Dana wasn't closer to the problem — she was further from it. That's why her read was better. Show your work to people who aren't you. Especially for the words.</div>
+    </div>
+  </div>
+
+</div>
+
 <footer class="making-footer">
   <p>Made in New Jersey</p>
   <p>by <a href="https://rontheron.com/">Ron Seidel</a> and <a href="https://claude.ai/">Claudius Anthropicus</a></p>
@@ -728,24 +808,3 @@ function tog(btn) {
 </script>
 
 
-</body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
-      div.grammarly-desktop-integration {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select:none;
-        user-select:none;
-      }
-
-      div.grammarly-desktop-integration:before {
-        content: attr(data-content);
-      }
-    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
