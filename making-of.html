@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<!-- saved from url=(0027)https://margo.fyi/making-of -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#034D32">
 <title>How Margo Was Built — One Conversation</title>
-<meta name="description" content="How margo.fyi was built in one day by talking to Claude. A Hacker News link, design experience, and a lot of good questions.">
+<meta name="description" content="How marg0.app was built in one day by talking to Claude. A Hacker News link, design experience, and a lot of good questions.">
 <meta property="og:title" content="How Margo Was Built in One Day">
 <meta property="og:description" content="A Hacker News link, design experience, and a conversation with Claude. No code written.">
-<meta property="og:url" content="https://margo.fyi/making-of">
-<meta property="og:image" content="https://margo.fyi/og-image.png">
+<meta property="og:url" content="https://marg0.app/making-of">
+<meta property="og:image" content="https://marg0.app/og-image.png">
 <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;&gt;&lt;rect width=&#39;100&#39; height=&#39;100&#39; rx=&#39;16&#39; fill=&#39;%23034D32&#39;/&gt;&lt;text y=&#39;78&#39; font-size=&#39;72&#39; x=&#39;50&#39; text-anchor=&#39;middle&#39; font-family=&#39;Georgia,serif&#39; fill=&#39;%2367C99A&#39; font-style=&#39;italic&#39;&gt;m&lt;/text&gt;&lt;/svg&gt;">
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
@@ -112,9 +111,9 @@ a:hover { color: var(--ink); text-decoration: underline; }
 <div class="page">
 
 <header class="site-header">
-  <a href="https://margo.fyi/" class="back-link">
+  <a href="https://marg0.app/" class="back-link">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
-    margo.fyi
+    marg0.app
   </a>
   <span class="wordmark">M<em>a</em>rgo</span>
   <h1 class="page-title">Built in a chat window.<br>Not one line of code written.</h1>
@@ -123,17 +122,18 @@ a:hover { color: var(--ink); text-decoration: underline; }
     By <a href="https://rontheron.com/">Ron Seidel</a> and <a href="https://claude.ai/">Claudius Anthropicus</a>
   </p>
   <p class="page-meta" style="margin-top:8px; font-style:italic;">Updated March 28, 2026 — added Section 8 on production bug handling and Section 9 on morning-after improvements.<br>Updated April 5, 2026 — added Section 10 on continued iteration.</p>
+  <p style="margin-top:8px; font-size:13px; color:var(--ink-faint); border-left:3px solid var(--border); padding:8px 14px; background:var(--accent-bg); border-radius:4px;"><strong style="font-weight:600;">Note:</strong> This was published when the project lived at margo.fyi. It's now at <a href="https://marg0.app/">marg0.app</a> — margo.fyi still works and redirects here. Conversation transcripts below preserve the original domain where it's the subject of discussion.</p>
 </header>
 
 <div class="explainer">
   <span class="explainer-label">Why Margo exists</span>
   <p class="explainer-text">Find the font you read fastest — then set it on your Kindle, in your browser, or anywhere you read. Research shows switching to your personal fastest font can add 30+ words per minute. That's hours of reading time per year.</p>
-  <a href="https://margo.fyi/" class="explainer-link">Try Margo — it takes 5 minutes →</a>
+  <a href="https://marg0.app/" class="explainer-link">Try Margo — it takes 5 minutes →</a>
 </div>
 
 <div class="prose">
   <p>On a Friday morning in March, I came across <a href="https://news.ycombinator.com/item?id=47492894" target="_blank">a link on Hacker News</a> — <a href="https://library.oapen.org/viewer/web/viewer.html?file=/bitstream/handle/20.500.12657/53344/978-3-030-90984-0.pdf?sequence=1&amp;isAllowed=y" target="_blank">a PDF about typeface legibility</a>. I didn't read it. I asked Claude to summarize it. That turned into a question about dark mode vs. light mode, which turned into a question about Inter — if it's really the GOAT — which turned into: <strong>"should we make a mini web app?"</strong></p>
-  <p>By end of day, <a href="https://margo.fyi/">margo.fyi</a> was live. I didn't write any code.</p>
+  <p>By end of day, <a href="https://marg0.app/">the app</a> was live. I didn't write any code.</p>
   <p>But the story isn't: "just ask Claude to make an app." I mean, you can try. Actually, definitely try. But it's been 13 years, or 20 if you count high school and college, since I started designing. I knew which questions to ask (I've asked them before), I knew which outputs to push back on, and when something felt off, I had Claude fix it.</p>
   <p>That judgment is the work. The refining is the work. The bug fixing. Making things feel buttery smooth. <strong>That's the work. The tool removes the friction between thinking and making.</strong></p>
   <p>What follows is the full conversation — including the back-and-forth, the design debates, the bugs, the naming arguments (which, for me, always happen too early), and the moments where things got better because someone pushed back. Claude even called one of my suggestions "the most obvious pun in typography." I love it!</p>
@@ -616,7 +616,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
   </div>
 
   <p class="section-summary">It's not a joke. Software is never done.</p>
-  <p class="section-summary" style="margin-top:-10px;">You wake up, load margo.fyi and immediately think of a million ways to make it better. Why did I make that decision? It'd be lightyears better if we did X instead of Y.</p>
+  <p class="section-summary" style="margin-top:-10px;">You wake up, load marg0.app and immediately think of a million ways to make it better. Why did I make that decision? It'd be lightyears better if we did X instead of Y.</p>
   <p class="section-summary" style="margin-top:-10px;">Then you get other ideas... Keep things fresh by grabbing random Wiki articles. Show our color and font docs like we know what we're doing. Trim some less-than-hilarious fat. Destress your users: "Don't rush..."</p>
   <p class="section-summary" style="margin-top:-10px;">Something grossly overlooked: perceived performance is way more important than "real" performance metrics. It doesn't have to be fast. It's gotta feel fast.</p>
   <p class="section-summary" style="margin-top:-10px;">Throwing a little "We're fetching..." goes a long way in making sure no one's like "Why's this thing so effing slow?!"</p>
@@ -794,7 +794,8 @@ a:hover { color: var(--ink); text-decoration: underline; }
   <p>Made in New Jersey</p>
   <p>by <a href="https://rontheron.com/">Ron Seidel</a> and <a href="https://claude.ai/">Claudius Anthropicus</a></p>
   <p style="margin-top:8px;"><span style="display:block">March 27, 2026</span></p>
-  <p style="margin-top:14px;"><a href="https://margo.fyi/">← Back to margo.fyi</a></p>
+  <p style="margin-top:14px;"><a href="https://marg0.app/">← Back to marg0.app</a></p>
+  <p style="margin-top:10px; font-size:12px;">Part of <a href="https://0utput.co" target="_blank">0fam</a> — a growing family of small, focused apps.</p>
   <span class="happy">Happy reading.</span>
 </footer>
 
