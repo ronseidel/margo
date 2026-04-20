@@ -27,10 +27,6 @@ Typography nerds have strong opinions about readability. Most of those opinions 
 
 marg0 is part of [0fam](https://0utput.co), a family of small, focused web apps. Every name drops a letter for a zero.
 
-## License
-
-MIT.
-
 ## Contact
 
 Built by [Ron Seidel](https://rontheron.com) · [hello@0utput.co](mailto:hello@0utput.co)
