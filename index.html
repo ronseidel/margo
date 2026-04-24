@@ -738,7 +738,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
   </p>
   <p class="intro-pace">Read at your natural pace — don't rush.</p>
   <button class="about-link" id="about-toggle">About</button>
-  <div class="version-tag">v3</div>
+  <div class="version-tag">v4</div>
     <div class="about-panel" id="about-panel">
       <div class="about-panel-inner">
         <button class="about-back" id="about-back">Close</button>
@@ -1216,6 +1216,7 @@ function goToStep(n) {
    v01 (20260329) - extended all passages to 260-290+ words for fast readers (HN feedback)
    v02 (20260329) - Test All (18 fonts), results show font in typeface + pangram + link, Start Over rename, serif/sans alternation
    v03 (20260408) - all passages extended to ~400-420 words across all categories, version tag in UI (Space Mono)
+   v04 (20260424) - bugfix: removed duplicate click handlers on #confirm-go and #test-all-btn that caused countdown to fire twice
 */
 
 
@@ -1981,19 +1982,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('test-all-btn').addEventListener('click', () => {
     S.fontCount = 18;
     topUpWiki(7); // prefetch 7 wiki passages, rest fall back to fiction
-    document.querySelectorAll('#count-opts .opt').forEach(b => b.classList.remove('sel'));
-    goToStep(1);
-  });
-
-  document.getElementById('confirm-go').addEventListener('click', () => {
-    startSession();
-  });
-
-
-
-  document.getElementById('test-all-btn').addEventListener('click', () => {
-    S.fontCount = 18;
-    topUpWiki(7);
     document.querySelectorAll('#count-opts .opt').forEach(b => b.classList.remove('sel'));
     goToStep(1);
   });
