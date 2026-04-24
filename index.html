@@ -738,7 +738,7 @@ a:hover { color: var(--ink); text-decoration: underline; }
   </p>
   <p class="intro-pace">Read at your natural pace — don't rush.</p>
   <button class="about-link" id="about-toggle">About</button>
-  <div class="version-tag">v4</div>
+  <div class="version-tag">v5</div>
     <div class="about-panel" id="about-panel">
       <div class="about-panel-inner">
         <button class="about-back" id="about-back">Close</button>
@@ -1109,6 +1109,15 @@ const FONTS = [
   }
 ];
 
+// ── FONT PRELOAD ────────────────────────────────────────────────────────────
+// Force all reading fonts into the browser cache on app load so the countdown
+// → reading transition never shows a fallback-then-swap flash.
+function preloadFonts() {
+  if (!document.fonts || !document.fonts.load) return Promise.resolve();
+  const jobs = FONTS.map(f => document.fonts.load(`1em "${f.name}"`));
+  return Promise.all(jobs).catch(() => {});
+}
+
 // ── PASSAGES ────────────────────────────────────────────────────────────────
 
 const PASSAGES = {
@@ -1217,6 +1226,7 @@ function goToStep(n) {
    v02 (20260329) - Test All (18 fonts), results show font in typeface + pangram + link, Start Over rename, serif/sans alternation
    v03 (20260408) - all passages extended to ~400-420 words across all categories, version tag in UI (Space Mono)
    v04 (20260424) - bugfix: removed duplicate click handlers on #confirm-go and #test-all-btn that caused countdown to fire twice
+   v05 (20260424) - preload all reading fonts on app boot via Font Loading API so countdown→reading never shows a fallback-swap flash
 */
 
 
@@ -1948,6 +1958,7 @@ function buildActions(font) {
 
 document.addEventListener('DOMContentLoaded', () => {
   show('screen-intro');
+  preloadFonts(); // kick off all font downloads in parallel
   prefetchWiki(); // fetch 3 wiki passages on load
 
   navBack = null; // no longer used
